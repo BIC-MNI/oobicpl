@@ -87,27 +87,8 @@ mniLabelVolume::~mniLabelVolume() {
   delete this->sizes;
 }  
 
-inline int mniLabelVolume::getVoxel(int v1, int v2, int v3, 
-                                     int v4, int v5) {
-  return get_volume_label_data_5d(this->volume, v1, v2, v3, v4, v5);
-}
-
-inline int mniLabelVolume::getVoxel(int indices[3]) {
-  return get_volume_label_data(this->volume, indices);
-}
-
-inline void mniLabelVolume::setVoxel(int value, int v1, int v2, int v3,
-                                     int v4, int v5) {
-  set_volume_label_data_5d(this->volume, v1, v2, v3, v4, v5, value);
-}
-
-inline void mniLabelVolume::setVoxel(int value, int indices[3]) {
-  set_volume_label_data(this->volume, indices, value);
-}
-
 void mniLabelVolume::output(STRING file, int cropValue) {
   // should replace the constant with an argument option
-    cout << "FILENAME: " << this->filename << endl;
     save_label_volume(file, this->filename, this->volume, cropValue);
 }
 

@@ -64,11 +64,24 @@ public:
   */
   void setAllVoxels(int value) { 
     set_all_volume_label_data(this->volume, value); };
-  int getVoxel(int v1, int v2, int v3, int v4=0, int v5=0);
-  int getVoxel(int indices[3]);
+
+  int getVoxel(int v1, int v2, int v3, int v4=0, int v5=0) {
+    return get_volume_label_data_5d(this->volume, v1, v2, v3, v4, v5);
+  };
+
+  int getVoxel(int indices[3]) {
+    return get_volume_label_data(this->volume, indices);
+  };
+
   void setVoxel(int value, int v1, int v2, int v3, 
-                        int v4=0, int v5=0);
-  void setVoxel(int value, int indices[3]);
+                int v4=0, int v5=0) {
+    set_volume_label_data_5d(this->volume, v1, v2, v3, v4, v5, value);
+  };
+
+  void setVoxel(int value, int indices[3]) {
+    set_volume_label_data(this->volume, indices, value);
+  }
+
   virtual void output(STRING file, int cropValue = 0);
 };
 

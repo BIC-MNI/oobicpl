@@ -50,7 +50,13 @@ be fleshed out more, as many things are still missing.
 
 // static value used as default for volume loading
 static STRING  ZXYdimOrder[] = {MIzspace, MIxspace, MIyspace};
+static STRING  ZYXdimOrder[] = {MIzspace, MIyspace, MIxspace};
+
 static STRING  XYZdimOrder[] = {MIxspace, MIyspace, MIzspace};
+static STRING  XZYdimOrder[] = {MIxspace, MIzspace, MIyspace};
+
+static STRING  YXZdimOrder[] = {MIyspace, MIxspace, MIzspace};
+static STRING  YZXdimOrder[] = {MIyspace, MIzspace, MIxspace};
 
 //! An abstract baseclass for a minc volume
 /*!

@@ -1,3 +1,10 @@
+2001-09-12  Jason Lerch         <jason@bic.mni.mcgill.ca>
+
+	* mniBaseVolume.h: added several static strings for dimension
+	orders.
+	* mniLabelVolume.{cc,h}: moved the inline functions into the
+	header file.
+	
 2001-08-12  Jason Lerch		<jason@bic.mni.mcgill.ca>
 
 	* mniBaseVolume.cc: fixed (hopefully) the bug inside the voxel to
