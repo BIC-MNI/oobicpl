@@ -55,6 +55,8 @@ public:
 		 minc_input_options *options = NULL);
   //! Copy constructor from another volume
   mniLabelVolume(mniBaseVolume *copyVolume, nc_type dataType = NC_SHORT);
+  //! Constructor from a volume_io volume struct.
+  mniLabelVolume(Volume volumeIO_volume);
   //! Destructor to clean up memory
   virtual ~mniLabelVolume();
   //! Sets all voxels in the volume to one value

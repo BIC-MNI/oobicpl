@@ -27,6 +27,12 @@ mniLabelVolume::mniLabelVolume(STRING filename,
   get_volume_sizes(this->volume, this->sizes);
                                
 }
+
+mniLabelVolume::mniLabelVolume(Volume volumeIO_volume) {
+  this->sizes = new int[MAX_DIMENSIONS];
+  this->volume = volumeIO_volume;
+  get_volume_sizes(this->volume, this->sizes);
+}
                                
 mniLabelVolume::mniLabelVolume(mniBaseVolume *copyVolume, 
 			       nc_type dataType ) {
