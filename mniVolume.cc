@@ -16,16 +16,12 @@ mniVolume::mniVolume(STRING filename,
                      BOOLEAN createVolume = TRUE, 
                      minc_input_options *options = NULL ) {
 
-
-  cout << "In mniVolume constructor" << endl;
-  cout << "Constructor details: " << filename << " " 
-       << dimensions[0] << " " << endl;
   if ( input_volume(filename, nDimensions, dimensions, dataType, 
                     volumeSigned, voxelMin,
                     voxelMax, createVolume, &this->volume, options) != OK ) {
     throw loadException();
   }
-  cout << "just a test" << endl;
+
   this->sizes = new int[MAX_DIMENSIONS];
   get_volume_sizes(this->volume, this->sizes);
   this->nDimensions = nDimensions;
@@ -36,8 +32,18 @@ mniVolume::mniVolume(STRING filename,
   this->dataType = dataType;
   this->signedFlag = volumeSigned;
 
-  cout << "end of constructor" << endl;
 }
+
+mniVolume::mniVolume(mniVolume *copyVolume, 
+                     nc_type dataType = NC_UNSPECIFIED) {
+
+  //initialise sizes
+  this->sizes = new int[MAX_DIMENSIONS];
+  
+  // now copy relevant bits from other volume
+  this->volume = 
+  
+  
 
 mniVolume::~mniVolume() {
   delete_volume(this->volume);

@@ -45,7 +45,6 @@ mniLabelVolume::mniLabelVolume(mniLabelVolume *copyVolume,
 
   // initialise sizes
   this->sizes = new int[MAX_DIMENSIONS];
-  int tmpSizes[MAX_DIMENSIONS];
 
   // now copy all the relevant bits from the other volume
   this->volume = create_label_volume(copyVolume->getVolume(), dataType);

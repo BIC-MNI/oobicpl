@@ -29,15 +29,19 @@ public:
   mniVolume();
   //! Constructor from file
   mniVolume(STRING filename, 
-	    Real voxelMin = 0.0, 
-	    Real voxelMax = 0.0,
+            Real voxelMin = 0.0, 
+            Real voxelMax = 0.0,
             int nDimensions = 3,
-	    STRING dimensions[] = ZXYdimOrder,
+            STRING dimensions[] = ZXYdimOrder,
             nc_type dataType = NC_UNSPECIFIED, 
             BOOLEAN volumeSigned = FALSE,
             BOOLEAN createVolume = TRUE, 
             minc_input_options *options = NULL
             );
+  //! Copy constructor from mniVolume
+  mniVolume(mniVolume *copyVolume, nc_type dataType = NC_UNSPEFIFIED);
+  //! Copy constructor from mniLabelVolume
+  mniVolume(mniLabelVolume *copyVolume, nc_type dataType = NC_UNSPECIFIED);
   //! Destructor to free memory
   virtual ~mniVolume();
   //! Set the filename
