@@ -36,7 +36,7 @@ mniLabelVolume::mniLabelVolume(mniVolume *copyVolume,
   // now copy all the relevant bits from the other volume
   this->volume = create_label_volume(copyVolume->getVolume(), dataType);
   this->dimNames = copyVolume->getDimNames();
-  this->sizes = copyVolume->getSizes();
+  *this->sizes = *copyVolume->getSizes(); // copy by value
   this->dataType = dataType;
 }
 
@@ -45,11 +45,12 @@ mniLabelVolume::mniLabelVolume(mniLabelVolume *copyVolume,
 
   // initialise sizes
   this->sizes = new int[MAX_DIMENSIONS];
+  int tmpSizes[MAX_DIMENSIONS];
 
   // now copy all the relevant bits from the other volume
   this->volume = create_label_volume(copyVolume->getVolume(), dataType);
   this->dimNames = copyVolume->getDimNames();
-  this->sizes = copyVolume->getSizes();
+  *this->sizes = *copyVolume->getSizes(); // copy by value
   this->dataType = dataType;
 }
 
@@ -103,7 +104,7 @@ inline void mniLabelVolume::setVoxel(int value, int indices[3]) {
   set_volume_label_data(this->volume, indices, value);
 }
 
-void mniLabelVolume::output(STRING file, cropValue = 0) {
+void mniLabelVolume::output(STRING file, int cropValue = 0) {
   // should replace the constant with an argument option
     cout << "FILENAME: " << this->filename << endl;
     save_label_volume(file, this->filename, this->volume, cropValue);

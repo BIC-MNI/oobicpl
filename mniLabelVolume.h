@@ -24,6 +24,13 @@ protected:
   
 public:
   //! Empty Constructor
+  /*!  
+    An empty constructor which does nothing except initialise the
+    sizes array. It does not do any volume handling, and therefore should
+    only be used if the Volume variable will be assigned to it. And since
+    it is a protected variable, this constructor should only be used in a
+    subclass.
+  */
   mniLabelVolume();
   //! Constructor from file, creating initialised volume
   mniLabelVolume(STRING filename, 
