@@ -57,6 +57,9 @@ public:
 			int v4=0, int v5=0);
   virtual void output() { };
   virtual void output(STRING file);
+
+  //! + operator
+  bicVolume& operator+(bicVolume *a, bicVolume *b);
 };
 
 #endif // __BICVOLUME__

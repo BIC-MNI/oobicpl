@@ -48,3 +48,17 @@ void bicVolume::output(STRING file) {
     throw writeException();
   }
 }
+
+bicVolume& bicVolume::operator+(bicVolume *a, bicVolume *b) {
+  // check to make sure that sizes are the same
+  int *a_sizes = a->getSizes();
+  int *b_sizes = b->getSizes();
+  if (a_sizes[0] != b_sizes[0] ||
+      a_sizes[1] != b_sizes[1] || 
+      a_sizes[2] != b_sizes[2])
+    throw differentSizesException();
+
+  for (int v1 = 0; v1 < a_sizes[0]; v1++) {
+    for (int v2 = 0; v2 < a_sizes[1]; v2++) {
+      for (int v3 = 0; v3 < a_sizes[2]; v3++) {
+	
