@@ -41,7 +41,7 @@ public:
   //! Return pointer to volume_io volume
   Volume *getVolume() { return &this->volume; };
   //! Get pointer to volume sizes
-  int *getSizes() { return this->sizes; };
+  int* getSizes() { return this->sizes; };
   //! Get voxel value
   virtual Real getVoxel(int v1, int v2, int v3, int v4=0, int v5=0);
   //! Set voxel value
