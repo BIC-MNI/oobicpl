@@ -1,5 +1,5 @@
 
-bin_PROGRAMS = vertstatsinfo
+bin_PROGRAMS = vertstatsinfo vertstats_extract vertstats_colour_object
 
 include_HEADERS = mniVolume.h \
 	mniLabelVolume.h \
@@ -22,6 +22,10 @@ liboobicpl_la_SOURCES = mniBaseVolume.cc \
 	mniVertstatsFile.cc 
 
 vertstatsinfo_SOURCES = vertstatsinfo.cc
+
+vertstats_extract_SOURCES = vertstatsExtract.cc
+
+vertstats_colour_object_SOURCES = vertstats_colour_object.cc
 
 negative_values_test_SOURCES = negativeValuesTest.cc
 #negative_values_test_LDADD = -L$(libdir) -loobicpl
