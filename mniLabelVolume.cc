@@ -23,7 +23,8 @@ mniLabelVolume::mniLabelVolume(STRING filename,
        != OK ) {
     throw loadException();
   }
-    
+
+  get_volume_sizes(this->volume, this->sizes);
                                
 }
                                

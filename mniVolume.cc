@@ -41,7 +41,13 @@ mniVolume::mniVolume(mniBaseVolume *copyVolume,
   this->sizes = new int[MAX_DIMENSIONS];
   
   // now copy relevant bits from other volume
-  //  this->volume = 
+  this->volume = copy_volume(copyVolume->getVolume());
+  this->sizes = copyVolume->getSizes();
+  this->voxelMin = copyVolume->getVoxelMin();
+  this->voxelMax = copyVolume->getVoxelMax();
+  this->signedFlag = copyVolume->getSignedFlag();
+  this->dataType = copyVolume->getDataType();
+  this->dimNames = copyVolume->getDimNames();
 }
   
   

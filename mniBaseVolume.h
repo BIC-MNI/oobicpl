@@ -36,8 +36,18 @@ public:
   Volume getVolume() { return this->volume; };
   //! Get pointer to volume sizes
   int* getSizes() { return this->sizes; };
+  //! Get one size from sizes array
+  int getSize(int index) { return this->sizes[index]; };
   //! Get dimensions names
   STRING *getDimNames() { return this->dimNames; };
+  //! Return volume min
+  Real getVoxelMin() { return this->voxelMin; };
+  //! Retrun volume max
+  Real getVoxelMax() { return this->voxelMax; };
+  //! Return signed flag
+  BOOLEAN getSignedFlag() { return this->signedFlag; };
+  //! Return data type
+  nc_type getDataType() { return this->dataType; };
   //! Output the volume
   virtual void output(STRING file, int cropValue = 0) = 0;
 };
