@@ -92,53 +92,6 @@ public:
     them onto the get_volume_real_value function
   */
   Real getWorld(Real xWorld, Real yWorld, Real zWorld);
-  //! Gets interpolated value at indices
-  /*!
-    \bug Use with caution - the returned Real argument ought to be an array,
-    since in some situations the underlying volume_io function is supposed
-    to return more than one value. But I don't quite (yet) understand when
-    and how this is supposed to happen.
-  */
-  Real getInterpolatedVoxel(Real indices[],
-			    int degreesContinuity=2,
-			    BOOLEAN interpolatingDimensions[]=NULL,
-			    int useLinearAtEdge=TRUE,
-			    Real outsideValue=0,
-			    Real **firstDerivative=NULL,
-			    Real ***secondDerivative=NULL) {
-    Real tmpReturnValue;
-    evaluate_volume(this->volume,
-		    indices,
-		    interpolatingDimensions,
-		    degreesContinuity,
-		    useLinearAtEdge,
-		    outsideValue,
-		    &tmpReturnValue,
-		    firstDerivative,
-		    secondDerivative);
-    return tmpReturnValue;
-  };
-  //! Overloaded version of getInterpolatedVoxel
-  Real getInterpolatedVoxel(Real v1, Real v2, Real v3,
-			    int degreesContinuity=2,
-			    BOOLEAN interpolatingDimensions[]=NULL,
-			    int useLinearAtEdge=TRUE,
-			    Real outsideValue=0,
-			    Real **firstDerivative=NULL,
-			    Real ***secondDerivative=NULL) {
-    Real tmpReturnValue;
-    Real indices[3] = {v1, v2, v3};
-    evaluate_volume(this->volume,
-		    indices,
-		    interpolatingDimensions,
-		    degreesContinuity,
-		    useLinearAtEdge,
-		    outsideValue,
-		    &tmpReturnValue,
-		    firstDerivative,
-		    secondDerivative);
-    return tmpReturnValue;
-  };
   //! Set voxel value
   void setVoxel(Real value, int v1, int v2, int v3,
 		int v4=0, int v5=0) {
