@@ -1,5 +1,3 @@
-INCLUDES = $(MNI_INCLUDES)
-LDADD = $(MNI_LIBS) -lm
 
 include_HEADERS = mniVolume.h mniLabelVolume.h mniBaseVolume.h
 lib_LTLIBRARIES = liboobicpl.la
@@ -9,9 +7,9 @@ check_PROGRAMS = $(TESTS)
 liboobicpl_la_SOURCES = mniBaseVolume.cc mniVolume.cc mniLabelVolume.cc 
 
 negative_values_test_SOURCES = negativeValuesTest.cc
-negative_values_test_LDADD = -L$(libdir) -loobicpl $(MNI_LIBS)
+negative_values_test_LDADD = -L$(libdir) -loobicpl
 volume_tests_SOURCES = volumeTests.cc
-volume_tests_LDADD = -L$(libdir) -loobicpl $(MNI_LIBS)
+volume_tests_LDADD = -L$(libdir) -loobicpl
 
 
 
