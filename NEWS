@@ -1,3 +1,7 @@
+New in Version 0.4
+
+* added library and utility support for handling vertstats files
+
 New in Version 0.1
 * version used in the cortical thickness simulation. Capable of
 handling most volume_io requests, biggest item still missing is more
