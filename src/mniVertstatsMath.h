@@ -160,11 +160,12 @@ vector<int> vectorFind(vector<T> &v1,
 template <class T, class T2>
 vector<T> vectorSeg(vector<T> &v1,
                       const T2 lowerLimit,
-                      const T2 upperLimit) {
+                      const T2 upperLimit,
+                    float outputValue=1.0) {
   vector<T> result( v1 );
   for (int i=0; i < v1.size(); i++) {
     if (v1[i] > lowerLimit && v1[i] < upperLimit) {
-      result[i] = 1;
+      result[i] = outputValue;
     }
     else {
       result[i] = 0;

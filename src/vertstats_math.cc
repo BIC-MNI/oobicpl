@@ -34,6 +34,7 @@ int oldStyle = FALSE;
 
 double constant = DEFAULT_DBL;
 double constant2[2] = {DEFAULT_DBL, DEFAULT_DBL};
+double maskRange[2] = {DEFAULT_DBL, DEFAULT_DBL};
 
 char *columnName = NULL;
 
@@ -52,6 +53,8 @@ ArgvInfo argTable[] =
      "File input options" },
     {"-column", ARGV_STRING, (char *) 1, (char *) &columnName,
      "Name of the column to load of input files [Default: load first column]"},
+    {"-mask_range", ARGV_FLOAT, (char *) 2, (char *) &maskRange,
+     "Only apply operation to values in this range." },
     {NULL, ARGV_HELP, (char *) NULL, (char *) NULL, 
      "Specification of Constants" },
     {"-const", ARGV_FLOAT, (char *) 1, (char *) &constant,
@@ -69,7 +72,7 @@ ArgvInfo argTable[] =
     {"-sub", ARGV_CONSTANT, (char *) SUB_OP, (char *) &operation,
      "Subtract two vectors or a vector and a constant" },
     {"-seg", ARGV_CONSTANT, (char *) SEG_OP, (char *) &operation,
-     "Segment a vector using range specified by -const2" },
+     "Segment a vector using range specified by -const2. Segmented areas take on value of 1 unless specified differently using -const" },
     {"-norm", ARGV_CONSTANT, (char *) NORM_OP, (char *) &operation,
      "Normalises a vector by dividing each element by the mean" },
 
@@ -191,7 +194,14 @@ int main(int argc, char *argv[]) {
           << "-const2." << endl;
    }
    else {
-     result = vectorSeg(input[0], constant2[0], constant2[1]);
+     if (constant == DEFAULT_DBL) {
+       // segmented areas have value of 1
+       result = vectorSeg(input[0], constant2[0], constant2[1]);
+     }
+     else {
+       // output takes on value other than one for segmented areas
+       result = vectorSeg(input[0], constant2[0], constant2[1], constant);
+     }
    }
    break;
 
