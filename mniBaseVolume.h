@@ -109,6 +109,17 @@ public:
   BOOLEAN getSignedFlag() { return this->signedFlag; };
   //! Return data type
   nc_type getDataType() { return this->dataType; };
+
+  // voxel to world coordinate stuff:
+
+  //!converts a voxel to world space
+  /*!
+    Returns a voxel to from voxel space to world space
+    \param voxel[] An array holding the voxel to be converted
+    \returns An array holding the
+  */
+  
+
   //! Output the volume
   virtual void output(STRING file, int cropValue = 0) = 0;
 };
