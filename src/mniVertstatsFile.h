@@ -82,6 +82,7 @@ private:
   int numRows;
   mniVertstatsFileType determineFileType(char *filename);
   void initialiseVariables();
+  void destroyVariables();
   void loadOldStyleFile(char *filename, bool readData=true);
   void loadNewStyleFile(char *filename, bool readData=true);
   void writeHeaderEntry(tree<mniVertstatsHeaderEntry>::iterator it, 
@@ -96,6 +97,8 @@ public:
   mniVertstatsFile(char *filename, bool readData=true);
   //! load a filename
   void loadFile(char *filename, bool readData=true);
+  //! close the currently accessed file
+  void close();
   //! return a data column vector identified by name
   vertexColumn getDataColumn(string rowName);
   //! return a data column vector identified by number

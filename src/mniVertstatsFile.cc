@@ -61,6 +61,22 @@ void mniVertstatsFile::initialiseVariables() {
 
 }
 
+void mniVertstatsFile::destroyVariables() {
+  delete this->dataheader;
+  delete this->data;
+  this->numRows = 0;
+  this->numColumns = 0;
+  delete this->headerTree;
+}
+
+/*! deletes all variables then reinitialises them so that a new file
+  can be loaded. */
+void mniVertstatsFile::close() {
+  this->destroyVariables();
+  this->initialiseVariables();
+}
+    
+
 /*! Loads a file. See the constructor documentation for the details
   about what the arguments mean. This is also the place where the
   decision is made about whether one is dealing with an old style file
