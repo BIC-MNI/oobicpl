@@ -118,6 +118,7 @@ public:
     Returns a voxel to from voxel space to world space
     \param voxel[] An array holding the voxel to be converted
     \return An array holding the world coordinates in X Y Z order
+    \note You have to free the memory of the returned array yourself
   */
   Real* convertVoxelToWorld(Real voxel[]);
   //! Convert a world coordinate into a voxel

@@ -1,5 +1,10 @@
 2001-08-12  Jason Lerch		<jason@bic.mni.mcgill.ca>
 
+	* mniBaseVolume.cc: fixed (hopefully) the bug inside the voxel to
+	world conversion.
+
+2001-08-12  Jason Lerch		<jason@bic.mni.mcgill.ca>
+
 	* ChangeLog: finally beginning the use of this log
 	* .cvsignore: added by Steve Robbins
 	* mniBaseVolume.cc:

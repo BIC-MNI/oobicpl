@@ -1,22 +1,22 @@
 #include "mniBaseVolume.h"
 
 Real* mniBaseVolume::convertVoxelToWorld(Real voxel[]) {
-  Real xWorld, yWorld, zWorld;
-  convert_voxel_to_world(this->volume, voxel, &xWorld, &yWorld, &zWorld);
+  Real *returnValue = new Real[3];
+  convert_voxel_to_world(this->volume, 
+                         voxel, 
+                         &returnValue[0],
+                         &returnValue[1],
+                         &returnValue[2]);
   
-  Real returnValue[3] = {xWorld, yWorld, zWorld};
   return returnValue;
 }
 
 Real* mniBaseVolume::convertWorldToVoxel(Real xWorld,
-                                                Real yWorld,
-                                                Real zWorld) 
+                                         Real yWorld,
+                                         Real zWorld) 
 {
-#if THIS_GETS_FIXED
-  Real *voxel;
+  Real *voxel = new Real[3];
   convert_world_to_voxel(this->volume, xWorld, yWorld, zWorld, voxel);
   return voxel;
-#else
-  return 0;
 }
-#endif
+
