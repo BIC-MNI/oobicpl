@@ -1,14 +1,14 @@
 #include "mniLabelVolume.h"
 
 mniLabelVolume::mniLabelVolume(STRING filename, 
-			       Real voxelMin = 0.0, 
-			       Real voxelMax = 0.0,
-			       int nDimensions = 3,
-			       STRING dimensions[] = ZXYdimOrder,
-			       nc_type dataType = NC_UNSPECIFIED, 
-			       BOOLEAN volumeSigned = FALSE,
-			       BOOLEAN createVolume = TRUE, 
-			       minc_input_options *options = NULL) {
+			       Real voxelMin, 
+			       Real voxelMax,
+			       int nDimensions,
+			       STRING dimensions[],
+			       nc_type dataType,
+			       BOOLEAN volumeSigned,
+			       BOOLEAN createVolume,
+			       minc_input_options *options) {
 
   // initialise the sizes variable
   this->sizes = new int[MAX_DIMENSIONS];
@@ -29,7 +29,7 @@ mniLabelVolume::mniLabelVolume(STRING filename,
 }
                                
 mniLabelVolume::mniLabelVolume(mniBaseVolume *copyVolume, 
-			       nc_type dataType = NC_SHORT) {
+			       nc_type dataType ) {
 
   // initialise sizes
   this->sizes = new int[MAX_DIMENSIONS];
@@ -62,10 +62,10 @@ mniLabelVolume::mniLabelVolume() {
 
 mniLabelVolume::mniLabelVolume(STRING filename,
 			       int newVolume,
-			       int nDimensions = 3,
-			       STRING dimensions[] = ZXYdimOrder,
-			       nc_type dataType = NC_UNSPECIFIED,
-			       minc_input_options *options = NULL){
+			       int nDimensions,
+			       STRING dimensions[],
+			       nc_type dataType,
+			       minc_input_options *options){
 
   // initialise sizes
   this->sizes = new int[MAX_DIMENSIONS];
@@ -88,7 +88,7 @@ mniLabelVolume::~mniLabelVolume() {
 }  
 
 inline int mniLabelVolume::getVoxel(int v1, int v2, int v3, 
-                                     int v4=0, int v5=0) {
+                                     int v4, int v5) {
   return get_volume_label_data_5d(this->volume, v1, v2, v3, v4, v5);
 }
 
@@ -97,7 +97,7 @@ inline int mniLabelVolume::getVoxel(int indices[3]) {
 }
 
 inline void mniLabelVolume::setVoxel(int value, int v1, int v2, int v3,
-                                     int v4=0, int v5=0) {
+                                     int v4, int v5) {
   set_volume_label_data_5d(this->volume, v1, v2, v3, v4, v5, value);
 }
 
@@ -105,7 +105,7 @@ inline void mniLabelVolume::setVoxel(int value, int indices[3]) {
   set_volume_label_data(this->volume, indices, value);
 }
 
-void mniLabelVolume::output(STRING file, int cropValue = 0) {
+void mniLabelVolume::output(STRING file, int cropValue) {
   // should replace the constant with an argument option
     cout << "FILENAME: " << this->filename << endl;
     save_label_volume(file, this->filename, this->volume, cropValue);

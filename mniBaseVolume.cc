@@ -10,8 +10,13 @@ Real* mniBaseVolume::convertVoxelToWorld(Real voxel[]) {
 
 Real* mniBaseVolume::convertWorldToVoxel(Real xWorld,
                                                 Real yWorld,
-                                                Real zWorld) {
+                                                Real zWorld) 
+{
+#if THIS_GETS_FIXED
   Real *voxel;
   convert_world_to_voxel(this->volume, xWorld, yWorld, zWorld, voxel);
   return voxel;
+#else
+  return 0;
 }
+#endif

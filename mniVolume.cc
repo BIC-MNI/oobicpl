@@ -7,14 +7,14 @@ mniVolume::mniVolume() {
 
 // Constructor from file
 mniVolume::mniVolume(STRING filename, 
-                     Real voxelMin = 0.0, 
-                     Real voxelMax = 0.0,
-                     int nDimensions = 3,
-                     STRING dimensions[] = ZXYdimOrder,
-                     nc_type dataType = NC_UNSPECIFIED, 
-                     BOOLEAN volumeSigned = FALSE,
-                     BOOLEAN createVolume = TRUE, 
-                     minc_input_options *options = NULL ) {
+                     Real voxelMin, 
+                     Real voxelMax,
+                     int nDimensions,
+                     STRING dimensions[],
+                     nc_type dataType,
+                     BOOLEAN volumeSigned,
+                     BOOLEAN createVolume,
+                     minc_input_options *options ) {
   if ( input_volume(filename, nDimensions, dimensions, dataType, 
                     volumeSigned, voxelMin,
                     voxelMax, createVolume, &this->volume, options) != OK ) {
@@ -34,11 +34,11 @@ mniVolume::mniVolume(STRING filename,
 }
 
 mniVolume::mniVolume(mniBaseVolume *copyVolume, 
-		     BOOLEAN copyVolumeDefinitionOnly=FALSE,
-		     nc_type dataType = NC_UNSPECIFIED,
-		     BOOLEAN signedFlag = FALSE,
-		     Real voxelMin = 0.0,
-		     Real voxelMax = 0.0) {
+		     BOOLEAN copyVolumeDefinitionOnly,
+		     nc_type dataType,
+		     BOOLEAN signedFlag,
+		     Real voxelMin,
+		     Real voxelMax) {
 
 
   //initialise sizes
@@ -72,7 +72,7 @@ mniVolume::~mniVolume() {
   delete this->sizes;
 }
 
-inline Real mniVolume::getVoxel(int v1, int v2, int v3, int v4=0, int v5=0) {
+inline Real mniVolume::getVoxel(int v1, int v2, int v3, int v4, int v5) {
   return get_volume_real_value(this->volume, v1, v2, v3, v4, v5);
 }
 
@@ -94,12 +94,12 @@ Real mniVolume::getWorld(Real xWorld, Real yWorld, Real zWorld) {
   
 
 inline Real mniVolume::getInterpolatedVoxel(Real indices[],
-					    int degreesContinuity=2,
-					    BOOLEAN interpolatingDimensions[]=NULL,
-					    int useLinearAtEdge=TRUE,
-					    Real outsideValue=0,
-					    Real **firstDerivative=NULL,
-					    Real ***secondDerivative=NULL) {
+					    int degreesContinuity,
+					    BOOLEAN interpolatingDimensions[],
+					    int useLinearAtEdge,
+					    Real outsideValue,
+					    Real **firstDerivative,
+					    Real ***secondDerivative) {
   Real tmpReturnValue;
   evaluate_volume(this->volume,
 		  indices,
@@ -114,12 +114,12 @@ inline Real mniVolume::getInterpolatedVoxel(Real indices[],
 }
 
 inline Real mniVolume::getInterpolatedVoxel(Real v1, Real v2, Real v3,
-					    int degreesContinuity=2,
-					    BOOLEAN interpolatingDimensions[]=NULL,
-					    int useLinearAtEdge=TRUE,
-					    Real outsideValue=0,
-					    Real **firstDerivative=NULL,
-					    Real ***secondDerivative=NULL) {
+					    int degreesContinuity,
+					    BOOLEAN interpolatingDimensions[],
+					    int useLinearAtEdge,
+					    Real outsideValue,
+					    Real **firstDerivative,
+					    Real ***secondDerivative) {
   Real tmpReturnValue;
   Real indices[3] = {v1, v2, v3};
   evaluate_volume(this->volume,
@@ -136,7 +136,7 @@ inline Real mniVolume::getInterpolatedVoxel(Real v1, Real v2, Real v3,
 
 
 inline void mniVolume::setVoxel(Real value, int v1, int v2, int v3,
-                         int v4=0, int v5=0) {
+                         int v4, int v5) {
   set_volume_real_value(this->volume, v1, v2, v3, v4, v5, value);
 }
 
@@ -145,7 +145,7 @@ inline void mniVolume::setVoxel(Real value, int indices[3]) {
 			indices[2], 0, 0, value);
 }
 
-void mniVolume::output(STRING file, int cropValue = 0) {
+void mniVolume::output(STRING file, int cropValue) {
   if (output_volume(file, this->dataType, this->signedFlag,
                     this->voxelMin, this->voxelMax, this->volume,
                     "mnipl-- test", NULL) != OK) {

@@ -1,0 +1,9 @@
+2001-08-12  Jason Lerch		<jason@bic.mni.mcgill.ca>
+
+	* ChangeLog: finally beginning the use of this log
+	* .cvsignore: added by Steve Robbins
+	* mniBaseVolume.cc:
+	* mniLabelVolume.cc:
+	* mniVolume.cc: patch by Steve Robbins - removed default
+	constructors in functions themselves so that this can compile
+	using IRIX CC.
