@@ -34,14 +34,15 @@ mniVolume::mniVolume(STRING filename,
 
 }
 
-mniVolume::mniVolume(mniVolume *copyVolume, 
+mniVolume::mniVolume(mniBaseVolume *copyVolume, 
                      nc_type dataType = NC_UNSPECIFIED) {
 
   //initialise sizes
   this->sizes = new int[MAX_DIMENSIONS];
   
   // now copy relevant bits from other volume
-  this->volume = 
+  //  this->volume = 
+}
   
   
 
@@ -69,7 +70,7 @@ inline void mniVolume::setVoxel(Real value, int indices[3]) {
 			indices[2], 0, 0, value);
 }
 
-void mniVolume::output(STRING file) {
+void mniVolume::output(STRING file, int cropValue = 0) {
   if (output_volume(file, this->dataType, this->signedFlag,
                     this->voxelMin, this->voxelMax, this->volume,
                     "mnipl-- test", NULL) != OK) {

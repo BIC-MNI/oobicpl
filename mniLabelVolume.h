@@ -7,20 +7,17 @@ extern "C" {
 }
 
 #include <iostream.h>
-#include "mniVolumeExceptions.h"
+#include "mniBaseVolume.h"
 #include "mniVolume.h"
 
-class mniLabelVolume {
-protected:
-  Volume       volume;
-  int          *sizes; // should be sizes[MAX_DIMENSIONS] ?
-  int          nDimensions;
-  STRING*      dimNames;
-  STRING       filename;
-  nc_type      dataType;
-  Real         voxelMin;
-  Real         voxelMax;
-  BOOLEAN      signedFlag;
+//! A class to deal with Label Volumes
+/*!
+  The mniLabelVolume class differs from the mniVolume class insofar as
+  it uses the bicpl label_volume set of functions to deal with the
+  volume as opposed to the volume_io functions. The general unit is also
+  an int as opposed to a Real.
+*/
+class mniLabelVolume : public mniBaseVolume {
   
 public:
   //! Empty Constructor
@@ -56,23 +53,15 @@ public:
 		 STRING dimensions[] = ZXYdimOrder,
 		 nc_type dataType = NC_UNSPECIFIED,
 		 minc_input_options *options = NULL);
-  //! Copy constructor from mniVolume
-  mniLabelVolume(mniVolume *copyVolume, nc_type dataType = NC_SHORT);
-  //! Copy constructor from mniLabelVolume
-  mniLabelVolume(mniLabelVolume *copyVolume, nc_type dataType = NC_SHORT);
-
+  //! Copy constructor from another volume
+  mniLabelVolume(mniBaseVolume *copyVolume, nc_type dataType = NC_SHORT);
+  //! Destructor to clean up memory
   virtual ~mniLabelVolume();
-
-  //! Set the filename
-  void setFilename(STRING file) { filename = file; };
-  //! Return pointer to volume_io volume
-  Volume getVolume() { return this->volume; };
-  //! Get pointer to volume sizes
-  int* getSizes() { return this->sizes; };
-  //! Get dimensions names
-  STRING *getDimNames() { return this->dimNames; };
-
-
+  //! Sets all voxels in the volume to one value
+  /*!
+    \bug Dubious behaviour that I have not quite figured out yet when the
+    value is set to 0
+  */
   void setAllVoxels(int value) { 
     set_all_volume_label_data(this->volume, value); };
   int getVoxel(int v1, int v2, int v3, int v4=0, int v5=0);
@@ -80,7 +69,7 @@ public:
   void setVoxel(int value, int v1, int v2, int v3, 
                         int v4=0, int v5=0);
   void setVoxel(int value, int indices[3]);
-  void output(STRING file, int cropValue = 0);
+  virtual void output(STRING file, int cropValue = 0);
 };
 
 #endif // __MNILABELVOLUME__

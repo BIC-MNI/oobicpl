@@ -27,7 +27,7 @@ mniLabelVolume::mniLabelVolume(STRING filename,
                                
 }
                                
-mniLabelVolume::mniLabelVolume(mniVolume *copyVolume, 
+mniLabelVolume::mniLabelVolume(mniBaseVolume *copyVolume, 
 			       nc_type dataType = NC_SHORT) {
 
   // initialise sizes
@@ -40,6 +40,7 @@ mniLabelVolume::mniLabelVolume(mniVolume *copyVolume,
   this->dataType = dataType;
 }
 
+/*
 mniLabelVolume::mniLabelVolume(mniLabelVolume *copyVolume,
 			       nc_type dataType = NC_SHORT) {
 
@@ -52,7 +53,7 @@ mniLabelVolume::mniLabelVolume(mniLabelVolume *copyVolume,
   *this->sizes = *copyVolume->getSizes(); // copy by value
   this->dataType = dataType;
 }
-
+*/
 mniLabelVolume::mniLabelVolume() {
   // initialise sizes
   this->sizes = new int[MAX_DIMENSIONS];
