@@ -116,8 +116,14 @@ public:
   /*!
     Returns a voxel to from voxel space to world space
     \param voxel[] An array holding the voxel to be converted
-    \returns An array holding the
+    \return An array holding the world coordinates in X Y Z order
   */
+  Real* convertVoxelToWorld(Real voxel[]);
+  //! Convert a world coordinate into a voxel
+  /*!
+    \return An array holding the voxel coordinates
+  */
+  Real* convertWorldToVoxel(Real xWorld, Real yWorld, Real zWorld);
   
 
   //! Output the volume

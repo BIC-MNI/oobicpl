@@ -15,7 +15,6 @@ mniVolume::mniVolume(STRING filename,
                      BOOLEAN volumeSigned = FALSE,
                      BOOLEAN createVolume = TRUE, 
                      minc_input_options *options = NULL ) {
-
   if ( input_volume(filename, nDimensions, dimensions, dataType, 
                     volumeSigned, voxelMin,
                     voxelMax, createVolume, &this->volume, options) != OK ) {
@@ -82,6 +81,18 @@ inline Real mniVolume::getVoxel(int indices[3]) {
 			       indices[2], 0, 0);
 }
 
+Real mniVolume::getWorld(Real xWorld, Real yWorld, Real zWorld) {
+  Real *voxelCoord;
+  cout << "In get world" << endl;
+  voxelCoord = this->convertWorldToVoxel(xWorld, yWorld, zWorld);
+  cout << "Converted ... " << endl;
+  return get_volume_real_value(this->volume, 
+                               (int)rint(voxelCoord[0]), 
+                               (int)rint(voxelCoord[1]),
+                               (int)rint(voxelCoord[2]), 0, 0);
+}
+  
+
 inline Real mniVolume::getInterpolatedVoxel(Real indices[],
 					    int degreesContinuity=2,
 					    BOOLEAN interpolatingDimensions[]=NULL,
@@ -141,6 +152,8 @@ void mniVolume::output(STRING file, int cropValue = 0) {
     throw writeException();
   }
 }
+
+
 
 /*
   mniVolume& mniVolume::operator+(mniVolume *a, mniVolume *b) {

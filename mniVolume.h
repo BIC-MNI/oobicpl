@@ -7,6 +7,7 @@ extern "C" {
 }
 
 #include <iostream.h>
+#include <math.h>
 #include "mniBaseVolume.h"
 
 //! A class for working with minc volumes
@@ -77,6 +78,13 @@ public:
   Real getVoxel(int v1, int v2, int v3, int v4=0, int v5=0);
   //! Overloaded getVoxel, taking three dimensional array
   Real getVoxel(int indices[3]);
+  //! Get a point in world space
+  /*!
+    First converts the three world indices into voxel space, then
+    uses the rint function to round them to integers before passing
+    them onto the get_volume_real_value function
+  */
+  Real getWorld(Real xWorld, Real yWorld, Real zWorld);
   //! Gets interpolated value at indices
   /*!
     \bug Use with caution - the returned Real argument ought to be an array,
