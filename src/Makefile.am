@@ -1,5 +1,5 @@
 
-bin_PROGRAMS = vertstatsinfo \
+bin_PROGRAMS = vertstats_info \
 	vertstats_extract \
 	vertstats_colour_object \
 	vertstats_math \
@@ -29,7 +29,7 @@ liboobicpl_la_SOURCES = mniBaseVolume.cc \
 	mniVertstatsMath.cc
 
 # Programmes
-vertstatsinfo_SOURCES = vertstatsinfo.cc
+vertstats_info_SOURCES = vertstatsinfo.cc
 vertstats_math_SOURCES = vertstats_math.cc
 
 vertstats_extract_SOURCES = vertstatsExtract.cc
