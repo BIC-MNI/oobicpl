@@ -72,15 +72,6 @@ mniVolume::~mniVolume() {
   delete this->sizes;
 }
 
-inline Real mniVolume::getVoxel(int v1, int v2, int v3, int v4, int v5) {
-  return get_volume_real_value(this->volume, v1, v2, v3, v4, v5);
-}
-
-inline Real mniVolume::getVoxel(int indices[3]) {
-  return get_volume_real_value(this->volume, indices[0], indices[1],
-			       indices[2], 0, 0);
-}
-
 Real mniVolume::getWorld(Real xWorld, Real yWorld, Real zWorld) {
   Real *voxelCoord;
   cout << "In get world" << endl;
@@ -90,59 +81,6 @@ Real mniVolume::getWorld(Real xWorld, Real yWorld, Real zWorld) {
                                (int)rint(voxelCoord[0]), 
                                (int)rint(voxelCoord[1]),
                                (int)rint(voxelCoord[2]), 0, 0);
-}
-  
-
-inline Real mniVolume::getInterpolatedVoxel(Real indices[],
-					    int degreesContinuity,
-					    BOOLEAN interpolatingDimensions[],
-					    int useLinearAtEdge,
-					    Real outsideValue,
-					    Real **firstDerivative,
-					    Real ***secondDerivative) {
-  Real tmpReturnValue;
-  evaluate_volume(this->volume,
-		  indices,
-		  interpolatingDimensions,
-		  degreesContinuity,
-		  useLinearAtEdge,
-		  outsideValue,
-		  &tmpReturnValue,
-		  firstDerivative,
-		  secondDerivative);
-  return tmpReturnValue;
-}
-
-inline Real mniVolume::getInterpolatedVoxel(Real v1, Real v2, Real v3,
-					    int degreesContinuity,
-					    BOOLEAN interpolatingDimensions[],
-					    int useLinearAtEdge,
-					    Real outsideValue,
-					    Real **firstDerivative,
-					    Real ***secondDerivative) {
-  Real tmpReturnValue;
-  Real indices[3] = {v1, v2, v3};
-  evaluate_volume(this->volume,
-		  indices,
-		  interpolatingDimensions,
-		  degreesContinuity,
-		  useLinearAtEdge,
-		  outsideValue,
-		  &tmpReturnValue,
-		  firstDerivative,
-		  secondDerivative);
-  return tmpReturnValue;
-}
-
-
-inline void mniVolume::setVoxel(Real value, int v1, int v2, int v3,
-                         int v4, int v5) {
-  set_volume_real_value(this->volume, v1, v2, v3, v4, v5, value);
-}
-
-inline void mniVolume::setVoxel(Real value, int indices[3]) {
-  set_volume_real_value(this->volume, indices[0], indices[1],
-			indices[2], 0, 0, value);
 }
 
 void mniVolume::output(STRING file, int cropValue) {

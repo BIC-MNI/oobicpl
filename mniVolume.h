@@ -75,9 +75,14 @@ public:
   virtual ~mniVolume();
 
   //! Get voxel value
-  Real getVoxel(int v1, int v2, int v3, int v4=0, int v5=0);
+  Real getVoxel(int v1, int v2, int v3, int v4=0, int v5=0) {
+    return get_volume_real_value(this->volume, v1, v2, v3, v4, v5);
+  };
   //! Overloaded getVoxel, taking three dimensional array
-  Real getVoxel(int indices[3]);
+  Real getVoxel(int indices[3]) {
+    return get_volume_real_value(this->volume, indices[0], indices[1],
+				 indices[2], 0, 0);
+  };
   //! Get a point in world space
   /*!
     First converts the three world indices into voxel space, then
@@ -98,7 +103,19 @@ public:
 			    int useLinearAtEdge=TRUE,
 			    Real outsideValue=0,
 			    Real **firstDerivative=NULL,
-			    Real ***secondDerivative=NULL);
+			    Real ***secondDerivative=NULL) {
+    Real tmpReturnValue;
+    evaluate_volume(this->volume,
+		    indices,
+		    interpolatingDimensions,
+		    degreesContinuity,
+		    useLinearAtEdge,
+		    outsideValue,
+		    &tmpReturnValue,
+		    firstDerivative,
+		    secondDerivative);
+    return tmpReturnValue;
+  };
   //! Overloaded version of getInterpolatedVoxel
   Real getInterpolatedVoxel(Real v1, Real v2, Real v3,
 			    int degreesContinuity=2,
@@ -106,12 +123,30 @@ public:
 			    int useLinearAtEdge=TRUE,
 			    Real outsideValue=0,
 			    Real **firstDerivative=NULL,
-			    Real ***secondDerivative=NULL);
+			    Real ***secondDerivative=NULL) {
+    Real tmpReturnValue;
+    Real indices[3] = {v1, v2, v3};
+    evaluate_volume(this->volume,
+		    indices,
+		    interpolatingDimensions,
+		    degreesContinuity,
+		    useLinearAtEdge,
+		    outsideValue,
+		    &tmpReturnValue,
+		    firstDerivative,
+		    secondDerivative);
+    return tmpReturnValue;
+  };
   //! Set voxel value
   void setVoxel(Real value, int v1, int v2, int v3,
-                        int v4=0, int v5=0);
+		int v4=0, int v5=0) {
+    set_volume_real_value(this->volume, v1, v2, v3, v4, v5, value);
+  };
   //! Overloaded setVoxel, taking three dimensional array
-  void setVoxel(Real value, int indices[3]);
+  void setVoxel(Real value, int indices[3]) {
+    set_volume_real_value(this->volume, indices[0], indices[1],
+			  indices[2], 0, 0, value);
+  };
   //  virtual void output() { };
   virtual void output(STRING file, int cropValue = 0);
 
