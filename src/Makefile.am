@@ -1,10 +1,15 @@
 
-bin_PROGRAMS = vertstatsinfo vertstats_extract vertstats_colour_object
+bin_PROGRAMS = vertstatsinfo \
+	vertstats_extract \
+	vertstats_colour_object \
+	vertstats_math
 
 include_HEADERS = mniVolume.h \
 	mniLabelVolume.h \
 	mniBaseVolume.h \
-	mniVertstatsFile.h
+	mniVertstatsFile.h \
+	mniVertstatsMath.h \
+	tree.hh 
 
 LDADD = liboobicpl.la
 
@@ -19,14 +24,17 @@ check_PROGRAMS = $(TESTS)
 liboobicpl_la_SOURCES = mniBaseVolume.cc \
 	mniVolume.cc \
 	mniLabelVolume.cc \
-	mniVertstatsFile.cc 
+	mniVertstatsFile.cc \
+	mniVertstatsMath.cc
 
 # Programmes
 vertstatsinfo_SOURCES = vertstatsinfo.cc
+vertstats_math_SOURCES = vertstats_math.cc
 
 vertstats_extract_SOURCES = vertstatsExtract.cc
 
 vertstats_colour_object_SOURCES = vertstats_colour_object.cc
+
 
 # Tests
 #negative_values_test_SOURCES = negativeValuesTest.cc

@@ -1,3 +1,11 @@
+2003-03-25  Jason Lerch		<jason@bic.mni.mcgill.ca>
+
+	* header now represented as an n-ary tree
+	* can write files as well
+	* mathematical functions for vectors
+	* massive documentation updates
+	* extra utilities
+	
 2003-01-16  Jason Lerch		<jason@bic.mni.mcgill.ca>
 
 	* multiple updates - in other words, the ChangeLog has not been

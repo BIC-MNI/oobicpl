@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT(src/mniVolume.cc)
-AM_INIT_AUTOMAKE(oobicpl, 0.2)
+AM_INIT_AUTOMAKE(oobicpl, 0.3)
 AM_CONFIG_HEADER(config.h)
 
 
@@ -40,6 +40,19 @@ smr_REQUIRED_LIB(netcdf,ncopen,netcdf.h)
 smr_REQUIRED_LIB(minc,miicv_create,minc.h)
 smr_REQUIRED_LIB(volume_io,input_volume,volume_io.h)
 smr_REQUIRED_LIB(bicpl,input_graphics_file,bicpl.h)
+
+# the regular expression C library
+smr_REQUIRED_LIB(pcre, pcre_compile, pcre.h)
+
+# the C++ wrapper for the pcre library
+AC_LANG_PUSH(C++)
+AC_MSG_CHECKING([for -lpcre++])
+LIBS="-lpcre++ $LIBS"
+AC_TRY_LINK([#include <pcre++.h>],
+            [Pcre EE("[a-z]", "i");],,
+            [AC_MSG_ERROR(cannot find pcre++ library)])
+AC_MSG_RESULT([yes])
+AC_LANG_POP
 
 #------------------------------------------------------------------------
 # Check that we have some required header files (and macros in them)
