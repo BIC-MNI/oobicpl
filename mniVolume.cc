@@ -82,25 +82,47 @@ inline Real mniVolume::getVoxel(int indices[3]) {
 			       indices[2], 0, 0);
 }
 
-inline Real* mniVolume::getInterpolatedVoxel(Real indices[],
+inline Real mniVolume::getInterpolatedVoxel(Real indices[],
 					    int degreesContinuity=2,
 					    BOOLEAN interpolatingDimensions[]=NULL,
 					    int useLinearAtEdge=TRUE,
 					    Real outsideValue=0,
 					    Real **firstDerivative=NULL,
 					    Real ***secondDerivative=NULL) {
-  Real *tmpReturnValue;
+  Real tmpReturnValue;
   evaluate_volume(this->volume,
 		  indices,
 		  interpolatingDimensions,
 		  degreesContinuity,
 		  useLinearAtEdge,
 		  outsideValue,
-		  tmpReturnValue,
+		  &tmpReturnValue,
 		  firstDerivative,
 		  secondDerivative);
   return tmpReturnValue;
 }
+
+inline Real mniVolume::getInterpolatedVoxel(Real v1, Real v2, Real v3,
+					    int degreesContinuity=2,
+					    BOOLEAN interpolatingDimensions[]=NULL,
+					    int useLinearAtEdge=TRUE,
+					    Real outsideValue=0,
+					    Real **firstDerivative=NULL,
+					    Real ***secondDerivative=NULL) {
+  Real tmpReturnValue;
+  Real indices[3] = {v1, v2, v3};
+  evaluate_volume(this->volume,
+		  indices,
+		  interpolatingDimensions,
+		  degreesContinuity,
+		  useLinearAtEdge,
+		  outsideValue,
+		  &tmpReturnValue,
+		  firstDerivative,
+		  secondDerivative);
+  return tmpReturnValue;
+}
+
 
 inline void mniVolume::setVoxel(Real value, int v1, int v2, int v3,
                          int v4=0, int v5=0) {
