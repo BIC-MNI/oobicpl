@@ -103,10 +103,10 @@ inline void mniLabelVolume::setVoxel(int value, int indices[3]) {
   set_volume_label_data(this->volume, indices, value);
 }
 
-void mniLabelVolume::output(STRING file) {
+void mniLabelVolume::output(STRING file, cropValue = 0) {
   // should replace the constant with an argument option
     cout << "FILENAME: " << this->filename << endl;
-    save_label_volume(file, this->filename, this->volume, 255);
+    save_label_volume(file, this->filename, this->volume, cropValue);
 }
 
   

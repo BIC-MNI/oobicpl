@@ -73,7 +73,7 @@ public:
   void setVoxel(int value, int v1, int v2, int v3, 
                         int v4=0, int v5=0);
   void setVoxel(int value, int indices[3]);
-  void output(STRING file);
+  void output(STRING file, int cropValue = 0);
 };
 
 #endif // __MNILABELVOLUME__
