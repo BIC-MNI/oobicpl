@@ -40,6 +40,8 @@ public:
   //! Copy constructor, creates uninitialised label volume
   bicLabelVolume(bicVolume *copyVolume, nc_type dataType = NC_LONG);
 
+  virtual ~bicLabelVolume();
+
   virtual void setAllVoxels(Real value) { 
     set_all_volume_label_data(this->volume, (int)value); };
   virtual Real getVoxel(int v1, int v2, int v3, int v4=0, int v5=0);

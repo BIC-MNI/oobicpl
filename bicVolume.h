@@ -30,7 +30,7 @@ public:
   class writeException { };
 
   //! Empty Constructor
-  bicVolume() { };
+  bicVolume();
   //! Constructor from file
   bicVolume(STRING filename, 
 	    Real voxelMin = 0.0, 
@@ -43,7 +43,7 @@ public:
             minc_input_options *options = NULL
             );
   //! Destructor to free memory
-  ~bicVolume();
+  virtual ~bicVolume();
   //! Set the filename
   void setFilename(STRING file) { filename = file; };
   //! Return pointer to volume_io volume

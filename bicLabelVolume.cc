@@ -11,6 +11,7 @@ bicLabelVolume::bicLabelVolume(STRING filename,
 			       minc_input_options *options = NULL) 
   : bicVolume(filename, voxelMin, voxelMax, nDimensions,
 	      dimensions, dataType, volumeSigned, createVolume, options) {
+  cout << "got this far ... " << endl;
   create_label_volume_from_file(filename, this->volume, &this->volume);
                                
 }
@@ -44,6 +45,11 @@ bicLabelVolume::bicLabelVolume(STRING filename,
   this->filename = filename;
 }
 
+bicLabelVolume::~bicLabelVolume() {
+  delete_volume(this->volume);
+  delete this->sizes;
+}  
+
 inline Real bicLabelVolume::getVoxel(int v1, int v2, int v3, 
                                      int v4=0, int v5=0) {
   return (Real) get_volume_label_data_5d(this->volume, v1, v2, v3, v4, v5);
@@ -64,8 +70,8 @@ inline void bicLabelVolume::setVoxel(Real value, int indices[3]) {
 
 void bicLabelVolume::output(STRING file) {
   // should replace the constant with an argument option
-  cout << "FILENAME: " << this->filename << endl;
-  save_label_volume(file, this->filename, this->volume, 255);
+    cout << "FILENAME: " << this->filename << endl;
+    save_label_volume(file, this->filename, this->volume, 255);
 }
 
   

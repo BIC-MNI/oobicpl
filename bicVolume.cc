@@ -1,23 +1,32 @@
 #include "bicVolume.h"
 
+// blank constructor - just initialises the sizes for now
+bicVolume::bicVolume() {
+  this->sizes = new int[MAX_DIMENSIONS];
+}
+
 // Constructor from file
 bicVolume::bicVolume(STRING filename, 
-		     Real voxelMin = 0.0, 
-		     Real voxelMax = 0.0,
-		     int nDimensions = 3,
-		     STRING dimensions[] = ZXYdimOrder,
-		     nc_type dataType = NC_UNSPECIFIED, 
-		     BOOLEAN volumeSigned = FALSE,
-		     BOOLEAN createVolume = TRUE, 
-		     minc_input_options *options = NULL
-                     ) {
+                     Real voxelMin = 0.0, 
+                     Real voxelMax = 0.0,
+                     int nDimensions = 3,
+                     STRING dimensions[] = ZXYdimOrder,
+                     nc_type dataType = NC_UNSPECIFIED, 
+                     BOOLEAN volumeSigned = FALSE,
+                     BOOLEAN createVolume = TRUE, 
+                     minc_input_options *options = NULL ) {
 
+
+  cout << "In bicVolume constructor" << endl;
+  cout << "Constructor details: " << filename << " " 
+       << dimensions[0] << " " << endl;
   if ( input_volume(filename, nDimensions, dimensions, dataType, 
                     volumeSigned, voxelMin,
                     voxelMax, createVolume, &this->volume, options) != OK ) {
     throw loadException();
   }
-
+  cout << "just a test" << endl;
+  this->sizes = new int[MAX_DIMENSIONS];
   get_volume_sizes(this->volume, this->sizes);
   this->nDimensions = nDimensions;
   this->filename = filename;
@@ -26,10 +35,13 @@ bicVolume::bicVolume(STRING filename,
   this->voxelMax = voxelMax;
   this->dataType = dataType;
   this->signedFlag = volumeSigned;
+
+  cout << "end of constructor" << endl;
 }
 
 bicVolume::~bicVolume() {
   delete_volume(this->volume);
+  delete this->sizes;
 }
 
 inline Real bicVolume::getVoxel(int v1, int v2, int v3, int v4=0, int v5=0) {
