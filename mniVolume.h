@@ -1,5 +1,5 @@
-#ifndef __BICVOLUME__
-#define __BICVOLUME__
+#ifndef __MNIVOLUME__
+#define __MNIVOLUME__
 
 extern "C" {
 #include "bicpl.h"
@@ -7,12 +7,12 @@ extern "C" {
 }
 
 #include <iostream.h>
-#include "bicExceptions.h"
+#include "mniVolumeExceptions.h"
 // static value used as default for volume loading
 static STRING  ZXYdimOrder[] = {MIzspace, MIxspace, MIyspace};
 
 
-class bicVolume {
+class mniVolume {
 protected:
   Volume       volume;
   int          *sizes; // should be sizes[MAX_DIMENSIONS] ?
@@ -26,9 +26,9 @@ protected:
 
 public:
   //! Empty Constructor
-  bicVolume();
+  mniVolume();
   //! Constructor from file
-  bicVolume(STRING filename, 
+  mniVolume(STRING filename, 
 	    Real voxelMin = 0.0, 
 	    Real voxelMax = 0.0,
             int nDimensions = 3,
@@ -39,7 +39,7 @@ public:
             minc_input_options *options = NULL
             );
   //! Destructor to free memory
-  virtual ~bicVolume();
+  virtual ~mniVolume();
   //! Set the filename
   void setFilename(STRING file) { filename = file; };
   //! Return pointer to volume_io volume
@@ -61,7 +61,7 @@ public:
   virtual void output(STRING file);
 
   //! + operator
-  //  bicVolume& operator+(bicVolume *a, bicVolume *b);
+  //  mniVolume& operator+(mniVolume *a, mniVolume *b);
 };
 
-#endif // __BICVOLUME__
+#endif // __MNIVOLUME__

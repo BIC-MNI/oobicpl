@@ -1,6 +1,6 @@
-#include "bicLabelVolume.h"
+#include "mniLabelVolume.h"
 
-bicLabelVolume::bicLabelVolume(STRING filename, 
+mniLabelVolume::mniLabelVolume(STRING filename, 
 			       Real voxelMin = 0.0, 
 			       Real voxelMax = 0.0,
 			       int nDimensions = 3,
@@ -27,7 +27,7 @@ bicLabelVolume::bicLabelVolume(STRING filename,
                                
 }
                                
-bicLabelVolume::bicLabelVolume(bicVolume *copyVolume, 
+mniLabelVolume::mniLabelVolume(mniVolume *copyVolume, 
 			       nc_type dataType = NC_SHORT) {
 
   // initialise sizes
@@ -40,7 +40,7 @@ bicLabelVolume::bicLabelVolume(bicVolume *copyVolume,
   this->dataType = dataType;
 }
 
-bicLabelVolume::bicLabelVolume(bicLabelVolume *copyVolume,
+mniLabelVolume::mniLabelVolume(mniLabelVolume *copyVolume,
 			       nc_type dataType = NC_SHORT) {
 
   // initialise sizes
@@ -53,12 +53,12 @@ bicLabelVolume::bicLabelVolume(bicLabelVolume *copyVolume,
   this->dataType = dataType;
 }
 
-bicLabelVolume::bicLabelVolume() {
+mniLabelVolume::mniLabelVolume() {
   // initialise sizes
   this->sizes = new int[MAX_DIMENSIONS];
 }
 
-bicLabelVolume::bicLabelVolume(STRING filename,
+mniLabelVolume::mniLabelVolume(STRING filename,
 			       int newVolume,
 			       int nDimensions = 3,
 			       STRING dimensions[] = ZXYdimOrder,
@@ -80,30 +80,30 @@ bicLabelVolume::bicLabelVolume(STRING filename,
   this->filename = filename;
 }
 
-bicLabelVolume::~bicLabelVolume() {
+mniLabelVolume::~mniLabelVolume() {
   delete_volume(this->volume);
   delete this->sizes;
 }  
 
-inline int bicLabelVolume::getVoxel(int v1, int v2, int v3, 
+inline int mniLabelVolume::getVoxel(int v1, int v2, int v3, 
                                      int v4=0, int v5=0) {
   return get_volume_label_data_5d(this->volume, v1, v2, v3, v4, v5);
 }
 
-inline int bicLabelVolume::getVoxel(int indices[3]) {
+inline int mniLabelVolume::getVoxel(int indices[3]) {
   return get_volume_label_data(this->volume, indices);
 }
 
-inline void bicLabelVolume::setVoxel(int value, int v1, int v2, int v3,
+inline void mniLabelVolume::setVoxel(int value, int v1, int v2, int v3,
                                      int v4=0, int v5=0) {
   set_volume_label_data_5d(this->volume, v1, v2, v3, v4, v5, value);
 }
 
-inline void bicLabelVolume::setVoxel(int value, int indices[3]) {
+inline void mniLabelVolume::setVoxel(int value, int indices[3]) {
   set_volume_label_data(this->volume, indices, value);
 }
 
-void bicLabelVolume::output(STRING file) {
+void mniLabelVolume::output(STRING file) {
   // should replace the constant with an argument option
     cout << "FILENAME: " << this->filename << endl;
     save_label_volume(file, this->filename, this->volume, 255);

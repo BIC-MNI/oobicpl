@@ -1,12 +1,12 @@
-#include "bicVolume.h"
+#include "mniVolume.h"
 
 // blank constructor - just initialises the sizes for now
-bicVolume::bicVolume() {
+mniVolume::mniVolume() {
   this->sizes = new int[MAX_DIMENSIONS];
 }
 
 // Constructor from file
-bicVolume::bicVolume(STRING filename, 
+mniVolume::mniVolume(STRING filename, 
                      Real voxelMin = 0.0, 
                      Real voxelMax = 0.0,
                      int nDimensions = 3,
@@ -17,7 +17,7 @@ bicVolume::bicVolume(STRING filename,
                      minc_input_options *options = NULL ) {
 
 
-  cout << "In bicVolume constructor" << endl;
+  cout << "In mniVolume constructor" << endl;
   cout << "Constructor details: " << filename << " " 
        << dimensions[0] << " " << endl;
   if ( input_volume(filename, nDimensions, dimensions, dataType, 
@@ -39,40 +39,40 @@ bicVolume::bicVolume(STRING filename,
   cout << "end of constructor" << endl;
 }
 
-bicVolume::~bicVolume() {
+mniVolume::~mniVolume() {
   delete_volume(this->volume);
   delete this->sizes;
 }
 
-inline Real bicVolume::getVoxel(int v1, int v2, int v3, int v4=0, int v5=0) {
+inline Real mniVolume::getVoxel(int v1, int v2, int v3, int v4=0, int v5=0) {
   return get_volume_real_value(this->volume, v1, v2, v3, v4, v5);
 }
 
-inline Real bicVolume::getVoxel(int indices[3]) {
+inline Real mniVolume::getVoxel(int indices[3]) {
   return get_volume_real_value(this->volume, indices[0], indices[1],
 			       indices[2], 0, 0);
 }
 
-inline void bicVolume::setVoxel(Real value, int v1, int v2, int v3,
+inline void mniVolume::setVoxel(Real value, int v1, int v2, int v3,
                          int v4=0, int v5=0) {
   set_volume_real_value(this->volume, v1, v2, v3, v4, v5, value);
 }
 
-inline void bicVolume::setVoxel(Real value, int indices[3]) {
+inline void mniVolume::setVoxel(Real value, int indices[3]) {
   set_volume_real_value(this->volume, indices[0], indices[1],
 			indices[2], 0, 0, value);
 }
 
-void bicVolume::output(STRING file) {
+void mniVolume::output(STRING file) {
   if (output_volume(file, this->dataType, this->signedFlag,
                     this->voxelMin, this->voxelMax, this->volume,
-                    "bicpl-- test", NULL) != OK) {
+                    "mnipl-- test", NULL) != OK) {
     throw writeException();
   }
 }
 
 /*
-  bicVolume& bicVolume::operator+(bicVolume *a, bicVolume *b) {
+  mniVolume& mniVolume::operator+(mniVolume *a, mniVolume *b) {
   // check to make sure that sizes are the same
   int *a_sizes = a->getSizes();
   int *b_sizes = b->getSizes();

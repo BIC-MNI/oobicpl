@@ -1,5 +1,5 @@
-#ifndef __BICLABELVOLUME__
-#define __BICLABELVOLUME__
+#ifndef __MNILABELVOLUME__
+#define __MNILABELVOLUME__
 
 extern "C" {
 #include "bicpl.h"
@@ -7,10 +7,10 @@ extern "C" {
 }
 
 #include <iostream.h>
-#include "bicExceptions.h"
-#include "bicVolume.h"
+#include "mniVolumeExceptions.h"
+#include "mniVolume.h"
 
-class bicLabelVolume {
+class mniLabelVolume {
 protected:
   Volume       volume;
   int          *sizes; // should be sizes[MAX_DIMENSIONS] ?
@@ -24,9 +24,9 @@ protected:
   
 public:
   //! Empty Constructor
-  bicLabelVolume();
+  mniLabelVolume();
   //! Constructor from file, creating initialised volume
-  bicLabelVolume(STRING filename, 
+  mniLabelVolume(STRING filename, 
 		 Real voxelMin = 0.0, 
 		 Real voxelMax = 0.0,
 		 int nDimensions = 3,
@@ -43,18 +43,18 @@ public:
     \param newVolume Itself of no use, only here to differentiate it from
     the other constructors for function overloading.
   */
-  bicLabelVolume(STRING filename,
+  mniLabelVolume(STRING filename,
 		 int newVolume,
 		 int nDimensions = 3,
 		 STRING dimensions[] = ZXYdimOrder,
 		 nc_type dataType = NC_UNSPECIFIED,
 		 minc_input_options *options = NULL);
-  //! Copy constructor from bicVolume
-  bicLabelVolume(bicVolume *copyVolume, nc_type dataType = NC_SHORT);
-  //! Copy constructor from bicLabelVolume
-  bicLabelVolume(bicLabelVolume *copyVolume, nc_type dataType = NC_SHORT);
+  //! Copy constructor from mniVolume
+  mniLabelVolume(mniVolume *copyVolume, nc_type dataType = NC_SHORT);
+  //! Copy constructor from mniLabelVolume
+  mniLabelVolume(mniLabelVolume *copyVolume, nc_type dataType = NC_SHORT);
 
-  virtual ~bicLabelVolume();
+  virtual ~mniLabelVolume();
 
   //! Set the filename
   void setFilename(STRING file) { filename = file; };
@@ -76,5 +76,5 @@ public:
   void output(STRING file);
 };
 
-#endif // __BICLABELVOLUME__
+#endif // __MNILABELVOLUME__
 
