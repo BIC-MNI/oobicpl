@@ -1,23 +1,128 @@
 #include "mniVertstatsFile.h"
 
+
 mniVertstatsFile::mniVertstatsFile() {
   // do nothing - the real work is in loadFile
+
+  this->initialiseVariables();
+
 }
 
 mniVertstatsFile::mniVertstatsFile(char *filename) {
 
+  this->initialiseVariables();
   this->loadFile(filename);
 
 }
 
-void mniVertstatsFile::loadFile(char *filename) {
+mniVertstatsFileType mniVertstatsFile::determineFileType(char *filename) {
 
-  // initialise variables
+  mniVertstatsFileType thisFile;
+  ifstream statsFile(filename);
+  if (! statsFile) {
+    cerr << "ERROR: could not read file " << filename << endl;
+    exit(1);
+  }
+  string line;
+  getline(statsFile, line);
+  if (line.find("<header>") != string::npos) {
+    thisFile = NEWSTYLE;
+  }
+  else {
+    thisFile = OLDSTYLE;
+  }
+  statsFile.close();
+  return thisFile;
+}
+
+void mniVertstatsFile::initialiseVariables() {
+
   this->mean = new string();
   this->formula = new string();
   this->matrix = new vector<string> ();
   this->dataheader = new vector<string> ();
   this->data = new vertexMatrix();
+
+}
+
+void mniVertstatsFile::loadFile(char *filename) {
+
+  mniVertstatsFileType ft = this->determineFileType(filename);
+
+  switch(ft) {
+  case NEWSTYLE:
+    this->loadNewStyleFile(filename);
+    break;
+  case OLDSTYLE:
+    this->loadOldStyleFile(filename);
+    break;
+  default:
+    cerr << "ERROR: there should not be a default file type!" << endl;
+    exit(1);
+  }
+
+}
+
+void mniVertstatsFile::loadOldStyleFile(char *filename) {
+
+  string line;
+
+  // open the file 
+  ifstream statsFile(filename);
+  if (! statsFile) {
+    cerr << "ERROR: could not read file " << filename << endl;
+    exit(1);
+  }
+
+  // determine how many columns this file contains
+  getline(statsFile, line);
+  
+  // split the line on white space
+  int firstpos = 0;
+  int lastpos = line.length();
+  int numSpaces = 0;
+  while (lastpos != string::npos) {
+    lastpos = line.find(" ", firstpos);
+    firstpos = lastpos +1;
+    numSpaces++;
+  }
+  this->numColumns = numSpaces;
+  
+  // initialise the data member
+  this->data->resize( this->numColumns );
+
+  // reset the file position
+  statsFile.seekg(0);
+
+  // get the data out of the file
+  while (! statsFile.eof() ) {
+    for (int i=0; i < this->numColumns; i++) {
+      float currentVal;
+      statsFile >> currentVal;
+      (*this->data)[i].push_back(currentVal);
+    }
+  }
+  
+  /* the above file reading will always read the last number
+     twice, since the inner loop does not check whether eof has
+     been reached. So pop the last element */
+  for (int i=0; i < this->numColumns; i++) {
+    (*this->data)[i].pop_back();
+  }
+
+  // generate some header names, e.g. Column1, Column2, etc.
+  for (int i=0; i < this->numColumns; i++) {
+    char cName[15];
+    sprintf(cName, "%s%i", "Column", i);
+    this->dataheader->push_back(cName);
+  }
+}
+
+
+
+void mniVertstatsFile::loadNewStyleFile(char *filename) {
+
+  // initialise variables
   
   // open the file
   ifstream statsFile(filename);
@@ -136,19 +241,6 @@ void mniVertstatsFile::loadFile(char *filename) {
       break;
     }
   }
-  /*
-  cout << "MEAN" << endl << endl;
-  cout << this->mean->c_str() << endl;
-  cout << "Length of header: " << this->dataheader->size() << endl;
-  for (int i=0; i < this->dataheader->size(); i++) {
-    cout << i << ": " << (*this->dataheader)[i] << endl;
-  }
-  //  for (int i=0; i < (*this->data)[6].size(); i++) {
-  //    cout << (*this->data)[6][i] << endl;
-  //  }
-  cout << this->data->size() << endl;
-  cout << (*this->data)[0].size() << endl;
-  */
 }
 
 vertexColumn mniVertstatsFile::getDataColumn(string columnName) {

@@ -12,6 +12,10 @@ using namespace std;
 typedef vector<float> vertexColumn;
 typedef vector<vertexColumn> vertexMatrix;
 
+/*! the type of file that is being read */
+enum mniVertstatsFileType { OLDSTYLE, NEWSTYLE };
+
+
 /*! A class to read vertex statistics files
  * 
  * A class designed to read and interact with vertex statistics files
@@ -31,6 +35,11 @@ private:
   vector <string> *dataheader;
   vertexMatrix *data;
   int numColumns;
+  mniVertstatsFileType determineFileType(char *filename);
+  void initialiseVariables();
+  void loadOldStyleFile(char *filename);
+  void loadNewStyleFile(char *filename);
+
 public:
   mniVertstatsFile();
   mniVertstatsFile(char *filename);

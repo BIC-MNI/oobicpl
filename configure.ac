@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT(mniVolume.cc)
-AM_INIT_AUTOMAKE(oobicpl, 0.1)
+AC_INIT(src/mniVolume.cc)
+AM_INIT_AUTOMAKE(oobicpl, 0.2)
 AM_CONFIG_HEADER(config.h)
 
 
@@ -64,7 +64,7 @@ AC_FUNC_VPRINTF
 AC_CHECK_FUNCS(strtod strtol)
 
 
-AC_OUTPUT(Makefile)
+AC_OUTPUT([Makefile src/Makefile])
 
 
 
