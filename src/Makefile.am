@@ -34,7 +34,8 @@ liboobicpl_la_SOURCES = mniBaseVolume.cc \
 # Programmes
 vertstats_info_SOURCES = vertstatsinfo.cc
 vertstats_math_SOURCES = vertstats_math.cc
-vertstats_stats_SOURCES = vertstats_stats.cc mniVertstatsMath.cc
+vertstats_stats_SOURCES = vertstats_stats.cc 
+#mniVertstatsMath.cc
 
 vertstats_extract_SOURCES = vertstatsExtract.cc
 

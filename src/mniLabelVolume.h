@@ -6,9 +6,11 @@ extern "C" {
 #include "volume_io.h"
 }
 
-#include <iostream.h>
+#include <iostream>
 #include "mniBaseVolume.h"
 #include "mniVolume.h"
+
+using namespace std;
 
 //! A class to deal with Label Volumes
 /*!

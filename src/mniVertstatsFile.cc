@@ -43,7 +43,7 @@ mniVertstatsFile::mniVertstatsFile(char *filename, bool readData) {
 mniVertstatsFile::mniVertstatsFile(string filename, bool readData) {
 
   this->initialiseVariables();
-  this->loadFile(filename.c_str(), readData);
+  this->loadFile((char *)filename.c_str(), readData);
 }
 
 mniVertstatsFileType mniVertstatsFile::determineFileType(char *filename) {

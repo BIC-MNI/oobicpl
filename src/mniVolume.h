@@ -6,9 +6,11 @@ extern "C" {
 #include "volume_io.h"
 }
 
-#include <iostream.h>
+#include <iostream>
 #include <math.h>
 #include "mniBaseVolume.h"
+
+using namespace std;
 
 //! A class for working with minc volumes
 /*!

@@ -6,9 +6,9 @@ extern "C" {
 #include "volume_io.h"
 }
 
-#include <iostream.h>
+#include <iostream>
 
-
+using namespace std;
 
 // static value used as default for volume loading
 static STRING  ZXYdimOrder[] = {MIzspace, MIxspace, MIyspace};
