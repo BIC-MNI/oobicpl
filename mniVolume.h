@@ -56,8 +56,19 @@ public:
   /*!
   Copies the volume definition, including the volume data itself, from
   the volume provided.
+  
+  \param copyVolumeDefinitionOnly If this parameter is set to TRUE,
+  only the volume definition is copied and the subsequent arguments
+  come into play. If it is false, an exact copy is created, and the
+  susequent arguments are ignored
+
   */
-  mniVolume(mniBaseVolume *copyVolume, nc_type dataType = NC_UNSPECIFIED);
+  mniVolume(mniBaseVolume *copyVolume, 
+	    BOOLEAN copyVolumeDefinitionOnly=FALSE,
+	    nc_type dataType = NC_UNSPECIFIED,
+	    BOOLEAN signedFlag = FALSE,
+	    Real voxelMin = 0.0,
+	    Real voxelMax = 0.0);
 
   //! Destructor to free memory
   virtual ~mniVolume();
@@ -66,6 +77,14 @@ public:
   Real getVoxel(int v1, int v2, int v3, int v4=0, int v5=0);
   //! Overloaded getVoxel, taking three dimensional array
   Real getVoxel(int indices[3]);
+  //! Gets interpolated value at indices
+  Real* getInterpolatedVoxel(Real indices[],
+			    int degreesContinuity=2,
+			    BOOLEAN interpolatingDimensions[]=NULL,
+			    int useLinearAtEdge=TRUE,
+			    Real outsideValue=0,
+			    Real **firstDerivative=NULL,
+			    Real ***secondDerivative=NULL);
   //! Set voxel value
   void setVoxel(Real value, int v1, int v2, int v3,
                         int v4=0, int v5=0);
