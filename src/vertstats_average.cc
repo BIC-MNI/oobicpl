@@ -62,6 +62,7 @@ int main(int argc, char *argv[]) {
 
   vertexColumn means( input[0] );
   vertexColumn sds( input[0] );
+  vertexColumn cov( input[0] );
 
   // the actual work begins here
   for (int v1=0; v1 < means.size(); ++v1) {
@@ -79,10 +80,14 @@ int main(int argc, char *argv[]) {
       total = pow(input[v2][v1] - means[v1], 2);
     }
     sds[v1] = sqrt(total / (nFiles - 1));
+
+    // compute the coefficient of variation
+    cov[v1] = sds[v1] / means[v1];
   }
 
   out.putDataColumn(means, "mean");
   out.putDataColumn(sds, "standard.deviation");
+  out.putDataColumn(cov, "coefficient.of.variation");
   out.writeFile(outfile);
 
   return 0;
