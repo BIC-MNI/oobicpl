@@ -6,6 +6,7 @@
 int main(int argc, char *argv[]) {
   
   // open the test file
+  //  mniVertstatsFile f("/home/bic/jason/lmu/analysis/all.vertstats");
   mniVertstatsFile f("new_style_file.vertstats");
   try { 
     vertexColumn test3 = f.getDataColumn("slope.1");

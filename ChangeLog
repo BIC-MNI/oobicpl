@@ -1,3 +1,9 @@
+2003-01-16  Jason Lerch		<jason@bic.mni.mcgill.ca>
+
+	* multiple updates - in other words, the ChangeLog has not been
+	kept up to date at all ... Will start keeping ChangeLog faithfully
+	again from this point on.
+	
 2002-05-06  Jason Lerch		<jason@bic.mni.mcgill.ca>
 
 	* mniVolume: created a constructor that takes a volume_io struct

@@ -35,6 +35,7 @@ private:
   vector <string> *dataheader;
   vertexMatrix *data;
   int numColumns;
+  int numRows;
   mniVertstatsFileType determineFileType(char *filename);
   void initialiseVariables();
   void loadOldStyleFile(char *filename);
@@ -48,6 +49,7 @@ public:
   vertexColumn getDataColumn(int index);
   vector<string> getDataHeader() { return *dataheader; }
   int getNumColumns() { return numColumns; }
+  int getNumRows() { return numRows; }
   string getFormula() { return *formula; }
   string getMean() { return *mean; }
   /*! An exception class for retrieving a nonexistent row */

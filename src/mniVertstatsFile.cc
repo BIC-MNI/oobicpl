@@ -42,6 +42,7 @@ void mniVertstatsFile::initialiseVariables() {
   this->matrix = new vector<string> ();
   this->dataheader = new vector<string> ();
   this->data = new vertexMatrix();
+  this->numRows = 0;
 
 }
 
@@ -77,8 +78,19 @@ void mniVertstatsFile::loadOldStyleFile(char *filename) {
   // determine how many columns this file contains
   getline(statsFile, line);
   
-  // split the line on white space
-  int firstpos = 0;
+  // split the line on white space 
+
+  // some of the thickness code by David MacDonald produces files
+  // where all the values are preceded by a space, which does nasty
+  // things to a simple check for spaces. This is why there is a check
+  // here for that condition
+
+  int firstpos;
+  if (line.find_first_of(" ", 0) == 0)
+    firstpos = 1;
+  else
+    firstpos = 0;
+
   int lastpos = line.length();
   int numSpaces = 0;
   while (lastpos != string::npos) {
@@ -101,6 +113,7 @@ void mniVertstatsFile::loadOldStyleFile(char *filename) {
       statsFile >> currentVal;
       (*this->data)[i].push_back(currentVal);
     }
+    this->numRows++;
   }
   
   /* the above file reading will always read the last number
@@ -194,6 +207,7 @@ void mniVertstatsFile::loadNewStyleFile(char *filename) {
           statsFile >> currentVal;
           (*this->data)[i].push_back(currentVal);
         }
+        this->numRows++;
       }
 
       /* the above file reading will always read the last number
