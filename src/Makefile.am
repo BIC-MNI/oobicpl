@@ -1,3 +1,5 @@
+AUTOMAKE_OPTIONS = check-news
+ACLOCAL_AMFLAGS = -I m4
 
 bin_PROGRAMS = vertstats_info \
 	vertstats_extract \

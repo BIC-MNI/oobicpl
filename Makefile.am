@@ -1,1 +1,5 @@
 SUBDIRS = src
+
+AUTOMAKE_OPTIONS = check-news
+ACLOCAL_AMFLAGS = -I m4
+

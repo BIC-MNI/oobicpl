@@ -345,8 +345,15 @@ vertexColumn mniVertstatsFile::getDataColumn(string columnName) {
   // stl::find does not work as it returns an iterator rather than
   // the position - so do it manually;
   int position = -1;
+
+  // create the regular expression - make it match on whole word
+  columnName.insert(columnName.begin(), '^');
+  columnName.insert(columnName.end(), '$');
+  Pcre regex(columnName);
+
   for (int i=0; i < this->numColumns; i++) {
-    if ((*this->dataheader)[i].find(columnName) != string::npos)
+    //if ((*this->dataheader)[i].find(columnName) != string::npos)
+    if (regex.search((*this->dataheader)[i]) == true) 
       position = i;
   }
   if (position == -1) {

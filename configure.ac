@@ -1,8 +1,9 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT(src/mniVolume.cc)
-AM_INIT_AUTOMAKE(oobicpl, 0.3)
-AM_CONFIG_HEADER(config.h)
+AC_INIT
+AC_CONFIG_SRCDIR([src/mniVolume.cc])
+AM_INIT_AUTOMAKE(oobicpl, 0.4)
+AC_CONFIG_HEADER([config.h])
 
 
 #------------------------------------------------------------------------

@@ -1,3 +1,10 @@
+2004-03-31  Jason Lerch		<jason@bic.mni.mcgill.ca>
+
+	* fixed a bug in mniVertstatsFile.cc which caused the incorrect
+	column to be retrieved if the name of another column was a partial
+	match.
+	* bumped version up to 0.4 for the next "release"
+
 2004-02-24  Jason Lerch	 	<jason@bic.mni.mcgill.ca>
 
 	* added vertstats_average app to create means and sds.
