@@ -1,6 +1,9 @@
 #include "mniVertstatsFile.h"
 #include <pcre++.h>
 
+using namespace pcrepp;
+using namespace std;
+
 extern "C" {
 #include "time_stamp.h"
 }
@@ -227,7 +230,7 @@ void mniVertstatsFile::loadNewStyleFile(char *filename, bool readData) {
         getline(statsFile, line);
         if (openTag.search(line) == true) {
           // found an opening tag
-          if (openTag.num_matches != 1) {
+          if (openTag.matches() != 1) {
             cerr << "ERROR: illegal tag on line: " << line << endl;
             exit(1);
           }

@@ -49,7 +49,7 @@ AC_LANG_PUSH(C++)
 AC_MSG_CHECKING([for -lpcre++])
 LIBS="-lpcre++ $LIBS"
 AC_TRY_LINK([#include <pcre++.h>],
-            [Pcre EE("[a-z]", "i");],,
+            [using namespace pcrepp; Pcre EE("[a-z]", "i");],,
             [AC_MSG_ERROR(cannot find pcre++ library)])
 AC_MSG_RESULT([yes])
 AC_LANG_POP

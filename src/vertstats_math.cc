@@ -3,7 +3,15 @@
 
 extern "C" {
 #include <ParseArgv.h>
-#include <values.h>
+// JPL: values.h does not exist on OS X, so here I'm adding a hack and
+// defining the necessary values myself
+//#include <values.h>
+#include <limits.h>
+#include <float.h>
+#define MAXSHORT   SHRT_MAX
+#define MAXINT     INT_MAX 
+#define MAXDOUBLE  DBL_MAX
+
 #include <time_stamp.h>
 }
 

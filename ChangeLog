@@ -1,3 +1,7 @@
+2004-02-24  Jason Lerch	 	<jason@bic.mni.mcgill.ca>
+
+	* added vertstats_average app to create means and sds.
+
 2003-06-30  Jason Lerch		<jason@bic.mni.mcgill.ca>
 
 	* added a close function

@@ -2,7 +2,8 @@
 bin_PROGRAMS = vertstatsinfo \
 	vertstats_extract \
 	vertstats_colour_object \
-	vertstats_math
+	vertstats_math \
+	vertstats_average
 
 include_HEADERS = mniVolume.h \
 	mniLabelVolume.h \
@@ -35,6 +36,7 @@ vertstats_extract_SOURCES = vertstatsExtract.cc
 
 vertstats_colour_object_SOURCES = vertstats_colour_object.cc
 
+vertstats_average_SOURCES = vertstats_average.cc
 
 # Tests
 #negative_values_test_SOURCES = negativeValuesTest.cc
