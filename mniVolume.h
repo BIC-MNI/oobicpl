@@ -71,6 +71,8 @@ public:
 	    Real voxelMin = 0.0,
 	    Real voxelMax = 0.0);
 
+  //! Constructor from a volume_io volume struct.
+  mniVolume(Volume volumeIO_volume);
   //! Destructor to free memory
   virtual ~mniVolume();
 

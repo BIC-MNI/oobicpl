@@ -33,6 +33,18 @@ mniVolume::mniVolume(STRING filename,
 
 }
 
+mniVolume::mniVolume(Volume volumeIO_volume) {
+
+  this->sizes = new int[MAX_DIMENSIONS];
+  this->volume = volumeIO_volume;
+  this->voxelMin = get_volume_voxel_min(volumeIO_volume);
+  this->voxelMax = get_volume_voxel_max(volumeIO_volume);
+  this->dataType = get_volume_nc_data_type(volumeIO_volume, 
+					   &this->signedFlag);
+  get_volume_sizes(volumeIO_volume, this->sizes);
+  this->dimNames = get_volume_dimension_names(volumeIO_volume);
+}
+
 mniVolume::mniVolume(mniBaseVolume *copyVolume, 
 		     BOOLEAN copyVolumeDefinitionOnly,
 		     nc_type dataType,
