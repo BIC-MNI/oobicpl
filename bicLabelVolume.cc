@@ -18,10 +18,10 @@ bicLabelVolume::bicLabelVolume(STRING filename,
 bicLabelVolume::bicLabelVolume(bicVolume *copyVolume, 
 			       nc_type dataType = NC_LONG)
   : bicVolume() {
-  this->volume = create_label_volume(bicVolume->getVolume(), NC_LONG);
+  this->volume = create_label_volume(copyVolume->getVolume(), dataType);
   this->dimNames = copyVolume->getDimNames();
   this->sizes = copyVolume->getSizes();
-  this->nc_type = dataType;
+  this->dataType = dataType;
 }
 
 bicLabelVolume::bicLabelVolume(STRING filename,
@@ -49,9 +49,17 @@ inline Real bicLabelVolume::getVoxel(int v1, int v2, int v3,
   return (Real) get_volume_label_data_5d(this->volume, v1, v2, v3, v4, v5);
 }
 
+inline Real bicLabelVolume::getVoxel(int indices[3]) {
+  return (Real) get_volume_label_data(this->volume, indices);
+}
+
 inline void bicLabelVolume::setVoxel(Real value, int v1, int v2, int v3,
                                      int v4=0, int v5=0) {
   set_volume_label_data_5d(this->volume, v1, v2, v3, v4, v5, (int)value);
+}
+
+inline void bicLabelVolume::setVoxel(Real value, int indices[3]) {
+  set_volume_label_data(this->volume, indices, (int)value);
 }
 
 void bicLabelVolume::output(STRING file) {

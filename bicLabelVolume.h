@@ -38,13 +38,15 @@ public:
 		 nc_type dataType = NC_UNSPECIFIED,
 		 minc_input_options *options = NULL);
   //! Copy constructor, creates uninitialised label volume
-  bicLabelVolume(bicVolume copyVolume, nc_type dataType = NC_LONG);
+  bicLabelVolume(bicVolume *copyVolume, nc_type dataType = NC_LONG);
 
   virtual void setAllVoxels(Real value) { 
-    set_all_volume_label_data(this->volume, (int)value) };
+    set_all_volume_label_data(this->volume, (int)value); };
   virtual Real getVoxel(int v1, int v2, int v3, int v4=0, int v5=0);
+  virtual Real getVoxel(int indices[3]);
   virtual void setVoxel(Real value, int v1, int v2, int v3, 
                         int v4=0, int v5=0);
+  virtual void setVoxel(Real value, int indices[3]);
   virtual void output(STRING file);
 };
 

@@ -36,9 +36,19 @@ inline Real bicVolume::getVoxel(int v1, int v2, int v3, int v4=0, int v5=0) {
   return get_volume_real_value(this->volume, v1, v2, v3, v4, v5);
 }
 
+inline Real bicVolume::getVoxel(int indices[3]) {
+  return get_volume_real_value(this->volume, indices[0], indices[1],
+			       indices[2], 0, 0);
+}
+
 inline void bicVolume::setVoxel(Real value, int v1, int v2, int v3,
                          int v4=0, int v5=0) {
   set_volume_real_value(this->volume, v1, v2, v3, v4, v5, value);
+}
+
+inline void bicVolume::setVoxel(Real value, int indices[3]) {
+  set_volume_real_value(this->volume, indices[0], indices[1],
+			indices[2], 0, 0, value);
 }
 
 void bicVolume::output(STRING file) {
@@ -49,16 +59,17 @@ void bicVolume::output(STRING file) {
   }
 }
 
-bicVolume& bicVolume::operator+(bicVolume *a, bicVolume *b) {
+/*
+  bicVolume& bicVolume::operator+(bicVolume *a, bicVolume *b) {
   // check to make sure that sizes are the same
   int *a_sizes = a->getSizes();
   int *b_sizes = b->getSizes();
   if (a_sizes[0] != b_sizes[0] ||
-      a_sizes[1] != b_sizes[1] || 
-      a_sizes[2] != b_sizes[2])
-    throw differentSizesException();
-
+  a_sizes[1] != b_sizes[1] || 
+  a_sizes[2] != b_sizes[2])
+  throw differentSizesException();
+  
   for (int v1 = 0; v1 < a_sizes[0]; v1++) {
-    for (int v2 = 0; v2 < a_sizes[1]; v2++) {
-      for (int v3 = 0; v3 < a_sizes[2]; v3++) {
-	
+  for (int v2 = 0; v2 < a_sizes[1]; v2++) {
+  for (int v3 = 0; v3 < a_sizes[2]; v3++) {
+*/
