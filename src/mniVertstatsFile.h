@@ -48,6 +48,7 @@ public:
   vertexColumn getDataColumn(string rowName);
   vertexColumn getDataColumn(int index);
   vector<string> getDataHeader() { return *dataheader; }
+  vector<string> getMatrix() { return *matrix; }
   int getNumColumns() { return numColumns; }
   int getNumRows() { return numRows; }
   string getFormula() { return *formula; }

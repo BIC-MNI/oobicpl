@@ -21,23 +21,18 @@ liboobicpl_la_SOURCES = mniBaseVolume.cc \
 	mniLabelVolume.cc \
 	mniVertstatsFile.cc 
 
+# Programmes
 vertstatsinfo_SOURCES = vertstatsinfo.cc
 
 vertstats_extract_SOURCES = vertstatsExtract.cc
 
 vertstats_colour_object_SOURCES = vertstats_colour_object.cc
 
-negative_values_test_SOURCES = negativeValuesTest.cc
-#negative_values_test_LDADD = -L$(libdir) -loobicpl
-volume_tests_SOURCES = volumeTests.cc
-#volume_tests_LDADD = oobicpl.la
-
+# Tests
+#negative_values_test_SOURCES = negativeValuesTest.cc
+#volume_tests_SOURCES = volumeTests.cc
 vertstats_tests_SOURCES = vertstatsTests.cc
-#vertstats_tests_LDADD = liboobicpl.la
-
 single_column_file_test_SOURCES = singleColumnFileTest.cc
-#single_column_file_test_LDADD = liboobicpl.la
-
 multiple_columns_file_test_SOURCES = multipleColumnsFileTest.cc
 
 
