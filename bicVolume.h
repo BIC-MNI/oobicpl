@@ -7,7 +7,7 @@ extern "C" {
 }
 
 #include <iostream.h>
-
+#include "bicExceptions.h"
 // static value used as default for volume loading
 static STRING  ZXYdimOrder[] = {MIzspace, MIxspace, MIyspace};
 
@@ -25,10 +25,6 @@ protected:
   BOOLEAN      signedFlag;
 
 public:
-  //! Exception classes
-  class loadException { };
-  class writeException { };
-
   //! Empty Constructor
   bicVolume();
   //! Constructor from file

@@ -6,13 +6,25 @@ extern "C" {
 #include "volume_io.h"
 }
 
-#include "bicVolume.h"
 #include <iostream.h>
+#include "bicExceptions.h"
+#include "bicVolume.h"
 
-class bicLabelVolume : public bicVolume {
+class bicLabelVolume {
+protected:
+  Volume       volume;
+  int          *sizes; // should be sizes[MAX_DIMENSIONS] ?
+  int          nDimensions;
+  STRING*      dimNames;
+  STRING       filename;
+  nc_type      dataType;
+  Real         voxelMin;
+  Real         voxelMax;
+  BOOLEAN      signedFlag;
+  
 public:
   //! Empty Constructor
-  bicLabelVolume() { };
+  bicLabelVolume();
   //! Constructor from file, creating initialised volume
   bicLabelVolume(STRING filename, 
 		 Real voxelMin = 0.0, 
@@ -37,19 +49,31 @@ public:
 		 STRING dimensions[] = ZXYdimOrder,
 		 nc_type dataType = NC_UNSPECIFIED,
 		 minc_input_options *options = NULL);
-  //! Copy constructor, creates uninitialised label volume
-  bicLabelVolume(bicVolume *copyVolume, nc_type dataType = NC_LONG);
+  //! Copy constructor from bicVolume
+  bicLabelVolume(bicVolume *copyVolume, nc_type dataType = NC_SHORT);
+  //! Copy constructor from bicLabelVolume
+  bicLabelVolume(bicLabelVolume *copyVolume, nc_type dataType = NC_SHORT);
 
   virtual ~bicLabelVolume();
 
-  virtual void setAllVoxels(Real value) { 
-    set_all_volume_label_data(this->volume, (int)value); };
-  virtual Real getVoxel(int v1, int v2, int v3, int v4=0, int v5=0);
-  virtual Real getVoxel(int indices[3]);
-  virtual void setVoxel(Real value, int v1, int v2, int v3, 
+  //! Set the filename
+  void setFilename(STRING file) { filename = file; };
+  //! Return pointer to volume_io volume
+  Volume getVolume() { return this->volume; };
+  //! Get pointer to volume sizes
+  int* getSizes() { return this->sizes; };
+  //! Get dimensions names
+  STRING *getDimNames() { return this->dimNames; };
+
+
+  void setAllVoxels(int value) { 
+    set_all_volume_label_data(this->volume, value); };
+  int getVoxel(int v1, int v2, int v3, int v4=0, int v5=0);
+  int getVoxel(int indices[3]);
+  void setVoxel(int value, int v1, int v2, int v3, 
                         int v4=0, int v5=0);
-  virtual void setVoxel(Real value, int indices[3]);
-  virtual void output(STRING file);
+  void setVoxel(int value, int indices[3]);
+  void output(STRING file);
 };
 
 #endif // __BICLABELVOLUME__
