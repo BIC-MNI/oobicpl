@@ -114,6 +114,7 @@ int main(int argc, char *argv[]) {
       mniVectorStats s(f.getDataColumn(i));
       cout << header[i] <<  ": " << endl << s;
     }
+    /*
     vector<float> test1 = f.getDataColumn(0);
     vector<float> test2 = f.getDataColumn(1);
     vector<float> test = vectorAdd(test1, test2);
@@ -121,7 +122,8 @@ int main(int argc, char *argv[]) {
       cout << test1[i] << endl;
       cout << test[i] << endl;
     }
-  
+    */
+ 
   }
 
   return(0);

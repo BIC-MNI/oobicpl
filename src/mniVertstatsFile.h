@@ -93,8 +93,10 @@ private:
 public:
   //! Empty constructor.
   mniVertstatsFile();
-  //! Constructor with filename
+  //! Constructor with filename (char *)
   mniVertstatsFile(char *filename, bool readData=true);
+  //! Constructor with filename (string)
+  mniVertstatsFile(string filename, bool readData=true);
   //! load a filename
   void loadFile(char *filename, bool readData=true);
   //! close the currently accessed file

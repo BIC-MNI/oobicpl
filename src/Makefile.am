@@ -5,7 +5,8 @@ bin_PROGRAMS = vertstats_info \
 	vertstats_extract \
 	vertstats_colour_object \
 	vertstats_math \
-	vertstats_average
+	vertstats_average \
+	vertstats_stats
 
 include_HEADERS = mniVolume.h \
 	mniLabelVolume.h \
@@ -33,6 +34,7 @@ liboobicpl_la_SOURCES = mniBaseVolume.cc \
 # Programmes
 vertstats_info_SOURCES = vertstatsinfo.cc
 vertstats_math_SOURCES = vertstats_math.cc
+vertstats_stats_SOURCES = vertstats_stats.cc mniVertstatsMath.cc
 
 vertstats_extract_SOURCES = vertstatsExtract.cc
 

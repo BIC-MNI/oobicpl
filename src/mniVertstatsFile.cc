@@ -34,6 +34,18 @@ mniVertstatsFile::mniVertstatsFile(char *filename, bool readData) {
 
 }
 
+/*!
+ * Overloaded constructor taking a string as its input
+ *
+ * \param filename The file to readin.
+ * \param readData Whether to read the data part of the file.
+ */
+mniVertstatsFile::mniVertstatsFile(string filename, bool readData) {
+
+  this->initialiseVariables();
+  this->loadFile(filename.c_str(), readData);
+}
+
 mniVertstatsFileType mniVertstatsFile::determineFileType(char *filename) {
 
   mniVertstatsFileType thisFile;
@@ -349,6 +361,12 @@ vertexColumn mniVertstatsFile::getDataColumn(string columnName) {
   // create the regular expression - make it match on whole word
   columnName.insert(columnName.begin(), '^');
   columnName.insert(columnName.end(), '$');
+
+  // make sure that all periods are treated literally
+  Pcre periodReplace("\\.", "g");
+  columnName = periodReplace.replace(columnName, "\\.");
+  //cout << "regex:" << columnName << endl;
+
   Pcre regex(columnName);
 
   for (int i=0; i < this->numColumns; i++) {
