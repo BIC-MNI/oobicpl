@@ -102,6 +102,9 @@ public:
   Real getVoxelMin() { return this->voxelMin; };
   //! Retrun volume max
   Real getVoxelMax() { return this->voxelMax; };
+  //! Set the volume real range
+  void setRealRange(Real lower, Real upper) { set_volume_real_range(
+                                          this->volume, lower, upper); }
   //! Return signed flag
   BOOLEAN getSignedFlag() { return this->signedFlag; };
   //! Return data type
