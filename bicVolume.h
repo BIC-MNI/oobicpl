@@ -8,34 +8,42 @@ extern "C" {
 
 #include <iostream.h>
 
+// static value used as default for volume loading
+static STRING  ZXYdimOrder[] = {MIzspace, MIxspace, MIyspace};
+
+
 class bicVolume {
 protected:
   Volume       volume;
   int          sizes[MAX_DIMENSIONS];
   int          nDimensions;
-  char*        dimNames[3];
+  STRING*      dimNames;
   STRING       filename;
   nc_type      dataType;
   Real         voxelMin;
   Real         voxelMax;
   BOOLEAN      signedFlag;
+
 public:
-  //! File loading exception
+  //! Exception classes
   class loadException { };
   class writeException { };
 
   //! Empty Constructor
   bicVolume() { };
   //! Constructor from file
-  bicVolume(STRING filename, Real voxelMin = -1, Real voxelMax = -1,
+  bicVolume(STRING filename, 
+	    Real voxelMin = 0.0, 
+	    Real voxelMax = 0.0,
             int nDimensions = 3,
-            char* dim1 = MIzspace, char* dim2 = MIxspace, 
-            char* dim3 = MIyspace,
+	    STRING dimensions[] = ZXYdimOrder,
             nc_type dataType = NC_UNSPECIFIED, 
             BOOLEAN volumeSigned = FALSE,
             BOOLEAN createVolume = TRUE, 
             minc_input_options *options = NULL
             );
+  //! Destructor to free memory
+  ~bicVolume();
   //! Set the filename
   void setFilename(STRING file) { filename = file; };
   //! Return pointer to volume_io volume
