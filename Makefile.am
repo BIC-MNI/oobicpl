@@ -1,10 +1,17 @@
 
-include_HEADERS = mniVolume.h mniLabelVolume.h mniBaseVolume.h
+include_HEADERS = mniVolume.h \
+	mniLabelVolume.h \
+	mniBaseVolume.h \
+	mniVertstatsFile.h
+
 lib_LTLIBRARIES = liboobicpl.la
 TESTS = negative_values_test volume_tests
 check_PROGRAMS = $(TESTS)
 
-liboobicpl_la_SOURCES = mniBaseVolume.cc mniVolume.cc mniLabelVolume.cc 
+liboobicpl_la_SOURCES = mniBaseVolume.cc \
+	mniVolume.cc \
+	mniLabelVolume.cc \
+	mniVertstatsFile.cc 
 
 negative_values_test_SOURCES = negativeValuesTest.cc
 negative_values_test_LDADD = -L$(libdir) -loobicpl

@@ -8,6 +8,10 @@
 
 using namespace std;
 
+/*! A type to hold a vector of a vector */
+typedef vector<float> vertexColumn;
+typedef vector<vertexColumn> vertexMatrix;
+
 /*! A class to read vertex statistics files
  * 
  * A class designed to read and interact with vertex statistics files
@@ -25,8 +29,22 @@ private:
   string *formula;
   vector <string> *matrix;
   vector <string> *dataheader;
+  vertexMatrix *data;
+  int numColumns;
 public:
+  mniVertstatsFile();
   mniVertstatsFile(char *filename);
+  void loadFile(char *filename);
+  vertexColumn getDataColumn(string rowName);
+  vertexColumn getDataColumn(int index);
+  vector<string> getDataHeader() { return *dataheader; }
+  int getNumColumns() { return numColumns; }
+  string getFormula() { return *formula; }
+  string getMean() { return *mean; }
+  /*! An exception class for retrieving a nonexistent row */
+  class InvalidColumnError { };
+
+
 };
 
 #endif // __MNIVERTSTATSFILE__
