@@ -1,10 +1,12 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT
-AC_CONFIG_SRCDIR([src/mniVolume.cc])
-AM_INIT_AUTOMAKE(oobicpl, 0.4)
-AC_CONFIG_HEADER([config.h])
+# Require autoconf 2.57 or newer.
+AC_PREREQ([2.57])
 
+AC_INIT([oobicpl], [0.4.1], [claude@bic.mni.mcgill.ca])
+AC_CONFIG_SRCDIR([src/mniVolume.cc])
+AM_INIT_AUTOMAKE
+AC_CONFIG_HEADER([config.h])
 
 #------------------------------------------------------------------------
 # Checks for compiler toolset.
@@ -36,11 +38,7 @@ fi
 
 smr_WITH_BUILD_PATH
 
-smr_REQUIRED_LIB(m,sqrt,math.h)
-smr_REQUIRED_LIB(netcdf,ncopen,netcdf.h)
-smr_REQUIRED_LIB(minc,miicv_create,minc.h)
-smr_REQUIRED_LIB(volume_io,input_volume,volume_io.h)
-smr_REQUIRED_LIB(bicpl,input_graphics_file,bicpl.h)
+mni_REQUIRE_BICPL
 
 # the regular expression C library
 smr_REQUIRED_LIB(pcre, pcre_compile, pcre.h)
@@ -77,9 +75,7 @@ AC_TYPE_SIZE_T
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS(strtod strtol)
 
-
-AC_OUTPUT([Makefile src/Makefile])
-
-
+AC_CONFIG_FILES([Makefile src/Makefile])
+AC_OUTPUT(epm-header)
 
 

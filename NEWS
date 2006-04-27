@@ -1,3 +1,8 @@
+New in Version 0.4.1
+
+* added epm-header for binary packaging
+* Simply repackage the tar ball with good m4 files for minc2
+
 New in Version 0.4
 
 * added library and utility support for handling vertstats files
