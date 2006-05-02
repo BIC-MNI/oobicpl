@@ -7,6 +7,7 @@ extern "C" {
 }
 
 #include <iostream>
+#include <math.h>
 
 char *columnName = NULL;
 

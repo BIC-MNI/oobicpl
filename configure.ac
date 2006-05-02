@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 # Require autoconf 2.57 or newer.
 AC_PREREQ([2.57])
 
-AC_INIT([oobicpl], [0.4.1], [claude@bic.mni.mcgill.ca])
+AC_INIT([oobicpl], [0.4.2], [claude@bic.mni.mcgill.ca])
 AC_CONFIG_SRCDIR([src/mniVolume.cc])
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADER([config.h])
@@ -23,7 +23,7 @@ AC_PROG_LIBTOOL
 # Look for perl (and make sure it's the right version)
 #------------------------------------------------------------------------
 
-AC_PATH_PROGS(PERL, [perl5 perl], no)
+AC_PATH_PROGS(PERL, [perl], no)
 
 if test "$PERL" = no; then
     AC_MSG_WARN(No perl program found!)

@@ -1,3 +1,7 @@
+2006-05-02  Claude Lepage       <claude@bic.mni.mcgill.ca>
+	* fix tree.hh and add include <math.h> to compile with newer
+        C++ compiler
+
 2006-04-27  Claude Lepage       <claude@bic.mni.mcgill.ca>
         * added epm-header.in and repackage for minc2 m4 files
 
