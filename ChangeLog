@@ -1,3 +1,13 @@
+2007-01-23  Claude Lepage       <claude@bic.mni.mcgill.ca>
+	* merge jason/surface_tools into oobicpl
+        * added surface_probability_map.cc - to provide a segmentation map
+        of the surface based on a bunch of individual surface
+        segmentation.
+        * added pcre checks to configure.ac
+        * added object_hemispheres - a little app to create a texture map
+        of the two hemispheres.
+        * removed the white surface checking stuff from the default build.
+
 2006-05-02  Claude Lepage       <claude@bic.mni.mcgill.ca>
 	* fix tree.hh and add include <math.h> to compile with newer
         C++ compiler

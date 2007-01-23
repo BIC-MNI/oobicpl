@@ -1,3 +1,6 @@
+New in Version 0.4.3
+* merge jason/surface_tools into oobicpl
+
 New in Version 0.4.2
 * fix tree.hh and add include <math.h> to compile with newer
   C++ compiler

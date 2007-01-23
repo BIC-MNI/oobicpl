@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 # Require autoconf 2.57 or newer.
 AC_PREREQ([2.57])
 
-AC_INIT([oobicpl], [0.4.2], [claude@bic.mni.mcgill.ca])
+AC_INIT([oobicpl], [0.4.3], [claude@bic.mni.mcgill.ca])
 AC_CONFIG_SRCDIR([src/mniVolume.cc])
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADER([config.h])
@@ -50,6 +50,16 @@ LIBS="-lpcre++ $LIBS"
 AC_TRY_LINK([#include <pcre++.h>],
             [using namespace pcrepp; Pcre EE("[a-z]", "i");],,
             [AC_MSG_ERROR(cannot find pcre++ library)])
+AC_MSG_RESULT([yes])
+AC_LANG_POP
+
+# the arguments library
+AC_LANG_PUSH(C++)
+AC_MSG_CHECKING([for -larguments])
+LIBS="-larguments $LIBS"
+AC_TRY_LINK([#include <arguments.h>],
+            [Arguments cArg("test", "description");],,
+            [AC_MSG_ERROR(cannot find arguments library)])
 AC_MSG_RESULT([yes])
 AC_LANG_POP
 
