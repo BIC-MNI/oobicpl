@@ -7,7 +7,4 @@
 %description object-oriented interface to bicpl for C++
 %version @VERSION@
 %requires minc
-%requires volume_io
 %requires bicpl
-%requires pcre
-%requires pcre++
