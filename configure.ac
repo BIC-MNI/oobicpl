@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 # Require autoconf 2.57 or newer.
 AC_PREREQ([2.57])
 
-AC_INIT([oobicpl], [0.4.3], [claude@bic.mni.mcgill.ca])
+AC_INIT([oobicpl], [0.4.4], [claude@bic.mni.mcgill.ca])
 AC_CONFIG_SRCDIR([src/mniVolume.cc])
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADER([config.h])
