@@ -97,6 +97,18 @@ vector<T> vectorNormalise(vector<T> &v1) {
   return result;
 }
 
+/*! Take absolute value of a vector
+ */
+template <class T>
+vector<T> vectorAbsolute(vector<T> &v1) {
+
+  vector<T> result( v1 );
+  for (int i=0; i < v1.size(); i++) {
+    result[i] = ( v1[i] < (T)0 ) ? -v1[i] : v1[i];
+  }
+  return result;
+}
+
 /*! Element by element addition of two vectors */
 template <class T>
 vector<T> vectorAdd(vector<T> &v1, vector<T> &v2) {

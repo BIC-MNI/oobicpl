@@ -25,7 +25,7 @@ using namespace std;
 #define FALSE 0
 
 typedef enum {
-  ADD_OP, SUB_OP, MULT_OP, DIV_OP, SEG_OP, NORM_OP, UNSPECIFIED_OP
+  ADD_OP, SUB_OP, MULT_OP, DIV_OP, SEG_OP, ABS_OP, NORM_OP, UNSPECIFIED_OP
 } Operation;
 
 // argument variables
@@ -73,6 +73,8 @@ ArgvInfo argTable[] =
      "Subtract two vectors or a vector and a constant" },
     {"-seg", ARGV_CONSTANT, (char *) SEG_OP, (char *) &operation,
      "Segment a vector using range specified by -const2. Segmented areas take on value of 1 unless specified differently using -const" },
+    {"-abs", ARGV_CONSTANT, (char *) ABS_OP, (char *) &operation,
+     "Take absolute value of a vector component-wise" },
     {"-norm", ARGV_CONSTANT, (char *) NORM_OP, (char *) &operation,
      "Normalises a vector by dividing each element by the mean" },
 
@@ -204,6 +206,10 @@ int main(int argc, char *argv[]) {
      }
    }
    break;
+
+  case ABS_OP: // absolute value
+    result = vectorAbsolute(input[0]);
+    break;
 
   case NORM_OP: // normalise
     result = vectorNormalise(input[0]);
