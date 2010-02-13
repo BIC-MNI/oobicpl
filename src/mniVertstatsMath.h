@@ -3,7 +3,8 @@
 
 #include <vector>
 #include <iostream>
-
+#include <stdlib.h>
+ 
 /*! \addtogroup vertstats Dealing with vertstats files */
 /*@{*/
 

@@ -28,8 +28,8 @@
 
 
 #include <mniLabelVolume.h>
-#include <iostream.h>
-#include <iomanip.h>
+#include <iostream>
+#include <iomanip>
 
 int main ( int argc, char *argv[] ) {
   // load two volumes: painted slice, intersected slice
@@ -39,8 +39,7 @@ int main ( int argc, char *argv[] ) {
 
   if (argc != 5) {
     cout << "USAGE: " << argv[0] << " -horizontal|-sagital|-coronal painted_slice.mnc intersected_slice.mnc output.mnc" << endl << endl;
-    cout << setw(70)
-         << "This programme is desinged to check the validity of an extracted white matter cortex against a manually painted slice. The intersected_slice.mnc argument can be derived by using the scan_object_to_volume app with the cortex and the painted slice as an argument." << endl << endl;
+    cout << "This programme is desinged to check the validity of an extracted white matter cortex against a manually painted slice. The intersected_slice.mnc argument can be derived by using the scan_object_to_volume app with the cortex and the painted slice as an argument." << endl << endl;
     return 1;
   }
   

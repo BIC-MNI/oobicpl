@@ -31,7 +31,8 @@ enum mniVertstatsFileType { OLDSTYLE, NEWSTYLE };
 
 class mniVertstatsHeaderEntry {
 public:
-  mniVertstatsHeaderEntry(string a, string b) { key = a; value = b; }
+  mniVertstatsHeaderEntry(const string &a, const string &b) { key = a; value = b; }
+  //hack
   mniVertstatsHeaderEntry() { /* */}
   string key;
   string value;
@@ -40,13 +41,13 @@ public:
    *
    * compares a string to the key of the headerEntry
    */
-  bool operator== (string a) {
+  bool operator== (const string &a) {
     if (a == key)
       return true;
     else
       return false;
   }
-        
+  
 };
 
 /*! \brief A class to read vertex statistics files.

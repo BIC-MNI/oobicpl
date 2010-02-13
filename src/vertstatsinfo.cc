@@ -4,6 +4,7 @@
 #include "mniVertstatsMath.h"
 #include <iostream>
 #include <vector>
+#include <string.h>
 
 string usage = "\n"
 "Options:\n"

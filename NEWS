@@ -1,3 +1,6 @@
+
+* changes for compilation against gcc 4.3
+
 New in Version 0.4.4
 * add absolute value to vertstats_math operations
 

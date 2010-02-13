@@ -1,5 +1,6 @@
 #include "mniVertstatsFile.h"
 #include <pcre++.h>
+#include <algorithm>
 
 using namespace pcrepp;
 using namespace std;
@@ -280,8 +281,7 @@ void mniVertstatsFile::loadNewStyleFile(char *filename, bool readData) {
           }
           else {
             // a different tag is being closed. There were child nodes.
-            current = find(headerTree->begin(), headerTree->end(), 
-                           closeTag.get_match(0));
+            current = std::find(headerTree->begin(), headerTree->end(), closeTag.get_match(0));
             current = headerTree->parent(current);
             
           }

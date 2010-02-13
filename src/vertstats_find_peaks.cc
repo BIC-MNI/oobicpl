@@ -7,6 +7,7 @@ extern "C" {
 
 #include <mniVertstatsFile.h>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 

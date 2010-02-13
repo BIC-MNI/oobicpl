@@ -1,7 +1,7 @@
 /* computes the surface area of a region of interest on a 
 polygonal surface, as defined by a vertstat file.
 
-$Id: surface_area_roi.cc,v 1.1 2007-01-23 20:38:51 claude Exp $
+$Id: surface_area_roi.cc,v 1.2 2010-02-13 15:26:22 rotor Exp $
 */
 
 #include <mniVertstatsFile.h>
@@ -13,6 +13,7 @@ extern "C" {
 #include <iostream>
 #include <list>
 #include <arguments.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -139,7 +140,7 @@ int main (int argc, char *argv[]) {
       for (int i = 0; i < n_points; ++i) {
         // include the point in the included vertex count if it's in
         // the included vertex list
-        point_idx = find(included_vertices.begin(), included_vertices.end(), POINT_INDEX(polygons->end_indices,poly,i));
+        point_idx = std::find(included_vertices.begin(), included_vertices.end(), POINT_INDEX(polygons->end_indices,poly,i));
         if(point_idx != included_vertices.end()) {
           included_vertex_count++;
         }
