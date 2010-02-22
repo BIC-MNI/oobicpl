@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
     // compute standard deviation
     total = 0;
     for (int v2=0; v2 < nFiles; ++v2) {
-      total = pow(input[v2][v1] - means[v1], 2);
+      total += pow(input[v2][v1] - means[v1], 2);
     }
     sds[v1] = sqrt(total / (nFiles - 1));
 

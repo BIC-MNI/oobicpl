@@ -1,8 +1,7 @@
-
-
 New in Version 0.4.4
 * add absolute value to vertstats_math operations
 * changes for compilation against gcc 4.3
+* correct calculation of std dev in vertstats_average
 
 New in Version 0.4.3
 * merge jason/surface_tools into oobicpl

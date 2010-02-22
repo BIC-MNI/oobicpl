@@ -1,3 +1,6 @@
+2010-02-22  Claude Lepage       <claude@bic.mni.mcgill.ca>
+	* correct calculation of std dev in vertstats_average
+
 2010-02-14  Andrew L Janke  <a.janke@gmail.com>
  * src/mniVertstatsFile.cc
  * src/mniVertstatsFile.h
