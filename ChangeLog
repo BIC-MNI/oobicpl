@@ -1,15 +1,22 @@
+2010-09-30  Claude Lepage <claude@bic.mni.mcgill.ca>
+        * use BIC/MINC license (like minc) instead of GPL license
+	* read vertstats file as double (now understands scientific notation)
+          (mniVertstatsFile.cc)
+	* correct detection of number of columns in vertstats file
+	  when there are leading/trailing spaces (mniVertstatsFile.cc)
+
 2010-02-22  Claude Lepage       <claude@bic.mni.mcgill.ca>
 	* correct calculation of std dev in vertstats_average
 
 2010-02-14  Andrew L Janke  <a.janke@gmail.com>
- * src/mniVertstatsFile.cc
- * src/mniVertstatsFile.h
- * src/mniVertstatsMath.h
- * src/surface_area_roi.cc
- * src/vertstats_find_peaks.cc
- * src/vertstatsinfo.cc
- * src/white_cortex_validity.cc
- * Changes to all above files for gcc 4.3 thanks to Vlad
+ 	* src/mniVertstatsFile.cc
+ 	* src/mniVertstatsFile.h
+ 	* src/mniVertstatsMath.h
+ 	* src/surface_area_roi.cc
+ 	* src/vertstats_find_peaks.cc
+ 	* src/vertstatsinfo.cc
+ 	* src/white_cortex_validity.cc
+ 	* Changes to all above files for gcc 4.3 thanks to Vlad
 
 2009-07-30  Claude Lepage       <claude@bic.mni.mcgill.ca>
 	* add absolute value to vertstats_math operations

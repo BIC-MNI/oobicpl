@@ -129,27 +129,14 @@ void mniVertstatsFile::loadOldStyleFile(char *filename, bool readData) {
   // determine how many columns this file contains
   getline(statsFile, line);
   
-  // split the line on white space 
+  // split the line on white space(s), tab(s), EOL.
 
-  // some of the thickness code by David MacDonald produces files
-  // where all the values are preceded by a space, which does nasty
-  // things to a simple check for spaces. This is why there is a check
-  // here for that condition
-
-  int firstpos;
-  if (line.find_first_of(" ", 0) == 0)
-    firstpos = 1;
-  else
-    firstpos = 0;
-
-  int lastpos = line.length();
-  int numSpaces = 0;
-  while (lastpos != string::npos) {
-    lastpos = line.find(" ", firstpos);
-    firstpos = lastpos +1;
-    numSpaces++;
+  int firstpos = 0, nextpos = 0;
+  this->numColumns = 0;
+  while( nextpos = line.find_first_not_of(" \t\n",firstpos) != string::npos ) {
+    this->numColumns++;
+    firstpos = line.find_first_of(" \t\n",nextpos);
   }
-  this->numColumns = numSpaces;
 
   // generate some header names, e.g. Column1, Column2, etc.
   for (int i=0; i < this->numColumns; i++) {
@@ -168,13 +155,13 @@ void mniVertstatsFile::loadOldStyleFile(char *filename, bool readData) {
     // get the data out of the file
     while (! statsFile.eof() ) {
       for (int i=0; i < this->numColumns; i++) {
-        float currentVal;
+        double currentVal;
         statsFile >> currentVal;
-        (*this->data)[i].push_back(currentVal);
+        (*this->data)[i].push_back((float)currentVal);
       }
       this->numRows++;
     }
-    
+
     /* the above file reading will always read the last number
        twice, since the inner loop does not check whether eof has
        been reached. So pop the last element */

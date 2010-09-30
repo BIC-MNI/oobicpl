@@ -1,3 +1,10 @@
+New in Version 0.4.5
+* use BIC/MINC license (like minc) instead of GPL license
+* read vertstats file as double (now understands scientific notation)
+  (mniVertstatsFile.cc)
+* correct detection of number of columns in vertstats file
+  when there are leading/trailing spaces (mniVertstatsFile.cc)
+
 New in Version 0.4.4
 * add absolute value to vertstats_math operations
 * changes for compilation against gcc 4.3
