@@ -58,6 +58,7 @@
 #ifndef tree_hh_
 #define tree_hh_
 
+#include <cstddef>
 #include <cassert>
 #include <memory>
 #include <stdexcept>
