@@ -1,13 +1,59 @@
 #include "mniVertstatsFile.h"
-#include <pcre++.h>
+#include <pcrecpp.h>
 #include <algorithm>
 
-using namespace pcrepp;
+//using namespace pcrepp;
 using namespace std;
 
 extern "C" {
 #include "time_stamp.h"
 }
+
+/*****************************************************************
+ * This is the only part of the implementation that I don't like.
+ * It can probably be improved upon by the reader...
+*/
+namespace {
+  inline bool
+      isws (char c, char const * const wstr)
+  {
+    return (strchr(wstr,c) != NULL);
+  }
+}
+
+/*****************************************************************
+ * Simplistic and quite Standard, but a bit slow.  This should be
+ * templatized on basic_string instead, or on a more generic StringT
+ * that just happens to support ::size_type, .substr(), and so on.
+ * I had hoped that "whitespace" would be a trait, but it isn't, so
+ * the user must supply it.  Enh, this lets them break up strings on
+ * different things easier than traits would anyhow.
+*/
+template <typename Container>
+    void
+    stringtok (Container &l, std::string const &s, char const * const ws = " \t\n")
+{
+  const std::string::size_type  S = s.size();
+  std::string::size_type  i = 0;
+
+  while (i < S) {
+        // eat leading whitespace
+    while ((i < S) && (isws(s[i],ws)))  ++i;
+    if (i == S)  return;  // nothing left but WS
+
+        // find end of word
+    std::string::size_type  j = i+1;
+    while ((j < S) && (!isws(s[j],ws)))  ++j;
+
+        // add word
+    l.push_back(s.substr(i,j-i));
+
+        // set up for next loop
+    i = j+1;
+  }
+}
+
+
 
 /*!
  * An empty constructor that does much of nothing. If one uses this
@@ -196,7 +242,7 @@ void mniVertstatsFile::loadNewStyleFile(char *filename, bool readData) {
     int firstpos, lastpos;
 
     // holds the current tag name and value for the header parsing
-    string tagName;
+    string tagName,closingTagName;
     string tagValue;
     
     // a switch to decide whether header processing is finished
@@ -204,8 +250,10 @@ void mniVertstatsFile::loadNewStyleFile(char *filename, bool readData) {
     bool currentTagClosed = true;
 
     // the regex matches for opening and closing tags
-    Pcre openTag("<([a-z]+)>", "i");
-    Pcre closeTag("</([a-z]+)>", "i");
+    //Pcre openTag("<([a-z]+)>", "i");
+    pcrecpp::RE openTag("<([a-z]+)>",pcrecpp::CASELESS());
+    //Pcre closeTag("</([a-z]+)>", "i");
+    pcrecpp::RE closeTag("</([a-z]+)>",pcrecpp::CASELESS());
     
     tree<mniVertstatsHeaderEntry>::iterator top, current;
 
@@ -228,12 +276,12 @@ void mniVertstatsFile::loadNewStyleFile(char *filename, bool readData) {
 
       while (closeHeader == false) {
         getline(statsFile, line);
-        if (openTag.search(line) == true) {
+        if (openTag.PartialMatch(line,&tagName)) {
           // found an opening tag
-          if (openTag.matches() != 1) {
+/*          if (openTag.matches() != 1) {
             cerr << "ERROR: illegal tag on line: " << line << endl;
             exit(1);
-          }
+          }*/
           if (! currentTagClosed) {
             /* the file format insists that all information to go into
                the body of a header entry be finished before any
@@ -243,7 +291,7 @@ void mniVertstatsFile::loadNewStyleFile(char *filename, bool readData) {
             current = headerTree->replace
               (current, mniVertstatsHeaderEntry(tagName, tagValue));
           }
-          tagName = openTag.get_match(0);
+          //tagName = openTag.get_match(0);
           // insert the tag with an empty value field into the tree.
           current = headerTree->append_child
             (current, mniVertstatsHeaderEntry(tagName, ""));
@@ -252,13 +300,13 @@ void mniVertstatsFile::loadNewStyleFile(char *filename, bool readData) {
         }
     
     
-        else if (closeTag.search(line) == true) {
-          if (closeTag.get_match(0) == "header") {
+        else if (closeTag.PartialMatch(line,&closingTagName)) {
+          if (closingTagName == "header") {
             // end header processing, move on to dataheader
             closeHeader = true;
             filestate = DATAHEADER;
           }
-          else if (closeTag.get_match(0) == tagName) {
+          else if (closingTagName == tagName) {
             // the last open tag is being closed, i.e. no child nodes
             current = headerTree->replace
               (current, mniVertstatsHeaderEntry(tagName, tagValue));
@@ -268,7 +316,7 @@ void mniVertstatsFile::loadNewStyleFile(char *filename, bool readData) {
           }
           else {
             // a different tag is being closed. There were child nodes.
-            current = std::find(headerTree->begin(), headerTree->end(), closeTag.get_match(0));
+            current = std::find(headerTree->begin(), headerTree->end(), closingTagName);
             current = headerTree->parent(current);
             
           }
@@ -350,15 +398,18 @@ vertexColumn mniVertstatsFile::getDataColumn(string columnName) {
   columnName.insert(columnName.end(), '$');
 
   // make sure that all periods are treated literally
-  Pcre periodReplace("\\.", "g");
-  columnName = periodReplace.replace(columnName, "\\.");
+  //Pcre periodReplace("\\.", "g");
+  pcrecpp::RE periodReplace("\\.");
+
+  columnName = periodReplace.GlobalReplace("\\.",&columnName);
   //cout << "regex:" << columnName << endl;
 
-  Pcre regex(columnName);
+  //Pcre regex(columnName);
+  pcrecpp::RE regex(columnName);
 
   for (int i=0; i < this->numColumns; i++) {
     //if ((*this->dataheader)[i].find(columnName) != string::npos)
-    if (regex.search((*this->dataheader)[i]) == true) 
+    if (regex.PartialMatch((*this->dataheader)[i])) 
       position = i;
   }
   if (position == -1) {
@@ -418,10 +469,12 @@ void mniVertstatsFile::putDataColumn(vertexColumn data, string columnName) {
 void mniVertstatsFile::putHeader(mniVertstatsHeaderEntry header,
                                  string headerParent) {
   tree<mniVertstatsHeaderEntry>::iterator it, top;
-  Pcre newlineCheck("\n$");
+  //Pcre newlineCheck("\n$");
+  pcrecpp::RE newlineCheck("\n$");
+  
 
   // ensure that there is a newline at end of header
-  if (newlineCheck.search(header.value) == false) {
+  if (!newlineCheck.PartialMatch(header.value)) {
     cout << "no newline" << endl;
     header.value.append("\n");
   }
@@ -507,10 +560,12 @@ mniVertstatsFile::getHeaderIterator(string headerKey) {
   tree<mniVertstatsHeaderEntry>::sibling_iterator sibbegin, sibend;
   vector<string> components;
 
-  Pcre colonSearch(":", "g");
+  //Pcre colonSearch(":", "g");
+  pcrecpp::RE colonSearch(":");
   
-  if (colonSearch.search(headerKey) == true) {
-    components = colonSearch.split(headerKey);
+  if (colonSearch.PartialMatch(headerKey) ) {
+    //components = colonSearch.split(headerKey);
+    stringtok (components, headerKey,":");
     it = headerTree->begin();
     for (int i=0; i < components.size(); i++) {
       sibbegin = headerTree->begin(it);
