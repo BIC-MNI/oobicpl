@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl5 -w
+#!/usr/bin/env perl -w
 
 # a script to check the validity of an automated white cortex
 # extraction against a manually painted slice.
