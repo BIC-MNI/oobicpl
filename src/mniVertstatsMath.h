@@ -52,13 +52,6 @@ private:
   }
 };
 
-/*! Computes the mean of a vector */
-template <class T>
-T vectorMean(vector<T> &v1) {
-  T sum = vectorSum(v1);
-  T mean = sum / v1.size();
-  return mean;
-}
 
 /*! Computes the sum of all the elements of a vector */
 template <class T>
@@ -69,6 +62,14 @@ T vectorSum(vector<T> input) {
     sum += *it;
   }
   return sum;
+}
+
+/*! Computes the mean of a vector */
+template <class T>
+T vectorMean(vector<T> &v1) {
+  T sum = vectorSum(v1);
+  T mean = sum / v1.size();
+  return mean;
 }
 
 /*! Ensures that size of two vectors is the same
