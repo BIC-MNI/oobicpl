@@ -17,7 +17,7 @@ extern "C" {
 float ignoredValue = 6;
 
 ArgvInfo argTable[] = 
-  { {NULL, ARGV_HELP, (char *) NULL, (char *) NULL, "Colour handling" },
+  { {NULL, ARGV_HELP, (char *) NULL, (char *) NULL, "VIO_Colour handling" },
     {"-ignore_value", ARGV_FLOAT, (char *) 1, (char *) &ignoredValue,
      "Set this value in the coloured obj file to 0 in the output" },
     {NULL, ARGV_END, NULL, NULL, NULL}
@@ -26,7 +26,7 @@ ArgvInfo argTable[] =
 using namespace std;
 
 int main (int argc, char *argv[]) {
-  File_formats format;
+  VIO_File_formats format;
   int num_objects;
   object_struct **object_list;
   polygons_struct p;
@@ -41,7 +41,7 @@ int main (int argc, char *argv[]) {
   }
 
   // load the file
-  if ( input_graphics_file( argv[1] , &format, &num_objects, &object_list) != OK ) {
+  if ( input_graphics_file( argv[1] , &format, &num_objects, &object_list) != VIO_OK ) {
     return 1;
   }
 

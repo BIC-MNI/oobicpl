@@ -23,7 +23,7 @@ int main (int argc, char *argv[]) {
   }
 
   // initialize variables for surfaces
-  File_formats    format;
+  VIO_File_formats    format;
   int             num_objects;
   object_struct** object_list_white;
   object_struct** object_list_gray;
@@ -38,7 +38,7 @@ int main (int argc, char *argv[]) {
 
   // read in the white surface
   if ( input_graphics_file( (char*) cArg["white_surface_mesh_file"].c_str(), &format, &num_objects, &object_list_white )
-       != OK ) {
+       != VIO_OK ) {
     cerr << "ERROR reading file " << cArg["white_surface_mesh_file"] << endl;
     return 1;
   }
@@ -51,7 +51,7 @@ int main (int argc, char *argv[]) {
   
   // read in the gray surface
   if ( input_graphics_file( (char*) cArg["gray_surface_mesh_file"].c_str(), &format, &num_objects, &object_list_gray )
-       != OK ) {
+       != VIO_OK ) {
     cerr << "ERROR reading file " << cArg["gray_surface_mesh_file"] << endl;
     return 1;
   }
@@ -63,8 +63,8 @@ int main (int argc, char *argv[]) {
   }
   
   // initialize points
-  Point *points_white;
-  Point *points_gray;
+  VIO_Point *points_white;
+  VIO_Point *points_gray;
 
   polygons_white = get_polygons_ptr(object_list_white[0]);
   polygons_gray = get_polygons_ptr(object_list_gray[0]);
@@ -79,7 +79,7 @@ int main (int argc, char *argv[]) {
     add_point_to_line(lines, &points_gray[pidx]);
   }
 
-  if( output_graphics_file( (char*) cArg["output_object_file"].c_str(), format, 1, &object_list_lines) != OK) {
+  if( output_graphics_file( (char*) cArg["output_object_file"].c_str(), format, 1, &object_list_lines) != VIO_OK) {
     cerr << "ERROR writing file " << cArg["output_object_file"] << endl;
     return 1;
   }

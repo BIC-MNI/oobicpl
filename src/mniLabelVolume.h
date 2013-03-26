@@ -17,7 +17,7 @@ using namespace std;
   The mniLabelVolume class differs from the mniVolume class insofar as
   it uses the bicpl label_volume set of functions to deal with the
   volume as opposed to the volume_io functions. The general unit is also
-  an int as opposed to a Real.
+  an int as opposed to a VIO_Real.
 */
 class mniLabelVolume : public mniBaseVolume {
   
@@ -32,14 +32,14 @@ public:
   */
   mniLabelVolume();
   //! Constructor from file, creating initialised volume
-  mniLabelVolume(STRING filename, 
-		 Real voxelMin = 0.0, 
-		 Real voxelMax = 0.0,
+  mniLabelVolume(VIO_STR filename, 
+		 VIO_Real voxelMin = 0.0, 
+		 VIO_Real voxelMax = 0.0,
 		 int nDimensions = 3,
-		 STRING dimensions[] = ZXYdimOrder,
+		 VIO_STR dimensions[] = ZXYdimOrder,
 		 nc_type dataType = NC_UNSPECIFIED, 
-		 BOOLEAN volumeSigned = FALSE,
-		 BOOLEAN createVolume = TRUE, 
+		 VIO_BOOL volumeSigned = FALSE,
+		 VIO_BOOL createVolume = TRUE, 
 		 minc_input_options *options = NULL
 		 );
   //! Constructor from file, creating uninitialised volume
@@ -49,16 +49,16 @@ public:
     \param newVolume Itself of no use, only here to differentiate it from
     the other constructors for function overloading.
   */
-  mniLabelVolume(STRING filename,
+  mniLabelVolume(VIO_STR filename,
 		 int newVolume,
 		 int nDimensions = 3,
-		 STRING dimensions[] = ZXYdimOrder,
+		 VIO_STR dimensions[] = ZXYdimOrder,
 		 nc_type dataType = NC_UNSPECIFIED,
 		 minc_input_options *options = NULL);
   //! Copy constructor from another volume
   mniLabelVolume(mniBaseVolume *copyVolume, nc_type dataType = NC_SHORT);
   //! Constructor from a volume_io volume struct.
-  mniLabelVolume(Volume volumeIO_volume);
+  mniLabelVolume(VIO_Volume volumeIO_volume);
   //! Destructor to clean up memory
   virtual ~mniLabelVolume();
   //! Sets all voxels in the volume to one value
@@ -86,7 +86,7 @@ public:
     set_volume_label_data(this->volume, indices, value);
   }
 
-  virtual void output(STRING file, int cropValue = 0);
+  virtual void output(VIO_STR file, int cropValue = 0);
 };
 
 #endif // __MNILABELVOLUME__

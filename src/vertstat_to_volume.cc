@@ -9,11 +9,11 @@ extern "C" {
 
 using namespace std;
 
-Real rms_distance_from_point(
-                             Point  *point,
-                             Point  *end_point1,
-                             Point  *end_point2 ) {
-  Real  dist1, dist2;
+VIO_Real rms_distance_from_point(
+                             VIO_Point  *point,
+                             VIO_Point  *end_point1,
+                             VIO_Point  *end_point2 ) {
+  VIO_Real  dist1, dist2;
 
   dist1 = sq_distance_between_points(point, end_point1);
   dist2 = sq_distance_between_points(point, end_point2);
@@ -54,8 +54,8 @@ int main (int argc, char *argv[]) {
   else
     statsCol = stats.getDataColumn(0);
 
-  Real statMin = 10000000;
-  Real statMax = -10000000;
+  VIO_Real statMin = 10000000;
+  VIO_Real statMax = -10000000;
   vertexColumn::iterator it;
   for(it = statsCol.begin(); it != statsCol.end() ; it++) {
     if(*it > statMax) statMax = *it;
@@ -76,7 +76,7 @@ int main (int argc, char *argv[]) {
   outputVolume->setRealRange(statMin, statMax);
 
   // initialize variables for surfaces
-  File_formats    format;
+  VIO_File_formats    format;
   int             num_objects;
   object_struct** object_list_white;
   object_struct** object_list_gray;
@@ -85,7 +85,7 @@ int main (int argc, char *argv[]) {
 
   // read in the white surface
   if ( input_graphics_file( (char*) cArg["white_surface_mesh_file"].c_str(), &format, &num_objects, &object_list_white )
-       != OK ) {
+       != VIO_OK ) {
     cerr << "ERROR reading file " << cArg["white_surface_mesh_file"] << endl;
     return 0;
   }
@@ -98,7 +98,7 @@ int main (int argc, char *argv[]) {
   
   // read in the gray surface
   if ( input_graphics_file( (char*) cArg["gray_surface_mesh_file"].c_str(), &format, &num_objects, &object_list_gray )
-       != OK ) {
+       != VIO_OK ) {
     cerr << "ERROR reading file " << cArg["gray_surface_mesh_file"] << endl;
     return 0;
   }
@@ -110,9 +110,9 @@ int main (int argc, char *argv[]) {
   }
   
   // initialize points
-  Point point;
-  Point *points_white;
-  Point *points_gray;
+  VIO_Point point;
+  VIO_Point *points_white;
+  VIO_Point *points_gray;
 
   polygons_white = get_polygons_ptr(object_list_white[0]);
   polygons_gray = get_polygons_ptr(object_list_gray[0]);
@@ -138,8 +138,8 @@ int main (int argc, char *argv[]) {
           }
         }
 
-        Real voxel_coord[3] = {i, j, k};
-        Real *world_coord;
+        VIO_Real voxel_coord[3] = {i, j, k};
+        VIO_Real *world_coord;
         world_coord = outputVolume->convertVoxelToWorld(voxel_coord);
 
         // set query point location
@@ -147,8 +147,8 @@ int main (int argc, char *argv[]) {
         Point_y(point) = world_coord[1];
         Point_z(point) = world_coord[2];
 
-        Real cur_dist;
-        Real min_dist = 100000000.0f;
+        VIO_Real cur_dist;
+        VIO_Real min_dist = 100000000.0f;
         int min_point_index;
         for(int point_index=0; point_index<polygons_white->n_points; ++point_index) {
           cur_dist = rms_distance_from_point(&point, &points_white[point_index], &points_gray[point_index]);

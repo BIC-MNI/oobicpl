@@ -44,14 +44,14 @@ public:
   file
   */
 
-  mniVolume(STRING filename, 
-            Real voxelMin = 0.0, 
-            Real voxelMax = 0.0,
+  mniVolume(VIO_STR filename, 
+            VIO_Real voxelMin = 0.0, 
+            VIO_Real voxelMax = 0.0,
             int nDimensions = 3,
-            STRING dimensions[] = ZXYdimOrder,
+            VIO_STR dimensions[] = ZXYdimOrder,
             nc_type dataType = NC_UNSPECIFIED, 
-            BOOLEAN volumeSigned = FALSE,
-            BOOLEAN createVolume = TRUE, 
+            VIO_BOOL volumeSigned = FALSE,
+            VIO_BOOL createVolume = TRUE, 
             minc_input_options *options = NULL
             );
 
@@ -67,23 +67,23 @@ public:
 
   */
   mniVolume(mniBaseVolume *copyVolume, 
-	    BOOLEAN copyVolumeDefinitionOnly=FALSE,
+	    VIO_BOOL copyVolumeDefinitionOnly=FALSE,
 	    nc_type dataType = NC_UNSPECIFIED,
-	    BOOLEAN signedFlag = FALSE,
-	    Real voxelMin = 0.0,
-	    Real voxelMax = 0.0);
+	    VIO_BOOL signedFlag = FALSE,
+	    VIO_Real voxelMin = 0.0,
+	    VIO_Real voxelMax = 0.0);
 
   //! Constructor from a volume_io volume struct.
-  mniVolume(Volume volumeIO_volume);
+  mniVolume(VIO_Volume volumeIO_volume);
   //! Destructor to free memory
   virtual ~mniVolume();
 
   //! Get voxel value
-  Real getVoxel(int v1, int v2, int v3, int v4=0, int v5=0) {
+  VIO_Real getVoxel(int v1, int v2, int v3, int v4=0, int v5=0) {
     return get_volume_real_value(this->volume, v1, v2, v3, v4, v5);
   };
   //! Overloaded getVoxel, taking three dimensional array
-  Real getVoxel(int indices[3]) {
+  VIO_Real getVoxel(int indices[3]) {
     return get_volume_real_value(this->volume, indices[0], indices[1],
 				 indices[2], 0, 0);
   };
@@ -93,19 +93,19 @@ public:
     uses the rint function to round them to integers before passing
     them onto the get_volume_real_value function
   */
-  Real getWorld(Real xWorld, Real yWorld, Real zWorld);
+  VIO_Real getWorld(VIO_Real xWorld, VIO_Real yWorld, VIO_Real zWorld);
   //! Set voxel value
-  void setVoxel(Real value, int v1, int v2, int v3,
+  void setVoxel(VIO_Real value, int v1, int v2, int v3,
 		int v4=0, int v5=0) {
     set_volume_real_value(this->volume, v1, v2, v3, v4, v5, value);
   };
   //! Overloaded setVoxel, taking three dimensional array
-  void setVoxel(Real value, int indices[3]) {
+  void setVoxel(VIO_Real value, int indices[3]) {
     set_volume_real_value(this->volume, indices[0], indices[1],
 			  indices[2], 0, 0, value);
   };
   //  virtual void output() { };
-  virtual void output(STRING file, int cropValue = 0);
+  virtual void output(VIO_STR file, int cropValue = 0);
 
 };
 

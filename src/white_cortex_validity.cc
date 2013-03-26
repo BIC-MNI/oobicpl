@@ -33,7 +33,7 @@
 
 int main ( int argc, char *argv[] ) {
   // load two volumes: painted slice, intersected slice
-  static STRING ZYXdimOrder[] = {MIzspace, MIyspace, MIxspace};
+  static VIO_STR ZYXdimOrder[] = {MIzspace, MIyspace, MIxspace};
 
   int v0, v1, v2;
 
@@ -44,8 +44,8 @@ int main ( int argc, char *argv[] ) {
   }
   
   // determine the slice ordering order
-  STRING *firstDimOrder = new STRING[3];
-  STRING *secondDimOrder = new STRING[3];
+  VIO_STR *firstDimOrder = new VIO_STR[3];
+  VIO_STR *secondDimOrder = new VIO_STR[3];
 
   if (strcmp(argv[1], "-sagital") == 0) {
     firstDimOrder = XYZdimOrder;

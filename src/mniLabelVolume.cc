@@ -1,26 +1,26 @@
 #include "mniLabelVolume.h"
 
-mniLabelVolume::mniLabelVolume(STRING filename, 
-			       Real voxelMin, 
-			       Real voxelMax,
+mniLabelVolume::mniLabelVolume(VIO_STR filename, 
+			       VIO_Real voxelMin, 
+			       VIO_Real voxelMax,
 			       int nDimensions,
-			       STRING dimensions[],
+			       VIO_STR dimensions[],
 			       nc_type dataType,
-			       BOOLEAN volumeSigned,
-			       BOOLEAN createVolume,
+			       VIO_BOOL volumeSigned,
+			       VIO_BOOL createVolume,
 			       minc_input_options *options) {
 
   // initialise the sizes variable
-  this->sizes = new int[MAX_DIMENSIONS];
+  this->sizes = new int[VIO_MAX_DIMENSIONS];
 
   // load the volume headers first
   if ( input_volume_header_only(filename, nDimensions, dimensions,
-				&this->volume, options) != OK ) {
+				&this->volume, options) != VIO_OK ) {
     throw loadException();
   }
   // now create it as a label volume
   if ( create_label_volume_from_file(filename, this->volume, &this->volume)
-       != OK ) {
+       != VIO_OK ) {
     throw loadException();
   }
 
@@ -28,8 +28,8 @@ mniLabelVolume::mniLabelVolume(STRING filename,
                                
 }
 
-mniLabelVolume::mniLabelVolume(Volume volumeIO_volume) {
-  this->sizes = new int[MAX_DIMENSIONS];
+mniLabelVolume::mniLabelVolume(VIO_Volume volumeIO_volume) {
+  this->sizes = new int[VIO_MAX_DIMENSIONS];
   this->volume = volumeIO_volume;
   get_volume_sizes(this->volume, this->sizes);
 }
@@ -38,7 +38,7 @@ mniLabelVolume::mniLabelVolume(mniBaseVolume *copyVolume,
 			       nc_type dataType ) {
 
   // initialise sizes
-  this->sizes = new int[MAX_DIMENSIONS];
+  this->sizes = new int[VIO_MAX_DIMENSIONS];
 
   // now copy all the relevant bits from the other volume
   this->volume = create_label_volume(copyVolume->getVolume(), dataType);
@@ -52,7 +52,7 @@ mniLabelVolume::mniLabelVolume(mniLabelVolume *copyVolume,
 			       nc_type dataType = NC_SHORT) {
 
   // initialise sizes
-  this->sizes = new int[MAX_DIMENSIONS];
+  this->sizes = new int[VIO_MAX_DIMENSIONS];
 
   // now copy all the relevant bits from the other volume
   this->volume = create_label_volume(copyVolume->getVolume(), dataType);
@@ -63,21 +63,21 @@ mniLabelVolume::mniLabelVolume(mniLabelVolume *copyVolume,
 */
 mniLabelVolume::mniLabelVolume() {
   // initialise sizes
-  this->sizes = new int[MAX_DIMENSIONS];
+  this->sizes = new int[VIO_MAX_DIMENSIONS];
 }
 
-mniLabelVolume::mniLabelVolume(STRING filename,
+mniLabelVolume::mniLabelVolume(VIO_STR filename,
 			       int newVolume,
 			       int nDimensions,
-			       STRING dimensions[],
+			       VIO_STR dimensions[],
 			       nc_type dataType,
 			       minc_input_options *options){
 
   // initialise sizes
-  this->sizes = new int[MAX_DIMENSIONS];
+  this->sizes = new int[VIO_MAX_DIMENSIONS];
 
   if (input_volume_header_only(filename, nDimensions, dimensions,
-                               &this->volume, options) != OK) {
+                               &this->volume, options) != VIO_OK) {
     throw loadException();
   }
   this->volume = create_label_volume(this->volume, dataType);
@@ -93,7 +93,7 @@ mniLabelVolume::~mniLabelVolume() {
   delete this->sizes;
 }  
 
-void mniLabelVolume::output(STRING file, int cropValue) {
+void mniLabelVolume::output(VIO_STR file, int cropValue) {
   // should replace the constant with an argument option
     save_label_volume(file, this->filename, this->volume, cropValue);
 }

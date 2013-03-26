@@ -2,26 +2,26 @@
 
 // blank constructor - just initialises the sizes for now
 mniVolume::mniVolume() {
-  this->sizes = new int[MAX_DIMENSIONS];
+  this->sizes = new int[VIO_MAX_DIMENSIONS];
 }
 
 // Constructor from file
-mniVolume::mniVolume(STRING filename, 
-                     Real voxelMin, 
-                     Real voxelMax,
+mniVolume::mniVolume(VIO_STR filename, 
+                     VIO_Real voxelMin, 
+                     VIO_Real voxelMax,
                      int nDimensions,
-                     STRING dimensions[],
+                     VIO_STR dimensions[],
                      nc_type dataType,
-                     BOOLEAN volumeSigned,
-                     BOOLEAN createVolume,
+                     VIO_BOOL volumeSigned,
+                     VIO_BOOL createVolume,
                      minc_input_options *options ) {
   if ( input_volume(filename, nDimensions, dimensions, dataType, 
                     volumeSigned, voxelMin,
-                    voxelMax, createVolume, &this->volume, options) != OK ) {
+                    voxelMax, createVolume, &this->volume, options) != VIO_OK ) {
     throw loadException();
   }
 
-  this->sizes = new int[MAX_DIMENSIONS];
+  this->sizes = new int[VIO_MAX_DIMENSIONS];
   get_volume_sizes(this->volume, this->sizes);
   this->nDimensions = nDimensions;
   this->filename = filename;
@@ -33,9 +33,9 @@ mniVolume::mniVolume(STRING filename,
 
 }
 
-mniVolume::mniVolume(Volume volumeIO_volume) {
+mniVolume::mniVolume(VIO_Volume volumeIO_volume) {
 
-  this->sizes = new int[MAX_DIMENSIONS];
+  this->sizes = new int[VIO_MAX_DIMENSIONS];
   this->volume = volumeIO_volume;
   this->voxelMin = get_volume_voxel_min(volumeIO_volume);
   this->voxelMax = get_volume_voxel_max(volumeIO_volume);
@@ -46,15 +46,15 @@ mniVolume::mniVolume(Volume volumeIO_volume) {
 }
 
 mniVolume::mniVolume(mniBaseVolume *copyVolume, 
-		     BOOLEAN copyVolumeDefinitionOnly,
+		     VIO_BOOL copyVolumeDefinitionOnly,
 		     nc_type dataType,
-		     BOOLEAN signedFlag,
-		     Real voxelMin,
-		     Real voxelMax) {
+		     VIO_BOOL signedFlag,
+		     VIO_Real voxelMin,
+		     VIO_Real voxelMax) {
 
 
   //initialise sizes
-  this->sizes = new int[MAX_DIMENSIONS];
+  this->sizes = new int[VIO_MAX_DIMENSIONS];
   
   // now copy relevant bits from other volume
   if (copyVolumeDefinitionOnly == TRUE) {
@@ -84,8 +84,8 @@ mniVolume::~mniVolume() {
   delete this->sizes;
 }
 
-Real mniVolume::getWorld(Real xWorld, Real yWorld, Real zWorld) {
-  Real *voxelCoord;
+VIO_Real mniVolume::getWorld(VIO_Real xWorld, VIO_Real yWorld, VIO_Real zWorld) {
+  VIO_Real *voxelCoord;
   cout << "In get world" << endl;
   voxelCoord = this->convertWorldToVoxel(xWorld, yWorld, zWorld);
   cout << "Converted ... " << endl;
@@ -95,10 +95,10 @@ Real mniVolume::getWorld(Real xWorld, Real yWorld, Real zWorld) {
                                (int)rint(voxelCoord[2]), 0, 0);
 }
 
-void mniVolume::output(STRING file, int cropValue) {
+void mniVolume::output(VIO_STR file, int cropValue) {
   if (output_volume(file, this->dataType, this->signedFlag,
                     this->voxelMin, this->voxelMax, this->volume,
-                    "mnipl-- test", NULL) != OK) {
+                    "mnipl-- test", NULL) != VIO_OK) {
     throw writeException();
   }
 }

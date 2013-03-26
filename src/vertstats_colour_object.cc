@@ -12,9 +12,9 @@ extern "C" {
 }
 
 void  usage(
-    STRING   executable )
+    VIO_STR   executable )
 {
-    STRING  usage_str = "\n\
+    VIO_STR  usage_str = "\n\
 Usage: %s  src.obj values_file column_name dest.obj\n\
            gray|hot|spectral|blue|green|red|user [user.map] low high\n\
            [under] [over] [opacity] [replace|composite|mult]\n\n";
@@ -37,26 +37,26 @@ int  main(
     int    argc,
     char   *argv[] )
 {
-    Real                 value, *values, min_range, max_range;
-    Status               status;
-    STRING               src_filename, dest_filename, values_filename;
-    STRING               column_name;
-    STRING               under_colour_name, over_colour_name;
-    STRING               user_def_filename;
+    VIO_Real                 value, *values, min_range, max_range;
+    VIO_Status               status;
+    VIO_STR               src_filename, dest_filename, values_filename;
+    VIO_STR               column_name;
+    VIO_STR               under_colour_name, over_colour_name;
+    VIO_STR               user_def_filename;
     int                  i, p, n_objects, n_points, n_values, value_index;
-    Point                *points;
-    File_formats         format;
+    VIO_Point                *points;
+    VIO_File_formats         format;
     object_struct        **object_list;
-    Colour               *colours, under_colour, over_colour, prev_colour, col;
-    STRING               default_over;
+    VIO_Colour               *colours, under_colour, over_colour, prev_colour, col;
+    VIO_STR               default_over;
     Colour_coding_types  coding_type;
     colour_coding_struct colour_coding;
     Colour_flags         *colour_flag_ptr;
-    STRING               coding_type_string, dummy;
-    Real                 low, high, r, g, b, a, opacity;
-    BOOLEAN              per_vertex, dont_composite_flag;
+    VIO_STR               coding_type_string, dummy;
+    VIO_Real                 low, high, r, g, b, a, opacity;
+    VIO_BOOL              per_vertex, dont_composite_flag;
     Composite_methods    composite_method;
-    STRING               composite_method_name;
+    VIO_STR               composite_method_name;
 
     initialize_argument_processing( argc, argv );
 
@@ -132,7 +132,7 @@ int  main(
     if( coding_type == USER_DEFINED_COLOUR_MAP )
     {
         if( input_user_defined_colour_coding( &colour_coding,
-                                              user_def_filename ) != OK)                {
+                                              user_def_filename ) != VIO_OK)                {
             print_error( "Error in user defined colour map: %s\n",
                           user_def_filename );
             return( 1 );
@@ -140,10 +140,10 @@ int  main(
     }
 
     if( input_graphics_file( src_filename, &format, &n_objects,
-                             &object_list ) != OK )
+                             &object_list ) != VIO_OK )
         return( 1 );
 
-    //    if( input_texture_values( values_filename, &n_values, &values ) != OK )
+    //    if( input_texture_values( values_filename, &n_values, &values ) != VIO_OK )
     //        return( 1 );
     mniVertstatsFile f(values_filename);
     vertexColumn column = f.getDataColumn(column_name);
@@ -232,5 +232,5 @@ int  main(
     status = output_graphics_file( dest_filename, format,
                                    n_objects, object_list );
 
-    return( status != OK );
+    return( status != VIO_OK );
 }

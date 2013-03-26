@@ -23,16 +23,16 @@ int main (int argc, char *argv[]) {
   int           included_polygons = 0;
   int           roi;
 
-  File_formats    format;
+  VIO_File_formats    format;
   int             num_objects;
   object_struct** object_list;
   polygons_struct *polygons;
 
-  Point points[10];
+  VIO_Point points[10];
   int n_points;
   int poly;
 
-  Real area;
+  VIO_Real area;
   area = 0.0;
 
   // parse command line arguments
@@ -72,7 +72,7 @@ int main (int argc, char *argv[]) {
   // open the surface file
   cout << "Loading: " << cArg["surface_file"] << endl;
   if ( input_graphics_file( (char*) cArg["surface_file"].c_str(), &format, &num_objects, &object_list )
-       != OK ) {
+       != VIO_OK ) {
     cerr << "ERROR reading file " << cArg["surface_file"] << endl;
     return 0;
   }

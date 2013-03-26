@@ -97,16 +97,16 @@ int main (int argc, char *argv[]) {
   vertexColumn statsCol = stats.getDataColumn(0);
   
   // initialize the variables for the surface
-  File_formats format;
+  VIO_File_formats format;
   int num_objects;
   object_struct** object_list;
   polygons_struct *polygons;
-  Point *points;
+  VIO_Point *points;
 
   // read in the surface
   if ( input_graphics_file( (char*) cArg["obj_file"].c_str(), 
                             &format, &num_objects, &object_list )
-       != OK ) {
+       != VIO_OK ) {
     cerr << "ERROR reading file " << cArg["obj_file"] << endl;
     return 0;
   }

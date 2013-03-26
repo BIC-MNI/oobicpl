@@ -12,7 +12,7 @@ using namespace std;
 
 int main( int argc, char **argv ) {
   
-  File_formats    format;
+  VIO_File_formats    format;
   int             num_objects;
   object_struct** object_list;
   char*           filename;
@@ -30,7 +30,7 @@ int main( int argc, char **argv ) {
 
   // open the file
   if ( input_graphics_file( filename, &format, &num_objects, &object_list )
-       != OK ) {
+       != VIO_OK ) {
     cerr << "ERROR reading file " << filename << endl;
     return 0;
   }

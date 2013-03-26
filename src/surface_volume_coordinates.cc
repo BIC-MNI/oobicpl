@@ -20,12 +20,12 @@ using namespace std;
 
 int main (int argc, char *argv[]) {
   // geometry definitions
-  File_formats        format;
+  VIO_File_formats        format;
   int                 num_objects;
   object_struct**     object_list;
   polygons_struct*    polygons;
   object_struct*      object;
-  Point*              points;
+  VIO_Point*              points;
   int                 n_points;
   
   // filename definitions
@@ -52,7 +52,7 @@ int main (int argc, char *argv[]) {
 
   // open the input object
   if (input_graphics_file( (char*) cArg["input_object"].c_str(),
-			   &format, &num_objects, &object_list) != OK) {
+			   &format, &num_objects, &object_list) != VIO_OK) {
     cerr << "ERROR reading file " << cArg["input_object"] << endl;
     return 1;
   }
@@ -69,12 +69,12 @@ int main (int argc, char *argv[]) {
 				     0.0, 0.0, 3, XYZdimOrder);
 
   n_points = get_object_points(object_list[0], &points);
-  Real x,y,z;
+  VIO_Real x,y,z;
   for( int i=0; i < n_points; i++ ) {
     convert_3D_world_to_voxel(volume->getVolume(), 
-			      (Real) Point_x(points[i]),
-			      (Real) Point_y(points[i]),
-			      (Real) Point_z(points[i]),
+			      (VIO_Real) Point_x(points[i]),
+			      (VIO_Real) Point_y(points[i]),
+			      (VIO_Real) Point_z(points[i]),
 			      &x, &y, &z);
     fill_Point( points[i], x, y, z );
   }
