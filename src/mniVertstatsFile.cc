@@ -179,7 +179,7 @@ void mniVertstatsFile::loadOldStyleFile(char *filename, bool readData) {
 
   int firstpos = 0, nextpos = 0;
   this->numColumns = 0;
-  while( nextpos = line.find_first_not_of(" \t\n",firstpos) != string::npos ) {
+  while( (nextpos = line.find_first_not_of(" \t\n",firstpos)) != string::npos ) {
     this->numColumns++;
     firstpos = line.find_first_of(" \t\n",nextpos);
   }
