@@ -1,6 +1,6 @@
 /* 
 
-   $Id: tree.hh,v 1.3 2006-05-02 18:23:51 jharlap Exp $
+   $Id: tree.hh,v 1.5 2013-02-07 19:52:48 claude Exp $
 
    STL-like templated tree class.
    Copyright (C) 2001-2006  Kasper Peeters <kasper.peeters@aei.mpg.de>.
@@ -122,7 +122,7 @@ class tree {
 
       /// Base class for iterators, only pointers stored, no traversal logic.
 #ifdef __SGI_STL_PORT
-      class iterator_base : public stlport::bidirectional_iterator<T, ptrdiff_t> {
+      class iterator_base : public stlport::bidirectional_iterator<T, std::ptrdiff_t> {
 #else
       class iterator_base {
 #endif
@@ -131,7 +131,7 @@ class tree {
             typedef T*                              pointer;
             typedef T&                              reference;
             typedef size_t                          size_type;
-            typedef ptrdiff_t                       difference_type;
+	    typedef std::ptrdiff_t                       difference_type;
             typedef std::bidirectional_iterator_tag iterator_category;
 
             iterator_base();
