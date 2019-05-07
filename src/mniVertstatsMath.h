@@ -66,15 +66,6 @@ template <class T> T vectorSum(std::vector<T> input) {
   return sum;
 }
 
-/*! Computes the standard deviation of a vector */
-template <class T> T vectorStdev(std::vector<T> &v1) {
-  T sum = vectorSum(v1);
-  T sum_sq = vectorSumSq(v1);
-  T mean = sum / v1.size();
-  T stdev = sqrt( sum_sq / v1.size() - mean * mean );
-  return stdev;
-}
-
 /*! Computes the sum of squares of all the elements of a vector */
 template <class T> T vectorSumSq(std::vector<T> input) {
   T sum = 0;
@@ -83,6 +74,15 @@ template <class T> T vectorSumSq(std::vector<T> input) {
     sum += (*it)*(*it);
   }
   return sum;
+}
+
+/*! Computes the standard deviation of a vector */
+template <class T> T vectorStdev(std::vector<T> &v1) {
+  T sum = vectorSum(v1);
+  T sum_sq = vectorSumSq(v1);
+  T mean = sum / v1.size();
+  T stdev = sqrt( sum_sq / v1.size() - mean * mean );
+  return stdev;
 }
 
 /*! Computes the mean of a vector */
