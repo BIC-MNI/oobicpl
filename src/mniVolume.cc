@@ -98,7 +98,7 @@ Real mniVolume::getWorld(Real xWorld, Real yWorld, Real zWorld) {
 void mniVolume::output(STRING file, int cropValue) {
   if (output_volume(file, this->dataType, this->signedFlag,
                     this->voxelMin, this->voxelMax, this->volume,
-                    "mnipl-- test", NULL) != OK) {
+                    (char *) "mnipl-- test", NULL) != OK) {
     throw writeException();
   }
 }

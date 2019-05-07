@@ -69,7 +69,7 @@ mniVertstatsFileType mniVertstatsFile::determineFileType(char *filename) {
 
 void mniVertstatsFile::initialiseVariables() {
 
-  this->dataheader = new vector<string> ();
+  this->dataheader = new std::vector<string> ();
   this->data = new vertexMatrix();
   this->numRows = 0;
   this->numColumns = 0;
@@ -505,7 +505,7 @@ tree<mniVertstatsHeaderEntry>::iterator
 mniVertstatsFile::getHeaderIterator(string headerKey) {
   tree<mniVertstatsHeaderEntry>::iterator it;
   tree<mniVertstatsHeaderEntry>::sibling_iterator sibbegin, sibend;
-  vector<string> components;
+  std::vector<string> components;
 
   Pcre colonSearch(":", "g");
   

@@ -77,23 +77,23 @@ int main (int argc, char *argv[]) {
     return 1;
   }
 
-  if (cArg.getOption("help")) {
+  if (cArg.getOption((char *) "help")) {
     cArg.usage();
     return 0;
   }
 
   float min_distance = 30.0;
-  if (cArg.getOption("min_distance")) {
-    min_distance = atof(cArg.getOption("min_distance")["distance"].c_str());
+  if (cArg.getOption((char *) "min_distance")) {
+    min_distance = atof(cArg.getOption((char *) "min_distance")[(char *) "distance"].c_str());
   }
 
   float min_value = 0.0;
-  if (cArg.getOption("min_value")) {
-    min_value = atof(cArg.getOption("min_value")["value"].c_str());
+  if (cArg.getOption((char *) "min_value")) {
+    min_value = atof(cArg.getOption((char *) "min_value")[(char *) "value"].c_str());
   }
   
   // load the vertstats file
-  mniVertstatsFile stats( (char *)cArg["vertstats_file"].c_str());
+  mniVertstatsFile stats( (char *)cArg[(char *) "vertstats_file"].c_str());
   vertexColumn statsCol = stats.getDataColumn(0);
   
   // initialize the variables for the surface
@@ -104,10 +104,10 @@ int main (int argc, char *argv[]) {
   Point *points;
 
   // read in the surface
-  if ( input_graphics_file( (char*) cArg["obj_file"].c_str(), 
+  if ( input_graphics_file( (char*) cArg[(char *) "obj_file"].c_str(), 
                             &format, &num_objects, &object_list )
        != OK ) {
-    cerr << "ERROR reading file " << cArg["obj_file"] << endl;
+    cerr << "ERROR reading file " << cArg[(char *) "obj_file"] << endl;
     return 0;
   }
 
@@ -121,9 +121,9 @@ int main (int argc, char *argv[]) {
   points = polygons->points;
 
   // a vector to hold the peaks
-  vector<vertexIndexPair> peaks;
+  std::vector<vertexIndexPair> peaks;
   // vector to hold the vertex values and indices
-  vector<vertexIndexPair> vipVector;
+  std::vector<vertexIndexPair> vipVector;
 
   //assign values and indices
   for (int i=0; i < statsCol.size(); i++) {
@@ -143,7 +143,7 @@ int main (int argc, char *argv[]) {
    */
 
   int max_peaks = 20;
-  vector<vertexIndexPair>::iterator vipIt, vipIt2, vipItPeaks, vipItPeaks2;
+  std::vector<vertexIndexPair>::iterator vipIt, vipIt2, vipItPeaks, vipItPeaks2;
 
   // add the highest vertex to the peaks vector
   vipIt = vipVector.begin();
@@ -187,14 +187,14 @@ int main (int argc, char *argv[]) {
   float peakValue = 1;
   bool createOutputFile = false;
   mniVertstatsFile outputVstats;
-  if (cArg.getOption("vertstats_output")) {
+  if (cArg.getOption((char *) "vertstats_output")) {
     createOutputFile = true;
-    outputFile = cArg.getOption("vertstats_output")["filename"];
-    peakValue = atof(cArg.getOption("vertstats_output")["value"].c_str());
+    outputFile = cArg.getOption((char *) "vertstats_output")[(char *) "filename"];
+    peakValue = atof(cArg.getOption((char *) "vertstats_output")[(char *) "value"].c_str());
   }
 
   // print the tags to stdout
-  ofstream output((char *)cArg["output"].c_str());
+  ofstream output((char *)cArg[(char *) "output"].c_str());
   output << "value, vertex, x, y, z" << endl;
 
   vipItPeaks = peaks.begin();

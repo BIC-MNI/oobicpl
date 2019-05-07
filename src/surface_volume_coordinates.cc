@@ -45,15 +45,15 @@ int main (int argc, char *argv[]) {
     return 1;
   }
   // print help message if -help
-  if (cArg.getOption("help")) {
+  if (cArg.getOption((char *) "help")) {
     cArg.usage();
     return 0;
   }
 
   // open the input object
-  if (input_graphics_file( (char*) cArg["input_object"].c_str(),
+  if (input_graphics_file( (char*) cArg[(char *) "input_object"].c_str(),
 			   &format, &num_objects, &object_list) != OK) {
-    cerr << "ERROR reading file " << cArg["input_object"] << endl;
+    cerr << "ERROR reading file " << cArg[(char *) "input_object"] << endl;
     return 1;
   }
 
@@ -65,7 +65,7 @@ int main (int argc, char *argv[]) {
 
   // open the volume which will be used to compute the world to voxel
   // coordinates.
-  mniVolume *volume = new mniVolume( (char *) cArg["input_volume"].c_str(),
+  mniVolume *volume = new mniVolume( (char *) cArg[(char *) "input_volume"].c_str(),
 				     0.0, 0.0, 3, XYZdimOrder);
 
   n_points = get_object_points(object_list[0], &points);
@@ -82,7 +82,7 @@ int main (int argc, char *argv[]) {
   compute_polygon_normals( get_polygons_ptr(object_list[0]) );
 
   // output the revised obj file
-  (void) output_graphics_file( (char *)cArg["output_object"].c_str(), format,
+  (void) output_graphics_file( (char *)cArg[(char *) "output_object"].c_str(), format,
 			       num_objects, object_list );
   
   return 0;

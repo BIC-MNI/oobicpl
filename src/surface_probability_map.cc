@@ -34,7 +34,7 @@ ArgvInfo arbTable[] =
 using namespace std;
 
 int main (int argc, char **argv) {
-  vector<vertexColumn> input;
+  std::vector<vertexColumn> input;
   string               outfile;
   string               argString;
   unsigned int         nFiles;

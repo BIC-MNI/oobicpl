@@ -40,7 +40,7 @@ int main( int argc, char *argv[] ) {
   if (columnName == NULL) {
     // output stats for all columns
     for (int i=0; i < f.getNumColumns(); i++) {
-      vector<string> header = f.getDataHeader();
+      std::vector<string> header = f.getDataHeader();
       mniVectorStats s(f.getDataColumn(i));
       cout << header[i] << ": " << endl << s;
     }

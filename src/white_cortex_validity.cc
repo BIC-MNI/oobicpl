@@ -33,7 +33,7 @@
 
 int main ( int argc, char *argv[] ) {
   // load two volumes: painted slice, intersected slice
-  static STRING ZYXdimOrder[] = {MIzspace, MIyspace, MIxspace};
+  static STRING ZYXdimOrder[] = {(char *) MIzspace, (char *) MIyspace, (char *) MIxspace};
 
   int v0, v1, v2;
 

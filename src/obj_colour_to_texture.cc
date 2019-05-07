@@ -69,7 +69,7 @@ int main (int argc, char *argv[]) {
     return 1;
   }
 
-  vector<float> v(p.n_points);
+  std::vector<float> v(p.n_points);
 
   // now actually get to the colours - there has to be a smarter way of doing this, but
   // it appears to work.

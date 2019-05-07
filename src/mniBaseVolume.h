@@ -11,14 +11,14 @@ extern "C" {
 using namespace std;
 
 // static value used as default for volume loading
-static STRING  ZXYdimOrder[] = {MIzspace, MIxspace, MIyspace};
-static STRING  ZYXdimOrder[] = {MIzspace, MIyspace, MIxspace};
+static STRING  ZXYdimOrder[] = {(char *) MIzspace, (char *) MIxspace, (char *) MIyspace};
+static STRING  ZYXdimOrder[] = {(char *) MIzspace, (char *) MIyspace, (char *) MIxspace};
 
-static STRING  XYZdimOrder[] = {MIxspace, MIyspace, MIzspace};
-static STRING  XZYdimOrder[] = {MIxspace, MIzspace, MIyspace};
+static STRING  XYZdimOrder[] = {(char *) MIxspace, (char *) MIyspace, (char *) MIzspace};
+static STRING  XZYdimOrder[] = {(char *) MIxspace, (char *) MIzspace, (char *) MIyspace};
 
-static STRING  YXZdimOrder[] = {MIyspace, MIxspace, MIzspace};
-static STRING  YZXdimOrder[] = {MIyspace, MIzspace, MIxspace};
+static STRING  YXZdimOrder[] = {(char *) MIyspace, (char *) MIxspace, (char *) MIzspace};
+static STRING  YZXdimOrder[] = {(char *) MIyspace, (char *) MIzspace, (char *) MIxspace};
 
 //! An abstract baseclass for a minc volume
 /*!

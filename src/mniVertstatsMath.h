@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <stdlib.h>
+#include <math.h>
  
 /*! \addtogroup vertstats Dealing with vertstats files */
 /*@{*/
@@ -32,43 +33,63 @@ public:
   float vmean;
   //! The median of all the vector's elements
   float vmedian;
+  //! The standard deviation of all the vector's elements
+  float vstdev;;
 
   /*! The constructor
    *
    * Takes a vector as an input, computes the statistics, then makes
    * them available in the individual data members.
    */
-  mniVectorStats(vector<float> input);
+  mniVectorStats(std::vector<float> input);
 private:
   //! Actually performs the computation
-  void computeStats(vector<float> input);
+  void computeStats(std::vector<float> input);
   //! Prints the results
   friend ostream& operator<<(ostream& out, const mniVectorStats& v) {
     out << " Maximum: " << v.vmax << endl;
     out << " Minimum: " << v.vmin << endl;
     out << " Median:  " << v.vmedian << endl;
     out << " Mean:    " << v.vmean << endl;
+    out << " Stdev:   " << v.vstdev << endl;
     out << " Sum:     " << v.vsum << endl;
   }
 };
 
+/*! Computes the sum of all the elements of a vector */
+template <class T> T vectorSum(std::vector<T> input) {
+  T sum = 0;
+  typename std::vector<T>::iterator it;
+  for (it = input.begin(); it != input.end(); ++it) {
+    sum += *it;
+  }
+  return sum;
+}
+
+/*! Computes the sum of squares of all the elements of a vector */
+template <class T> T vectorSumSq(std::vector<T> input) {
+  T sum = 0;
+  typename std::vector<T>::iterator it;
+  for (it = input.begin(); it != input.end(); ++it) {
+    sum += (*it)*(*it);
+  }
+  return sum;
+}
+
 /*! Computes the mean of a vector */
-template <class T>
-T vectorMean(vector<T> &v1) {
+template <class T> T vectorMean(std::vector<T> &v1) {
   T sum = vectorSum(v1);
   T mean = sum / v1.size();
   return mean;
 }
 
-/*! Computes the sum of all the elements of a vector */
-template <class T>
-T vectorSum(vector<T> input) {
-  T sum = 0;
-  typename vector<T>::iterator it;
-  for (it = input.begin(); it != input.end(); ++it) {
-    sum += *it;
-  }
-  return sum;
+/*! Computes the standard deviation of a vector */
+template <class T> T vectorStdev(std::vector<T> &v1) {
+  T sum = vectorSum(v1);
+  T sum_sq = vectorSumSq(v1);
+  T mean = sum / v1.size();
+  T stdev = sqrt( sum_sq / v1.size() - mean * mean );
+  return stdev;
 }
 
 /*! Ensures that size of two vectors is the same
@@ -77,7 +98,7 @@ T vectorSum(vector<T> input) {
  * the sizes differ.
  */
 template <class T>
-void vectorSizeCheck(vector<T> &v1, vector<T> &v2) {
+void vectorSizeCheck(std::vector<T> &v1, std::vector<T> &v2) {
   if (v1.size() != v2.size()) {
     cerr << "ERROR: tried adding two vectors of unequal dimensions!" <<endl;
     exit(1);
@@ -89,9 +110,9 @@ void vectorSizeCheck(vector<T> &v1, vector<T> &v2) {
  * Normalises a vector by dividing each element by the mean 
  */
 template <class T>
-vector<T> vectorNormalise(vector<T> &v1) {
+std::vector<T> vectorNormalise(std::vector<T> &v1) {
   T mean = vectorMean(v1);
-  vector<T> result( v1 );
+  std::vector<T> result( v1 );
   for (int i=0; i < v1.size(); i++) {
     result[i] = v1[i] / mean;
   }
@@ -101,9 +122,9 @@ vector<T> vectorNormalise(vector<T> &v1) {
 /*! Take absolute value of a vector
  */
 template <class T>
-vector<T> vectorAbsolute(vector<T> &v1) {
+std::vector<T> vectorAbsolute(std::vector<T> &v1) {
 
-  vector<T> result( v1 );
+  std::vector<T> result( v1 );
   for (int i=0; i < v1.size(); i++) {
     result[i] = ( v1[i] < (T)0 ) ? -v1[i] : v1[i];
   }
@@ -112,9 +133,9 @@ vector<T> vectorAbsolute(vector<T> &v1) {
 
 /*! Element by element addition of two vectors */
 template <class T>
-vector<T> vectorAdd(vector<T> &v1, vector<T> &v2) {
+std::vector<T> vectorAdd(std::vector<T> &v1, std::vector<T> &v2) {
   vectorSizeCheck(v1, v2);
-  vector<T> result( v1 );
+  std::vector<T> result( v1 );
   for (int i=0; i < v1.size(); i++) {
     result[i] = v1[i] + v2[i];
   }
@@ -123,8 +144,8 @@ vector<T> vectorAdd(vector<T> &v1, vector<T> &v2) {
 
 /*! Adds a constant to a vector */
 template <class T, class T2>
-vector<T> vectorAdd(vector<T> &v1, const T2 constant) {
-  vector<T> result( v1 );
+std::vector<T> vectorAdd(std::vector<T> &v1, const T2 constant) {
+  std::vector<T> result( v1 );
   for (int i=0; i < v1.size(); i++) {
     result[i] = v1[i] + constant;
   }
@@ -133,9 +154,9 @@ vector<T> vectorAdd(vector<T> &v1, const T2 constant) {
 
 /*! Subtracts two vectors */
 template <class T>
-vector<T> vectorSub(vector<T> &v1, vector<T> &v2) {
+std::vector<T> vectorSub(vector<T> &v1, std::vector<T> &v2) {
   vectorSizeCheck(v1, v2);
-  vector<T> result( v1 );
+  std::vector<T> result( v1 );
   for (int i=0; i < v1.size(); i++) {
     result[i] = v1[i] - v2[i];
   }
@@ -144,8 +165,8 @@ vector<T> vectorSub(vector<T> &v1, vector<T> &v2) {
 
 /*! Subtracts a constant from a vector */
 template <class T, class T2>
-vector<T> vectorSub(vector<T> &v1, const T2 constant) {
-  vector<T> result( v1 );
+std::vector<T> vectorSub(std::vector<T> &v1, const T2 constant) {
+  std::vector<T> result( v1 );
   for (int i=0; i < v1.size(); i++) {
     result[i] = v1[i] - constant;
   }
@@ -156,10 +177,10 @@ vector<T> vectorSub(vector<T> &v1, const T2 constant) {
  *  ints containing the indices where the elements were in the
  *  range. */
 template <class T, class T2>
-vector<int> vectorFind(vector<T> &v1, 
+std::vector<int> vectorFind(std::vector<T> &v1, 
                        const T2 lowerLimit, 
                        const T2 upperLimit) {
-  vector<int> result;
+  std::vector<int> result;
   for (int i=0; i < v1.size(); i++) {
     if (v1[i] > lowerLimit && v1[i] < upperLimit)
       result.push_back(i);
@@ -171,11 +192,11 @@ vector<int> vectorFind(vector<T> &v1,
  * each element where the input vector is in the specified range, a 0
  * otherwise. */
 template <class T, class T2>
-vector<T> vectorSeg(vector<T> &v1,
+std::vector<T> vectorSeg(std::vector<T> &v1,
                       const T2 lowerLimit,
                       const T2 upperLimit,
                     float outputValue=1.0) {
-  vector<T> result( v1 );
+  std::vector<T> result( v1 );
   for (int i=0; i < v1.size(); i++) {
     if (v1[i] > lowerLimit && v1[i] < upperLimit) {
       result[i] = outputValue;
@@ -192,9 +213,9 @@ vector<T> vectorSeg(vector<T> &v1,
  * \bug Does not check for a divide by zero error
  */
 template <class T>
-vector<T> vectorDiv(vector<T> &v1, vector<T> &v2) {
+std::vector<T> vectorDiv(std::vector<T> &v1, std::vector<T> &v2) {
   vectorSizeCheck(v1, v2);
-  vector<T> result( v1 );
+  std::vector<T> result( v1 );
   for (int i=0; i< v1.size(); i++) {
     result[i] = v1[i] / v2[i];
   }
@@ -203,8 +224,8 @@ vector<T> vectorDiv(vector<T> &v1, vector<T> &v2) {
 
 /*! Divides each element of a vector by a constant */
 template <class T, class T2>
-vector<T> vectorDiv(vector<T> &v1, const T2 constant) {
-  vector<T> result( v1 );
+std::vector<T> vectorDiv(vector<T> &v1, const T2 constant) {
+  std::vector<T> result( v1 );
   for (int i=0; i < v1.size(); i++) {
     result[i] = v1[i] / constant;
   }
@@ -213,9 +234,9 @@ vector<T> vectorDiv(vector<T> &v1, const T2 constant) {
 
 /*! Element by element multiplication of two vectors */
 template <class T>
-vector<T> vectorMult(vector<T> &v1, vector<T> &v2) {
+std::vector<T> vectorMult(std::vector<T> &v1, std::vector<T> &v2) {
   vectorSizeCheck(v1, v2);
-  vector<T> result( v1 );
+  std::vector<T> result( v1 );
   for (int i=0; i < v1.size(); i++) {
     result[i] = v1[i] * v2[i];
   }
@@ -224,8 +245,8 @@ vector<T> vectorMult(vector<T> &v1, vector<T> &v2) {
 
 /*! Multiplies each element of a vector by a constant */
 template <class T, class T2>
-vector<T> vectorMult(vector<T> &v1, const T2 constant) {
-  vector<T> result( v1 );
+std::vector<T> vectorMult(std::vector<T> &v1, const T2 constant) {
+  std::vector<T> result( v1 );
   for (int i=0; i < v1.size(); i++) {
     result[i] = v1[i] * constant;
   }
