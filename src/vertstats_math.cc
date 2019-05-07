@@ -84,11 +84,11 @@ ArgvInfo argTable[] =
 // Main programme
 int main(int argc, char *argv[]) {
 
-  vector<string> infiles;
+  std::vector<string> infiles;
   string outfile;
   string argString;
   unsigned int nfiles;
-  vector<vertexColumn> input;
+  std::vector<vertexColumn> input;
   vertexColumn result;
   bool oldStyleBool;
 

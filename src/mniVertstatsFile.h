@@ -16,8 +16,8 @@
 using namespace std;
 
 /*! A type to hold a vector of a vector */
-typedef vector<float> vertexColumn;
-typedef vector<vertexColumn> vertexMatrix;
+typedef std::vector<float> vertexColumn;
+typedef std::vector<vertexColumn> vertexMatrix;
 
 /*! the type of file that is being read */
 enum mniVertstatsFileType { OLDSTYLE, NEWSTYLE };
@@ -78,7 +78,7 @@ class mniVertstatsFile {
 private:
   tree<mniVertstatsHeaderEntry> *headerTree;
   vertexMatrix *data;
-  vector <string> *dataheader;
+  std::vector <string> *dataheader;
   int numColumns;
   int numRows;
   mniVertstatsFileType determineFileType(char *filename);
@@ -119,7 +119,7 @@ public:
   //! Adds this string to history header
   void addToHistory(string moreHistory);
   //! return the data header vector
-  vector<string> getDataHeader() { return *dataheader; }
+  std::vector<string> getDataHeader() { return *dataheader; }
   //! return the number of columns in this file
   int getNumColumns() { return numColumns; }
   //! return the number of rows in this file

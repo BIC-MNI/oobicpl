@@ -14,7 +14,7 @@ extern "C" {
 void  usage(
     VIO_STR   executable )
 {
-    VIO_STR  usage_str = "\n\
+  VIO_STR  usage_str = (char *) "\n\
 Usage: %s  src.obj values_file column_name dest.obj\n\
            gray|hot|spectral|blue|green|red|user [user.map] low high\n\
            [under] [over] [opacity] [replace|composite|mult]\n\n";
@@ -70,27 +70,27 @@ int  main(
         return( 1 );
     }
 
-    default_over = "WHITE";
+    default_over = (char *) "WHITE";
 
-    if( equal_strings( coding_type_string, GRAY_STRING ) )
+    if( equal_strings( coding_type_string, (char *) GRAY_STRING ) )
         coding_type = GRAY_SCALE;
-    else if( equal_strings( coding_type_string, HOT_STRING ) )
+    else if( equal_strings( coding_type_string, (char *) HOT_STRING ) )
         coding_type = HOT_METAL;
-    else if( equal_strings( coding_type_string, SPECTRAL_STRING ) )
+    else if( equal_strings( coding_type_string, (char *) SPECTRAL_STRING ) )
         coding_type = SPECTRAL;
-    else if( equal_strings( coding_type_string, RED_STRING ) )
+    else if( equal_strings( coding_type_string, (char *) RED_STRING ) )
         coding_type = RED_COLOUR_MAP;
-    else if( equal_strings( coding_type_string, GREEN_STRING ) )
+    else if( equal_strings( coding_type_string, (char *) GREEN_STRING ) )
         coding_type = GREEN_COLOUR_MAP;
-    else if( equal_strings( coding_type_string, BLUE_STRING ) )
+    else if( equal_strings( coding_type_string, (char *) BLUE_STRING ) )
         coding_type = BLUE_COLOUR_MAP;
-    else if( equal_strings( coding_type_string, USER_STRING ) )
+    else if( equal_strings( coding_type_string, (char *) USER_STRING ) )
     {
         coding_type = USER_DEFINED_COLOUR_MAP;
         if( !get_string_argument( NULL, &user_def_filename ) )
         {
             usage( argv[0] );
-            print_error( "Error in user def colour coding argument.\n");                    return( 1 );
+            print_error( (char *) "Error in user def colour coding argument.\n");                    return( 1 );
         }
     }
     else
@@ -106,16 +106,16 @@ int  main(
         return( 1 );
     }
 
-    (void) get_string_argument( "BLACK", &under_colour_name );
+    (void) get_string_argument( (char *) "BLACK", &under_colour_name );
     (void) get_string_argument( default_over, &over_colour_name );
     (void) get_real_argument( 1.0, &opacity );
-    (void) get_string_argument( "composite", &composite_method_name );
+    (void) get_string_argument( (char *) "composite", &composite_method_name );
 
-    if( equal_strings( composite_method_name, "mult" ) )
+    if( equal_strings( composite_method_name, (char *) "mult" ) )
         composite_method = MULTIPLY_COLOUR;
-    else if( equal_strings( composite_method_name, "replace" ) )
+    else if( equal_strings( composite_method_name, (char *) "replace" ) )
         composite_method = REPLACE_COLOUR;
-    else if( equal_strings( composite_method_name, "composite" ) )
+    else if( equal_strings( composite_method_name, (char *) "composite" ) )
         composite_method = COMPOSITE_COLOUR;
     else
     {
@@ -132,8 +132,13 @@ int  main(
     if( coding_type == USER_DEFINED_COLOUR_MAP )
     {
         if( input_user_defined_colour_coding( &colour_coding,
+<<<<<<< HEAD
                                               user_def_filename ) != VIO_OK)                {
             print_error( "Error in user defined colour map: %s\n",
+=======
+                                              user_def_filename ) != OK)                {
+            print_error( (char *) "Error in user defined colour map: %s\n",
+>>>>>>> 94119da... Modified by Claude and Tarek, * compiles warning-free under gcc 4.6.3; * fix templates to compile free under gcc 4.8.3.
                           user_def_filename );
             return( 1 );
         }
@@ -176,7 +181,7 @@ int  main(
         {
             if( value_index >= n_values )
             {
-                print_error( "Insufficient number of values in file.\n" );
+                print_error( (char *) "Insufficient number of values in file.\n" );
                 return( 1 );
             }
 
@@ -226,7 +231,7 @@ int  main(
                 max_range = value;
         }
 
-        print( "Value range: %g %g\n", min_range, max_range );
+        print((char *) "Value range: %g %g\n", min_range, max_range );
     }
 
     status = output_graphics_file( dest_filename, format,

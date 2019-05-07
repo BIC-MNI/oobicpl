@@ -17,7 +17,7 @@ int main (int argc, char *argv[]) {
   if(!cArg.parse(argc, argv))
     return 1;
 
-  if(cArg.getOption("help")) {
+  if(cArg.getOption((char *)"help")) {
     cArg.usage();
     return 0;
   }
@@ -37,9 +37,9 @@ int main (int argc, char *argv[]) {
   initialize_lines(lines, 1);
 
   // read in the white surface
-  if ( input_graphics_file( (char*) cArg["white_surface_mesh_file"].c_str(), &format, &num_objects, &object_list_white )
+  if ( input_graphics_file( (char*) cArg[(char *) "white_surface_mesh_file"].c_str(), &format, &num_objects, &object_list_white )
        != VIO_OK ) {
-    cerr << "ERROR reading file " << cArg["white_surface_mesh_file"] << endl;
+    cerr << "ERROR reading file " << cArg[(char *) "white_surface_mesh_file"] << endl;
     return 1;
   }
 
@@ -50,9 +50,15 @@ int main (int argc, char *argv[]) {
   }
   
   // read in the gray surface
+<<<<<<< HEAD
   if ( input_graphics_file( (char*) cArg["gray_surface_mesh_file"].c_str(), &format, &num_objects, &object_list_gray )
        != VIO_OK ) {
     cerr << "ERROR reading file " << cArg["gray_surface_mesh_file"] << endl;
+=======
+  if ( input_graphics_file( (char*) cArg[ (char *) "gray_surface_mesh_file"].c_str(), &format, &num_objects, &object_list_gray )
+       != OK ) {
+    cerr << "ERROR reading file " << cArg[(char *)"gray_surface_mesh_file"] << endl;
+>>>>>>> 94119da... Modified by Claude and Tarek, * compiles warning-free under gcc 4.6.3; * fix templates to compile free under gcc 4.8.3.
     return 1;
   }
 
@@ -79,8 +85,13 @@ int main (int argc, char *argv[]) {
     add_point_to_line(lines, &points_gray[pidx]);
   }
 
+<<<<<<< HEAD
   if( output_graphics_file( (char*) cArg["output_object_file"].c_str(), format, 1, &object_list_lines) != VIO_OK) {
     cerr << "ERROR writing file " << cArg["output_object_file"] << endl;
+=======
+  if( output_graphics_file( (char*) cArg[(char *) "output_object_file"].c_str(), format, 1, &object_list_lines) != OK) {
+    cerr << "ERROR writing file " << cArg[(char *) "output_object_file"] << endl;
+>>>>>>> 94119da... Modified by Claude and Tarek, * compiles warning-free under gcc 4.6.3; * fix templates to compile free under gcc 4.8.3.
     return 1;
   }
   cout << "Done" << endl;

@@ -27,8 +27,8 @@ string usage = "\n"
 int main(int argc, char *argv[]) {
 
   int i;
-  vector<string> headers;
-  vector<string>::iterator it;
+  std::vector<string> headers;
+  std::vector<string>::iterator it;
 
   // booleans that control what gets printed
   bool dataHeaders = false;
@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
   }
 
   mniVertstatsFile f(argv[argc - 1], readData);
-  vector<string> header = f.getDataHeader();
+  std::vector<string> header = f.getDataHeader();
 
   if (headerStructure) {
     cout << "Header structure: " << endl;
@@ -116,9 +116,9 @@ int main(int argc, char *argv[]) {
       cout << header[i] <<  ": " << endl << s;
     }
     /*
-    vector<float> test1 = f.getDataColumn(0);
-    vector<float> test2 = f.getDataColumn(1);
-    vector<float> test = vectorAdd(test1, test2);
+    std::vector<float> test1 = f.getDataColumn(0);
+    std::vector<float> test2 = f.getDataColumn(1);
+    std::vector<float> test = vectorAdd(test1, test2);
     for (i=0; i < test.size(); i++){
       cout << test1[i] << endl;
       cout << test[i] << endl;

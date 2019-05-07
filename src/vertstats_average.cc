@@ -21,7 +21,7 @@ ArgvInfo argTable[] =
 
 // Main programme 
 int main(int argc, char *argv[]) {
-  vector<string> infiles;
+  std::vector<string> infiles;
   string outfile;
   vertexMatrix input;
   int nFiles;
