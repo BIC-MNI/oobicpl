@@ -132,13 +132,8 @@ int  main(
     if( coding_type == USER_DEFINED_COLOUR_MAP )
     {
         if( input_user_defined_colour_coding( &colour_coding,
-<<<<<<< HEAD
                                               user_def_filename ) != VIO_OK)                {
-            print_error( "Error in user defined colour map: %s\n",
-=======
-                                              user_def_filename ) != OK)                {
             print_error( (char *) "Error in user defined colour map: %s\n",
->>>>>>> 94119da... Modified by Claude and Tarek, * compiles warning-free under gcc 4.6.3; * fix templates to compile free under gcc 4.8.3.
                           user_def_filename );
             return( 1 );
         }
