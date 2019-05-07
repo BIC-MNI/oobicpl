@@ -1,3 +1,17 @@
+New in Version 0.4.9
+* fix templates to compile free under gcc 4.8.3.
+
+New in Version 0.4.8
+* add standard deviation to vertstats_stats
+* fix bug in mean calculation in vertstats_stats (divide by n, not n+1)
+
+New in Version 0.4.7
+* compiles warning-free under gcc 4.6.3.
+
+New in Version 0.4.6
+* src/tree.hh: explicitly use std namespace for ptrdiff_t type
+  (in order to compile with new versions of g++).
+
 New in Version 0.4.5
 * use BIC/MINC license (like minc) instead of GPL license
 * read vertstats file as double (now understands scientific notation)
