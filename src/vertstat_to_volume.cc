@@ -38,19 +38,19 @@ int main (int argc, char *argv[]) {
   if(!cArg.parse(argc, argv))
     return 1;
 
-  if(cArg.getOption("help")) {
+  if(cArg.getOption((char *) "help")) {
     cArg.usage();
     return 0;
   }
 
   // open the verstat file
-  mniVertstatsFile stats((char *)cArg["vertstats_file"].c_str());
-  cout << "Loading: " << cArg["vertstats_file"] << endl;
+  mniVertstatsFile stats((char *)cArg[(char *) "vertstats_file"].c_str());
+  cout << "Loading: " << cArg[(char *) "vertstats_file"] << endl;
   
   // read the user-defined column (or the first column if not defined)
   vertexColumn statsCol;
-  if(cArg.getOption("column"))
-    statsCol = stats.getDataColumn(cArg.getOption("column")["column"].c_str());
+  if(cArg.getOption((char *) "column"))
+    statsCol = stats.getDataColumn(cArg.getOption((char *) "column")[(char *) "column"].c_str());
   else
     statsCol = stats.getDataColumn(0);
 
@@ -66,9 +66,9 @@ int main (int argc, char *argv[]) {
   // Arguments uses std::strings, we use strcpy to munge the const
   // char * to a char * so that it is palatable to mniVolume
   char inputVolumeFile[255] = "";
-  strcpy(inputVolumeFile, cArg["input_volume_file"].c_str());
+  strcpy(inputVolumeFile, cArg[(char *) "input_volume_file"].c_str());
   char outputVolumeFile[255] = "";
-  strcpy(outputVolumeFile, cArg["output_volume_file"].c_str());
+  strcpy(outputVolumeFile, cArg[(char *) "output_volume_file"].c_str());
 
   // make mni volume objects
   mniVolume *maskVolume = new mniVolume(inputVolumeFile);
@@ -84,9 +84,9 @@ int main (int argc, char *argv[]) {
   polygons_struct *polygons_gray;
 
   // read in the white surface
-  if ( input_graphics_file( (char*) cArg["white_surface_mesh_file"].c_str(), &format, &num_objects, &object_list_white )
+  if ( input_graphics_file( (char*) cArg[(char *) "white_surface_mesh_file"].c_str(), &format, &num_objects, &object_list_white )
        != VIO_OK ) {
-    cerr << "ERROR reading file " << cArg["white_surface_mesh_file"] << endl;
+    cerr << "ERROR reading file " << cArg[(char *) "white_surface_mesh_file"] << endl;
     return 0;
   }
 
@@ -97,9 +97,9 @@ int main (int argc, char *argv[]) {
   }
   
   // read in the gray surface
-  if ( input_graphics_file( (char*) cArg["gray_surface_mesh_file"].c_str(), &format, &num_objects, &object_list_gray )
+  if ( input_graphics_file( (char*) cArg[(char *) "gray_surface_mesh_file"].c_str(), &format, &num_objects, &object_list_gray )
        != VIO_OK ) {
-    cerr << "ERROR reading file " << cArg["gray_surface_mesh_file"] << endl;
+    cerr << "ERROR reading file " << cArg[(char *) "gray_surface_mesh_file"] << endl;
     return 0;
   }
 
@@ -130,7 +130,7 @@ int main (int argc, char *argv[]) {
     for(int j=0; j<volumeSizes[1]; ++j) {
       for(int k=0; k<volumeSizes[2]; ++k) {
         // if we're using the input volume as a mask
-        if(cArg.getOption("mask")) {
+        if(cArg.getOption((char *) "mask")) {
           // if the value is less than 0.5, zero this voxel
           if(maskVolume->getVoxel(i, j, k) < 0.5) {
             outputVolume->setVoxel(0, i, j, k);

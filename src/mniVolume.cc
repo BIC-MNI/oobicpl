@@ -98,7 +98,7 @@ VIO_Real mniVolume::getWorld(VIO_Real xWorld, VIO_Real yWorld, VIO_Real zWorld) 
 void mniVolume::output(VIO_STR file, int cropValue) {
   if (output_volume(file, this->dataType, this->signedFlag,
                     this->voxelMin, this->voxelMax, this->volume,
-                    "mnipl-- test", NULL) != VIO_OK) {
+                    (char *) "mnipl-- test", NULL) != VIO_OK) {
     throw writeException();
   }
 }

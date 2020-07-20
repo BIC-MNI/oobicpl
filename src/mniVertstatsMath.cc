@@ -3,13 +3,13 @@
 #include <algorithm>
 
 
-mniVectorStats::mniVectorStats(vector<float> input) {
+mniVectorStats::mniVectorStats(std::vector<float> input) {
   computeStats(input);
 }
 
 
-void mniVectorStats::computeStats(vector<float> input) {
-  vector<float>::iterator it;
+void mniVectorStats::computeStats(std::vector<float> input) {
+  std::vector<float>::iterator it;
 
   sort(input.begin(), input.end());
   int midIndex = (int) input.size() / 2;
@@ -22,7 +22,7 @@ void mniVectorStats::computeStats(vector<float> input) {
   vmax = input[input.size()-1];
   vmin = input[0];
   vsum = vectorSum(input);
-  vmean = vsum / (input.size()+1);
-
+  vmean = vsum / input.size();
+  vstdev = vectorStdev(input);
 }
   
