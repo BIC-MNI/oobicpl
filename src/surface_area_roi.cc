@@ -56,24 +56,24 @@ int main (int argc, char *argv[]) {
   if(!cArg.parse(argc, argv)) 
     return 1;
 
-  if(cArg.getOption((char *) "help")) {
+  if(cArg.getOption( "help")) {
     cArg.usage();
     return 0;
   }
 
-  if(cArg.getOption((char *) "region")) {
-    cout << "Using ROI " << cArg.getOption((char *) "region")[(char *)"region"] << endl;
+  if(cArg.getOption( "region")) {
+    cout << "Using ROI " << cArg.getOption( "region")["region"] << endl;
   }
 
-  if(cArg.getOption((char *) "column")) {
-    cout << "Using column " << cArg.getOption((char *) "column")[(char *) "column"] << endl;
+  if(cArg.getOption( "column")) {
+    cout << "Using column " << cArg.getOption( "column")[ "column"] << endl;
   }
 
   // open the surface file
-  cout << "Loading: " << cArg[(char *) "surface_file"] << endl;
-  if ( input_graphics_file( (char*) cArg[(char *) "surface_file"].c_str(), &format, &num_objects, &object_list )
+  cout << "Loading: " << cArg[ "surface_file"] << endl;
+  if ( input_graphics_file( (char*) cArg[ "surface_file"].c_str(), &format, &num_objects, &object_list )
        != VIO_OK ) {
-    cerr << "ERROR reading file " << cArg[(char *) "surface_file"] << endl;
+    cerr << "ERROR reading file " << cArg[ "surface_file"] << endl;
     return 0;
   }
 
@@ -86,18 +86,18 @@ int main (int argc, char *argv[]) {
   polygons = get_polygons_ptr(object_list[0]);
   
   // open the verstat file
-  mniVertstatsFile stats((char *)cArg[(char *) "vertstats_file"].c_str());
-  cout << "Loading: " << cArg[(char *) "vertstats_file"] << endl;
+  mniVertstatsFile stats(cArg[ "vertstats_file"].c_str());
+  cout << "Loading: " << cArg[ "vertstats_file"] << endl;
 
   // read the user-defined column (or the first column if not defined)
-  if(cArg.getOption((char *) "column"))
-    regions = stats.getDataColumn(cArg.getOption((char *) "column")[(char *) "column"].c_str());
+  if(cArg.getOption( "column"))
+    regions = stats.getDataColumn(cArg.getOption( "column")[ "column"].c_str());
   else
     regions = stats.getDataColumn(0);
 
   // get the region of interest
-  if(cArg.getOption((char *) "region")) {
-    roi = atoi(cArg.getOption((char *) "region")[(char *) "region"].c_str());
+  if(cArg.getOption( "region")) {
+    roi = atoi(cArg.getOption( "region")[ "region"].c_str());
   } else {
     roi = -1;
   }
@@ -121,7 +121,7 @@ int main (int argc, char *argv[]) {
   int included_vertex_count = 0;
   int required_vertex_count = 1;
 
-  if(cArg.getOption((char *) "include") && cArg.getOption((char *) "include")[(char *) "include"] == "all")
+  if(cArg.getOption( "include") && cArg.getOption( "include")[ "include"] == "all")
     required_vertex_count = n_points;
     
 
@@ -133,7 +133,7 @@ int main (int argc, char *argv[]) {
     if(n_points > 0) {
       // reset the included vertex counter and set the number of required vertices
       included_vertex_count = 0;
-      if(cArg.getOption((char *) "include") && cArg.getOption((char *) "include")[(char *) "include"] == "all")
+      if(cArg.getOption( "include") && cArg.getOption( "include")[ "include"] == "all")
         required_vertex_count = n_points;
 
       // loop over all the points in the polygon
