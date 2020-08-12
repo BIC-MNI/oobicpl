@@ -138,7 +138,7 @@ int main (int argc, char *argv[]) {
           }
         }
 
-        VIO_Real voxel_coord[3] = {i, j, k};
+        VIO_Real voxel_coord[3] = {static_cast<VIO_Real>(i), static_cast<VIO_Real>(j), static_cast<VIO_Real>(k)};
         VIO_Real *world_coord;
         world_coord = outputVolume->convertVoxelToWorld(voxel_coord);
 
