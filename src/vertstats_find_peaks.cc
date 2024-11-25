@@ -27,6 +27,7 @@ ostream& operator << (ostream& os, vertexIndexPair& vip) {
   os << vip.value;
   os << " ";
   os << vip.index;
+  return os;
 }  
 
 // is greater then

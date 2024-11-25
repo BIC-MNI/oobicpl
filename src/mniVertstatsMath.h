@@ -53,6 +53,7 @@ private:
     out << " Mean:    " << v.vmean << endl;
     out << " Stdev:   " << v.vstdev << endl;
     out << " Sum:     " << v.vsum << endl;
+    return out;
   }
 };
 

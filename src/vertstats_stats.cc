@@ -30,7 +30,7 @@ int main( int argc, char *argv[] ) {
 
   if (ParseArgv( &argc, argv, argTable, 0 ) || (argc != 2) ) {
     cerr << "USAGE: " << usage << endl;
-    exit(1);
+    exit(0);
   }
 
   infile = argv[1];

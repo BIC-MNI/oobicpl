@@ -1,4 +1,4 @@
-# CMakeFiles.txt for the arguments library
+# CMakeFiles.txt for the oobicpl library
 #
 # Vladimir S. FONOV - vladimir.fonov@gmail.com
 
@@ -30,7 +30,6 @@ IF(NOT MINC_TOOLKIT_BUILD)
   FIND_PACKAGE( ARGUMENTS REQUIRED )
   
   FIND_PACKAGE( PCRE REQUIRED )
-#   FIND_PACKAGE( PCRE++ REQUIRED )
   
   OPTION(OOBICPL_BUILD_SHARED_LIBS "Build shared libraries." OFF)
 ENDIF(NOT MINC_TOOLKIT_BUILD)
