@@ -2,7 +2,7 @@
 #
 # Vladimir S. FONOV - vladimir.fonov@gmail.com
 
-CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
 
 PROJECT(oobicpl)
 
