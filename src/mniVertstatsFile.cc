@@ -1,8 +1,8 @@
 #include "mniVertstatsFile.h"
-#include <pcrecpp.h>
+#include <regex>
 #include <algorithm>
+#include <cstring>
 
-//using namespace pcrepp;
 using namespace std;
 
 extern "C" {
@@ -250,10 +250,8 @@ void mniVertstatsFile::loadNewStyleFile(char *filename, bool readData) {
     bool currentTagClosed = true;
 
     // the regex matches for opening and closing tags
-    //Pcre openTag("<([a-z]+)>", "i");
-    pcrecpp::RE openTag("<([a-z]+)>",pcrecpp::CASELESS());
-    //Pcre closeTag("</([a-z]+)>", "i");
-    pcrecpp::RE closeTag("</([a-z]+)>",pcrecpp::CASELESS());
+    std::regex openTag("<([a-z]+)>", std::regex::icase);
+    std::regex closeTag("</([a-z]+)>", std::regex::icase);
     
     tree<mniVertstatsHeaderEntry>::iterator top, current;
 
@@ -276,7 +274,9 @@ void mniVertstatsFile::loadNewStyleFile(char *filename, bool readData) {
 
       while (closeHeader == false) {
         getline(statsFile, line);
-        if (openTag.PartialMatch(line,&tagName)) {
+        std::smatch tagMatch;
+        if (std::regex_search(line, tagMatch, openTag)) {
+          tagName = tagMatch[1].str();
           // found an opening tag
 /*          if (openTag.matches() != 1) {
             cerr << "ERROR: illegal tag on line: " << line << endl;
@@ -300,7 +300,8 @@ void mniVertstatsFile::loadNewStyleFile(char *filename, bool readData) {
         }
     
     
-        else if (closeTag.PartialMatch(line,&closingTagName)) {
+        else if (std::regex_search(line, tagMatch, closeTag)) {
+          closingTagName = tagMatch[1].str();
           if (closingTagName == "header") {
             // end header processing, move on to dataheader
             closeHeader = true;
@@ -398,18 +399,14 @@ vertexColumn mniVertstatsFile::getDataColumn(string columnName) {
   columnName.insert(columnName.end(), '$');
 
   // make sure that all periods are treated literally
-  //Pcre periodReplace("\\.", "g");
-  pcrecpp::RE periodReplace("\\.");
-
-  columnName = periodReplace.GlobalReplace("\\.",&columnName);
+  columnName = std::regex_replace(columnName, std::regex("\\."), std::string("\\."));
   //cout << "regex:" << columnName << endl;
 
-  //Pcre regex(columnName);
-  pcrecpp::RE regex(columnName);
+  std::regex regex(columnName);
 
   for (int i=0; i < this->numColumns; i++) {
     //if ((*this->dataheader)[i].find(columnName) != string::npos)
-    if (regex.PartialMatch((*this->dataheader)[i])) 
+    if (std::regex_search((*this->dataheader)[i], regex))
       position = i;
   }
   if (position == -1) {
@@ -469,12 +466,10 @@ void mniVertstatsFile::putDataColumn(vertexColumn data, string columnName) {
 void mniVertstatsFile::putHeader(mniVertstatsHeaderEntry header,
                                  string headerParent) {
   tree<mniVertstatsHeaderEntry>::iterator it, top;
-  //Pcre newlineCheck("\n$");
-  pcrecpp::RE newlineCheck("\n$");
-  
+  std::regex newlineCheck("\n$");
 
   // ensure that there is a newline at end of header
-  if (!newlineCheck.PartialMatch(header.value)) {
+  if (!std::regex_search(header.value, newlineCheck)) {
     cout << "no newline" << endl;
     header.value.append("\n");
   }
@@ -560,10 +555,7 @@ mniVertstatsFile::getHeaderIterator(string headerKey) {
   tree<mniVertstatsHeaderEntry>::sibling_iterator sibbegin, sibend;
   std::vector<string> components;
 
-  //Pcre colonSearch(":", "g");
-  pcrecpp::RE colonSearch(":");
-  
-  if (colonSearch.PartialMatch(headerKey) ) {
+  if (headerKey.find(':') != std::string::npos) {
     //components = colonSearch.split(headerKey);
     stringtok (components, headerKey,":");
     it = headerTree->begin();
