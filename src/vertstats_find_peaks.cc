@@ -1,5 +1,5 @@
 #include <iostream>
-#include <arguments.h>
+#include "mniArgs.h"
 
 extern "C" {
 #include <bicpl.h>
@@ -49,52 +49,39 @@ bool operator < (vertexIndexPair vip1, vertexIndexPair vip2) {
 int main (int argc, char *argv[]) {
 
   // argument handling
-  Arguments cArg("vertstats_find_peaks", "(c) jason@bic", "-");
-  cArg.addOption("help", "display usage help");
-  cArg.addArgument("vertstats_file", "vertstats file to find peaks from");
-  cArg.addArgument("obj_file", "geometry to determine distances");
-  cArg.addArgument("output", "comma separated list of peaks go here");
+  cxxopts::Options cArg("vertstats_find_peaks", "(c) jason@bic");
+  cArg.add_options()
+    ("help", "display usage help")
+    // minimum distance option
+    ("min_distance", "minimum distance between peaks", cxxopts::value<string>(), "<minimum distance to use>")
+    // minimum value option
+    ("min_value", "minimum value of peaks", cxxopts::value<string>(), "<value to use>")
+    // output vertstats file option - takes two values: filename and value
+    ("vertstats_output", "output vertstats file with peaks", cxxopts::value<vector<string> >(), "<filename to output to> <value to place at peaks>");
+  cArg.add_options("Arguments")
+    ("vertstats_file", "vertstats file to find peaks from", cxxopts::value<string>())
+    ("obj_file", "geometry to determine distances", cxxopts::value<string>())
+    ("output", "comma separated list of peaks go here", cxxopts::value<string>());
+  cArg.positional_help("<vertstats_file> <obj_file> <output>");
 
-  // minimum distance option
-  Arguments::Option cOptDistance("min_distance", 
-                                 "minimum distance between peaks");
-  cOptDistance.addArgument("distance", "minimum distance to use");
-  cArg.addOption(cOptDistance);
+  mniArgs::MultiValueMap multiValue;
+  multiValue["vertstats_output"] = 2;
 
-  // minimum value option
-  Arguments::Option cOptMinValue("min_value",
-                                 "minimum value of peaks");
-  cOptMinValue.addArgument("value", "value to use");
-  cArg.addOption(cOptMinValue);
-
-  // output vertstats file option
-  Arguments::Option cOptVertstats("vertstats_output",
-                                  "output vertstats file with peaks");
-  cOptVertstats.addArgument("filename", "filename to output to");
-  cOptVertstats.addArgument("value", "value to place at peaks");
-  cArg.addOption(cOptVertstats);
-
-  if (!cArg.parse(argc, argv)) {
-    return 1;
-  }
-
-  if (cArg.getOption("help")) {
-    cArg.usage();
-    return 0;
-  }
+  cxxopts::ParseResult args = mniArgs::parse(cArg, argc, argv,
+    {"vertstats_file", "obj_file", "output"}, multiValue);
 
   float min_distance = 30.0;
-  if (cArg.getOption("min_distance")) {
-    min_distance = atof(cArg.getOption("min_distance")["distance"].c_str());
+  if (args.count("min_distance")) {
+    min_distance = atof(args["min_distance"].as<string>().c_str());
   }
 
   float min_value = 0.0;
-  if (cArg.getOption("min_value")) {
-    min_value = atof(cArg.getOption("min_value")[ "value"].c_str());
+  if (args.count("min_value")) {
+    min_value = atof(args["min_value"].as<string>().c_str());
   }
   
   // load the vertstats file
-  mniVertstatsFile stats( cArg[ "vertstats_file"].c_str());
+  mniVertstatsFile stats( args["vertstats_file"].as<string>().c_str());
   vertexColumn statsCol = stats.getDataColumn(0);
   
   // initialize the variables for the surface
@@ -105,10 +92,10 @@ int main (int argc, char *argv[]) {
   VIO_Point *points;
 
   // read in the surface
-  if ( input_graphics_file( (char*) cArg[ "obj_file"].c_str(), 
+  if ( input_graphics_file( (char*) args["obj_file"].as<string>().c_str(), 
                             &format, &num_objects, &object_list )
        != VIO_OK ) {
-    cerr << "ERROR reading file " << cArg[ "obj_file"] << endl;
+    cerr << "ERROR reading file " << args["obj_file"].as<string>() << endl;
     return 0;
   }
 
@@ -188,14 +175,15 @@ int main (int argc, char *argv[]) {
   float peakValue = 1;
   bool createOutputFile = false;
   mniVertstatsFile outputVstats;
-  if (cArg.getOption( "vertstats_output")) {
+  if (args.count("vertstats_output")) {
+    const vector<string> &vertstatsOutput = args["vertstats_output"].as<vector<string> >();
     createOutputFile = true;
-    outputFile = cArg.getOption( "vertstats_output")[ "filename"];
-    peakValue = atof(cArg.getOption( "vertstats_output")[ "value"].c_str());
+    outputFile = vertstatsOutput[0];
+    peakValue = atof(vertstatsOutput[1].c_str());
   }
 
   // print the tags to stdout
-  ofstream output((char *)cArg[ "output"].c_str());
+  ofstream output((char *)args["output"].as<string>().c_str());
   output << "value, vertex, x, y, z" << endl;
 
   vipItPeaks = peaks.begin();
