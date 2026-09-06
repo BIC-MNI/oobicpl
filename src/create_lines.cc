@@ -1,5 +1,5 @@
 #include <iostream>
-#include <arguments.h>
+#include "mniArgs.h"
 
 extern "C" {
 #include <bicpl.h>
@@ -8,19 +8,17 @@ extern "C" {
 using namespace std;
 
 int main (int argc, char *argv[]) {
-  Arguments cArg("create_lines", "(c) jharlap@bic", "-");
-  cArg.addOption("help", "display usage help");
-  cArg.addArgument("white_surface_mesh_file", "white matter surface mesh");
-  cArg.addArgument("gray_surface_mesh_file", "gray matter surface mesh");
-  cArg.addArgument("output_object_file", "output object");
+  cxxopts::Options cArg("create_lines", "(c) jharlap@bic");
+  cArg.add_options()
+    ("help", "display usage help");
+  cArg.add_options("Arguments")
+    ("white_surface_mesh_file", "white matter surface mesh", cxxopts::value<string>())
+    ("gray_surface_mesh_file", "gray matter surface mesh", cxxopts::value<string>())
+    ("output_object_file", "output object", cxxopts::value<string>());
+  cArg.positional_help("<white_surface_mesh_file> <gray_surface_mesh_file> <output_object_file>");
 
-  if(!cArg.parse(argc, argv))
-    return 1;
-
-  if(cArg.getOption((char *)"help")) {
-    cArg.usage();
-    return 0;
-  }
+  cxxopts::ParseResult args = mniArgs::parse(cArg, argc, argv,
+    {"white_surface_mesh_file", "gray_surface_mesh_file", "output_object_file"});
 
   // initialize variables for surfaces
   VIO_File_formats    format;
@@ -37,9 +35,9 @@ int main (int argc, char *argv[]) {
   initialize_lines(lines, 1);
 
   // read in the white surface
-  if ( input_graphics_file( (char*) cArg[(char *) "white_surface_mesh_file"].c_str(), &format, &num_objects, &object_list_white )
+  if ( input_graphics_file( (char*) args["white_surface_mesh_file"].as<string>().c_str(), &format, &num_objects, &object_list_white )
        != VIO_OK ) {
-    cerr << "ERROR reading file " << cArg[(char *) "white_surface_mesh_file"] << endl;
+    cerr << "ERROR reading file " << args["white_surface_mesh_file"].as<string>() << endl;
     return 1;
   }
 
@@ -50,9 +48,9 @@ int main (int argc, char *argv[]) {
   }
   
   // read in the gray surface
-  if ( input_graphics_file( (char*) cArg[ (char *) "gray_surface_mesh_file"].c_str(), &format, &num_objects, &object_list_gray )
+  if ( input_graphics_file( (char*) args["gray_surface_mesh_file"].as<string>().c_str(), &format, &num_objects, &object_list_gray )
        != VIO_OK ) {
-    cerr << "ERROR reading file " << cArg[(char *)"gray_surface_mesh_file"] << endl;
+    cerr << "ERROR reading file " << args["gray_surface_mesh_file"].as<string>() << endl;
     return 1;
   }
 
@@ -79,8 +77,8 @@ int main (int argc, char *argv[]) {
     add_point_to_line(lines, &points_gray[pidx]);
   }
 
-  if( output_graphics_file( (char*) cArg[(char *) "output_object_file"].c_str(), format, 1, &object_list_lines) != VIO_OK) {
-    cerr << "ERROR writing file " << cArg[(char *) "output_object_file"] << endl;
+  if( output_graphics_file( (char*) args["output_object_file"].as<string>().c_str(), format, 1, &object_list_lines) != VIO_OK) {
+    cerr << "ERROR writing file " << args["output_object_file"].as<string>() << endl;
     return 1;
   }
   cout << "Done" << endl;

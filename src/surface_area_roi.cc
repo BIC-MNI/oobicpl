@@ -12,7 +12,7 @@ extern "C" {
 
 #include <iostream>
 #include <list>
-#include <arguments.h>
+#include "mniArgs.h"
 #include <algorithm>
 
 using namespace std;
@@ -36,44 +36,33 @@ int main (int argc, char *argv[]) {
   area = 0.0;
 
   // parse command line arguments
-  Arguments cArg( "surface_area_roi", "(c) jharlap@bic", "-" );
-  cArg.addOption("help", "display usage help");
-  Arguments::Option cOptRegion("region", "define the region of interest (defaults to all regions > 0)");
-  cOptRegion.addArgument("region", "region of interest");
-  cArg.addOption(cOptRegion);
+  cxxopts::Options cArg( "surface_area_roi", "(c) jharlap@bic" );
+  cArg.add_options()
+    ("help", "display usage help")
+    ("region", "define the region of interest (defaults to all regions > 0)", cxxopts::value<string>(), "<region of interest>")
+    ("column", "define the column in the vertstats file containing the ROI segmentation", cxxopts::value<string>(), "<name of the column>")
+    ("include", "inclusion rule - either one or all vertices of a polygon must be in the ROI to include the polygon in the surface area", cxxopts::value<string>(), "<'one' or 'all' (default is 'one')>");
+  cArg.add_options("Arguments")
+    ("surface_file", "surface object file", cxxopts::value<string>())
+    ("vertstats_file", "vertstats file containing ROI segmentation", cxxopts::value<string>());
+  cArg.positional_help("<surface_file> <vertstats_file>");
 
-  Arguments::Option cOptColumn("column", "define the column in the vertstats file containing the ROI segmentation");
-  cOptColumn.addArgument("column", "name of the column");
-  cArg.addOption(cOptColumn);
+  cxxopts::ParseResult args = mniArgs::parse(cArg, argc, argv,
+    {"surface_file", "vertstats_file"});
 
-  Arguments::Option cOptInclusion("include", "inclusion rule - either one or all vertices of a polygon must be in the ROI to include the polygon in the surface area");
-  cOptInclusion.addArgument("include", "'one' or 'all' (default is 'one')");
-  cArg.addOption(cOptInclusion);
-
-  cArg.addArgument("surface_file", "surface object file");
-  cArg.addArgument("vertstats_file", "vertstats file containing ROI segmentation");
-
-  if(!cArg.parse(argc, argv)) 
-    return 1;
-
-  if(cArg.getOption( "help")) {
-    cArg.usage();
-    return 0;
+  if(args.count("region")) {
+    cout << "Using ROI " << args["region"].as<string>() << endl;
   }
 
-  if(cArg.getOption( "region")) {
-    cout << "Using ROI " << cArg.getOption( "region")["region"] << endl;
-  }
-
-  if(cArg.getOption( "column")) {
-    cout << "Using column " << cArg.getOption( "column")[ "column"] << endl;
+  if(args.count("column")) {
+    cout << "Using column " << args["column"].as<string>() << endl;
   }
 
   // open the surface file
-  cout << "Loading: " << cArg[ "surface_file"] << endl;
-  if ( input_graphics_file( (char*) cArg[ "surface_file"].c_str(), &format, &num_objects, &object_list )
+  cout << "Loading: " << args["surface_file"].as<string>() << endl;
+  if ( input_graphics_file( (char*) args["surface_file"].as<string>().c_str(), &format, &num_objects, &object_list )
        != VIO_OK ) {
-    cerr << "ERROR reading file " << cArg[ "surface_file"] << endl;
+    cerr << "ERROR reading file " << args["surface_file"].as<string>() << endl;
     return 0;
   }
 
@@ -86,18 +75,18 @@ int main (int argc, char *argv[]) {
   polygons = get_polygons_ptr(object_list[0]);
   
   // open the verstat file
-  mniVertstatsFile stats(cArg[ "vertstats_file"].c_str());
-  cout << "Loading: " << cArg[ "vertstats_file"] << endl;
+  mniVertstatsFile stats(args["vertstats_file"].as<string>().c_str());
+  cout << "Loading: " << args["vertstats_file"].as<string>() << endl;
 
   // read the user-defined column (or the first column if not defined)
-  if(cArg.getOption( "column"))
-    regions = stats.getDataColumn(cArg.getOption( "column")[ "column"].c_str());
+  if(args.count("column"))
+    regions = stats.getDataColumn(args["column"].as<string>().c_str());
   else
     regions = stats.getDataColumn(0);
 
   // get the region of interest
-  if(cArg.getOption( "region")) {
-    roi = atoi(cArg.getOption( "region")[ "region"].c_str());
+  if(args.count("region")) {
+    roi = atoi(args["region"].as<string>().c_str());
   } else {
     roi = -1;
   }
@@ -121,7 +110,7 @@ int main (int argc, char *argv[]) {
   int included_vertex_count = 0;
   int required_vertex_count = 1;
 
-  if(cArg.getOption( "include") && cArg.getOption( "include")[ "include"] == "all")
+  if(args.count("include") && args["include"].as<string>() == "all")
     required_vertex_count = n_points;
     
 
@@ -133,7 +122,7 @@ int main (int argc, char *argv[]) {
     if(n_points > 0) {
       // reset the included vertex counter and set the number of required vertices
       included_vertex_count = 0;
-      if(cArg.getOption( "include") && cArg.getOption( "include")[ "include"] == "all")
+      if(args.count("include") && args["include"].as<string>() == "all")
         required_vertex_count = n_points;
 
       // loop over all the points in the polygon

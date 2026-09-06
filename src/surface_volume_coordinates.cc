@@ -14,7 +14,7 @@ extern "C" {
 #include <string>
 
 // argument parsing
-#include <arguments.h>
+#include "mniArgs.h"
 
 using namespace std;
 
@@ -34,26 +34,23 @@ int main (int argc, char *argv[]) {
   string              output_object;
   
   // parse command line arguments
-  Arguments cArg( "surface_volume_coordinates", "", "-");
-  cArg.addOption("help", "display usage help");
-  cArg.addArgument("input_object", "the input surface");
-  cArg.addArgument("input_volume", "the volume to use for coordinate details");
-  cArg.addArgument("output_object", "the surface with volume coordinates");
+  cxxopts::Options cArg( "surface_volume_coordinates", "");
+  cArg.add_options()
+    ("help", "display usage help");
+  cArg.add_options("Arguments")
+    ("input_object", "the input surface", cxxopts::value<string>())
+    ("input_volume", "the volume to use for coordinate details", cxxopts::value<string>())
+    ("output_object", "the surface with volume coordinates", cxxopts::value<string>());
+  cArg.positional_help("<input_object> <input_volume> <output_object>");
 
-  // parse arguments
-  if (!cArg.parse(argc, argv)) {
-    return 1;
-  }
-  // print help message if -help
-  if (cArg.getOption((char *) "help")) {
-    cArg.usage();
-    return 0;
-  }
+  // parse arguments - prints usage and exits on -help or a bad command line
+  cxxopts::ParseResult args = mniArgs::parse(cArg, argc, argv,
+    {"input_object", "input_volume", "output_object"});
 
   // open the input object
-  if (input_graphics_file( (char*) cArg[(char *) "input_object"].c_str(),
+  if (input_graphics_file( (char*) args["input_object"].as<string>().c_str(),
 			   &format, &num_objects, &object_list) != VIO_OK) {
-    cerr << "ERROR reading file " << cArg[(char *) "input_object"] << endl;
+    cerr << "ERROR reading file " << args["input_object"].as<string>() << endl;
     return 1;
   }
 
@@ -65,7 +62,7 @@ int main (int argc, char *argv[]) {
 
   // open the volume which will be used to compute the world to voxel
   // coordinates.
-  mniVolume *volume = new mniVolume( (char *) cArg[(char *) "input_volume"].c_str(),
+  mniVolume *volume = new mniVolume( (char *) args["input_volume"].as<string>().c_str(),
 				     0.0, 0.0, 3, XYZdimOrder);
 
   n_points = get_object_points(object_list[0], &points);
@@ -82,7 +79,7 @@ int main (int argc, char *argv[]) {
   compute_polygon_normals( get_polygons_ptr(object_list[0]) );
 
   // output the revised obj file
-  (void) output_graphics_file( (char *)cArg[(char *) "output_object"].c_str(), format,
+  (void) output_graphics_file( (char *)args["output_object"].as<string>().c_str(), format,
 			       num_objects, object_list );
   
   return 0;
